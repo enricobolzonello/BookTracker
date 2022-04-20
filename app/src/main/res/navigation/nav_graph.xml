@@ -2,21 +2,21 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/nav_graph.xml"
-    app:startDestination="@id/libraryFragment">
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/navigation_library">
 
     <fragment
-        android:id="@+id/libraryFragment"
+        android:id="@+id/navigation_library"
         android:name="com.unipd.booktracker.LibraryFragment"
         android:label="fragment_library"
         tools:layout="@layout/fragment_library" />
     <fragment
-        android:id="@+id/wishlistFragment"
+        android:id="@+id/navigation_wishlist"
         android:name="com.unipd.booktracker.WishlistFragment"
         android:label="fragment_wishlist"
         tools:layout="@layout/fragment_wishlist" />
     <fragment
-        android:id="@+id/statsFragment"
+        android:id="@+id/navigation_stats"
         android:name="com.unipd.booktracker.StatsFragment"
         android:label="fragment_stats"
         tools:layout="@layout/fragment_stats" />
