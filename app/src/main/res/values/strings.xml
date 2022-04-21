@@ -13,7 +13,8 @@
     <string name="author_placeholder">Author</string>
     <string name="thumb_description">Book thumbnail</string>
     <string name="state_description">Book reading state</string>
-    <string name="filter_letto">Letto</string>
-    <string name="filter_in_lettura">In Lettura</string>
-    <string name="filter_non_letto">Non Letto</string>
+    <string name="filter_read">Read</string>
+    <string name="filter_in_reading">In reading</string>
+    <string name="filter_not_read">Non read</string>
+    <string name="filter_sort">Sort by</string>
 </resources>
