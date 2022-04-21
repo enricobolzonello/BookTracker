@@ -9,15 +9,36 @@
         android:id="@+id/navigation_library"
         android:name="com.unipd.booktracker.LibraryFragment"
         android:label="fragment_library"
-        tools:layout="@layout/fragment_library" />
+        tools:layout="@layout/fragment_library" >
+        <action
+            android:id="@+id/action_navigation_library_to_navigation_book_detail"
+            app:destination="@id/navigation_book_detail" />
+        <action
+            android:id="@+id/action_navigation_library_to_navigation_settings"
+            app:destination="@id/navigation_settings" />
+    </fragment>
     <fragment
         android:id="@+id/navigation_wishlist"
         android:name="com.unipd.booktracker.WishlistFragment"
         android:label="fragment_wishlist"
-        tools:layout="@layout/fragment_wishlist" />
+        tools:layout="@layout/fragment_wishlist" >
+        <action
+            android:id="@+id/action_navigation_wishlist_to_navigation_book_detail"
+            app:destination="@id/navigation_book_detail" />
+    </fragment>
     <fragment
         android:id="@+id/navigation_stats"
         android:name="com.unipd.booktracker.StatsFragment"
         android:label="fragment_stats"
         tools:layout="@layout/fragment_stats" />
+    <fragment
+        android:id="@+id/navigation_book_detail"
+        android:name="com.unipd.booktracker.BookDetailFragment"
+        android:label="fragment_book_detail"
+        tools:layout="@layout/fragment_book_detail" />
+    <fragment
+        android:id="@+id/navigation_settings"
+        android:name="com.unipd.booktracker.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" />
 </navigation>
