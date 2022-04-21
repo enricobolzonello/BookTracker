@@ -4,6 +4,9 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/Daniele/CodeProjects/AndroidStudioProjects/BookTracker/app/src/main/res/layout/book_card.xml" value="0.25025641025641027" />
+        <entry key="..\:/Users/Enrico/AndroidStudioProjects/BookTracker/app/src/main/res/layout/book_card.xml" value="0.358695652173913" />
+        <entry key="..\:/Users/Enrico/AndroidStudioProjects/BookTracker/app/src/main/res/layout/chip_group.xml" value="0.358695652173913" />
+        <entry key="..\:/Users/Enrico/AndroidStudioProjects/BookTracker/app/src/main/res/layout/fragment_book_detail.xml" value="0.358695652173913" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.19610507246376813" />
         <entry key="app/src/main/res/layout/book_card.xml" value="0.3990735817859523" />
         <entry key="app/src/main/res/layout/book_card_prova.xml" value="0.3130774235379869" />
