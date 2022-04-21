@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="20dp"
-    android:elevation="10dp"
     android:clickable="true"
-    app:contentPadding="15dp">
+    android:layout_margin="@dimen/content_margin"
+    app:cardElevation="@dimen/card_elevation"
+    app:contentPadding="@dimen/content_margin">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,31 +14,35 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/copertina" />
+            android:layout_width="@dimen/thumb_prev_width"
+            android:layout_height="@dimen/thumb_prev_height"
+            android:src="@drawable/default_thumbnail"
+            android:contentDescription="@string/thumb_description"/>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="29dp"
             android:layout_weight="1"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="@dimen/content_margin">
 
             <com.google.android.material.textview.MaterialTextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
-                android:maxLines="2"
-                android:text="Per leggere la Critica della ragion pura di Kant"
+                android:maxLines="3"
+                android:text="@string/title_placeholder"
                 android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
                 android:textStyle="bold" />
 
             <com.google.android.material.textview.MaterialTextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Haruki Murakami"
+                android:layout_marginTop="@dimen/text_margin"
+                android:text="@string/author_placeholder"
+                android:ellipsize="end"
+                android:maxLines="1"
                 android:textAppearance="@style/TextAppearance.Material3.BodyMedium" />
 
         </LinearLayout>
@@ -48,8 +51,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_baseline_done_24"
-            android:layout_gravity="center"
-            />
+            android:layout_gravity="center_vertical"
+            android:contentDescription="@string/state_description"/>
 
     </LinearLayout>
 

@@ -9,4 +9,8 @@
     <string name="title_search">Search</string>
     <string name="title_addbook">Add book</string>
     <string name="search_hint">Search book</string>
+    <string name="title_placeholder">Title</string>
+    <string name="author_placeholder">Author</string>
+    <string name="thumb_description">Book thumbnail</string>
+    <string name="state_description">Book reading state</string>
 </resources>
