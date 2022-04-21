@@ -22,20 +22,23 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="29dp"
+            android:layout_marginEnd="24dp"
             android:orientation="vertical">
 
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="3"
                 android:text="Per leggere la Critica della ragion pura di Kant"
                 android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
-                android:textStyle="bold"
-                android:maxLines="2"
-                android:ellipsize="end"/>
+                android:textStyle="bold" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
                 android:text="Haruki Murakami"
                 android:textAppearance="@style/TextAppearance.Material3.BodyMedium" />
 
@@ -44,7 +47,9 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_baseline_done_24" />
+            android:src="@drawable/ic_baseline_done_24"
+            android:layout_gravity="center"
+            android:layout_marginStart="-25dp"/>
 
     </LinearLayout>
 
