@@ -15,6 +15,6 @@
     <string name="state_description">Book reading state</string>
     <string name="filter_read">Read</string>
     <string name="filter_in_reading">In reading</string>
-    <string name="filter_not_read">Non read</string>
+    <string name="filter_not_read">Not read</string>
     <string name="filter_sort">Sort by</string>
 </resources>
