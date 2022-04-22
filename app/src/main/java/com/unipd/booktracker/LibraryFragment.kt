@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.appcompat.widget.SearchView
+import androidx.navigation.fragment.findNavController
 
 class LibraryFragment : Fragment() {
 
@@ -20,11 +21,27 @@ class LibraryFragment : Fragment() {
 
         // Associate searchable configuration with the SearchView
         val searchManager = requireActivity().getSystemService(Context.SEARCH_SERVICE) as SearchManager
-        val searchView = menu.findItem(R.id.search_view).actionView as SearchView
+        val searchView = menu.findItem(R.id.action_search).actionView as SearchView
         searchView.apply {
             setSearchableInfo(searchManager.getSearchableInfo(requireActivity().componentName))
         }
         super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // Handle item selection
+        return when (item.itemId) {
+            R.id.action_search -> {
+                true
+            }
+            R.id.action_sort -> {
+                true
+            }
+            R.id.action_settings -> {
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     override fun onCreateView(
