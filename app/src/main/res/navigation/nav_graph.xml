@@ -25,12 +25,19 @@
         <action
             android:id="@+id/action_navigation_wishlist_to_navigation_book_detail"
             app:destination="@id/navigation_book_detail" />
+        <action
+            android:id="@+id/action_navigation_wishlist_to_navigation_settings"
+            app:destination="@id/navigation_settings" />
     </fragment>
     <fragment
         android:id="@+id/navigation_stats"
         android:name="com.unipd.booktracker.StatsFragment"
         android:label="fragment_stats"
-        tools:layout="@layout/fragment_stats" />
+        tools:layout="@layout/fragment_stats" >
+        <action
+            android:id="@+id/action_navigation_stats_to_navigation_settings"
+            app:destination="@id/navigation_settings" />
+    </fragment>
     <fragment
         android:id="@+id/navigation_book_detail"
         android:name="com.unipd.booktracker.BookDetailFragment"

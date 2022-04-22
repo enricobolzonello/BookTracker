@@ -6,8 +6,6 @@ import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.appcompat.widget.SearchView
-import androidx.core.content.ContextCompat.getSystemService
-import androidx.core.content.getSystemService
 
 class LibraryFragment : Fragment() {
 
@@ -16,16 +14,10 @@ class LibraryFragment : Fragment() {
         setHasOptionsMenu(true)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_library, container, false)
-    }
-
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.action_bar_menu, menu)
+        inflater.inflate(R.menu.list_action_menu, menu)
+        inflater.inflate(R.menu.default_action_menu, menu)
+
         // Associate searchable configuration with the SearchView
         val searchManager = requireActivity().getSystemService(Context.SEARCH_SERVICE) as SearchManager
         val searchView = menu.findItem(R.id.search_view).actionView as SearchView
@@ -33,5 +25,13 @@ class LibraryFragment : Fragment() {
             setSearchableInfo(searchManager.getSearchableInfo(requireActivity().componentName))
         }
         super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_library, container, false)
     }
 }
