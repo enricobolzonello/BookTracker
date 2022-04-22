@@ -1,11 +1,11 @@
 package com.unipd.booktracker
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
-import androidx.navigation.ui.setupActionBarWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
@@ -21,5 +21,20 @@ class MainActivity : AppCompatActivity() {
 
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.nav_view)
         NavigationUI.setupWithNavController(bottomNavigationView, navController)
+
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            if(destination.id == R.id.navigation_settings) {
+                supportActionBar?.setDisplayHomeAsUpEnabled(true)
+                bottomNavigationView.visibility = View.GONE
+            } else {
+                supportActionBar?.setDisplayHomeAsUpEnabled(false)
+                bottomNavigationView.visibility = View.VISIBLE
+            }
+        }
+    }
+
+    override fun onSupportNavigateUp() : Boolean {
+        onBackPressed()
+        return true
     }
 }
