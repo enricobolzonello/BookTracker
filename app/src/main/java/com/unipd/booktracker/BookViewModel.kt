@@ -18,5 +18,4 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
     fun addToLibrary(book : LibraryBook) = viewModelScope.launch {
         libraryDao.insert(book)
     }
-
 }
