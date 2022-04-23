@@ -5,6 +5,15 @@
     android:layout_height="match_parent"
     tools:context=".LibraryFragment">
 
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/fab_library"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="4dp"
+        android:text="ADD"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="30dp"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -45,5 +54,12 @@
             android:textAlignment="center"/>
 
     </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rw_library"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"
+        tools:listitem="@layout/book_card"/>
 
 </FrameLayout>
