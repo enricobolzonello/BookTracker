@@ -2,6 +2,7 @@ package com.unipd.booktracker
 
 import android.os.Bundle
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -10,6 +11,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
 class MainActivity : AppCompatActivity() {
+    private val viewModel : BookViewModel by viewModels()
     private lateinit var navController : NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {

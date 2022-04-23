@@ -21,6 +21,7 @@ class StatsFragment : Fragment() {
         // Handle item selection
         return when (item.itemId) {
             R.id.action_settings -> {
+                findNavController().navigate(R.id.navigation_settings)
                 true
             }
             else -> super.onOptionsItemSelected(item)

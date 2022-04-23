@@ -3,16 +3,27 @@ package com.unipd.booktracker
 import android.app.SearchManager
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.appcompat.widget.SearchView
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.unipd.booktracker.db.LibraryBook
 
 class LibraryFragment : Fragment() {
+    private lateinit var viewModel: BookViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
+
+        viewModel = ViewModelProvider(requireActivity() as MainActivity)[BookViewModel::class.java]
+        viewModel.getLibrary().observe(requireActivity()) {
+            // do something
+            Log.i("myLog", "something has changed")
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
