@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_navigation_library_to_navigation_settings"
             app:destination="@id/navigation_settings" />
+        <action
+            android:id="@+id/action_navigation_library_to_navigation_book_detail"
+            app:destination="@id/navigation_book_detail" />
     </fragment>
     <fragment
         android:id="@+id/navigation_wishlist"
@@ -22,6 +25,9 @@
         <action
             android:id="@+id/action_navigation_wishlist_to_navigation_settings"
             app:destination="@id/navigation_settings" />
+        <action
+            android:id="@+id/action_navigation_wishlist_to_navigation_book_detail"
+            app:destination="@id/navigation_book_detail" />
     </fragment>
     <fragment
         android:id="@+id/navigation_stats"
