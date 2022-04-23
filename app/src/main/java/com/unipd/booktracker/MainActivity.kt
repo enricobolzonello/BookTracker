@@ -9,7 +9,6 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-
 class MainActivity : AppCompatActivity() {
     private val viewModel : BookViewModel by viewModels()
     private lateinit var navController : NavController
@@ -27,9 +26,11 @@ class MainActivity : AppCompatActivity() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             if(destination.id == R.id.navigation_settings) {
                 supportActionBar?.setDisplayHomeAsUpEnabled(true)
+                supportActionBar?.setTitle(R.string.title_settings)
                 bottomNavigationView.visibility = View.GONE
             } else {
                 supportActionBar?.setDisplayHomeAsUpEnabled(false)
+                supportActionBar?.setTitle(R.string.app_name)
                 bottomNavigationView.visibility = View.VISIBLE
             }
         }
