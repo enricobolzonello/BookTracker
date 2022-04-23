@@ -11,4 +11,14 @@
         android:layout_height="match_parent"
         android:text="@string/title_wishlist" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/content_margin"
+        android:contentDescription="@string/app_name"
+        android:elevation="@dimen/elevation"
+        android:src="@drawable/ic_baseline_add_24"
+        android:layout_gravity="bottom|end"/>
+
 </FrameLayout>
