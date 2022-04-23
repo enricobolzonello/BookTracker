@@ -1,18 +1,33 @@
-package com.unipd.booktracker
+package com.unipd.booktracker.fragments
 
 import android.app.SearchManager
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.*
-import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
+import androidx.appcompat.widget.SearchView
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+import com.unipd.booktracker.BookViewModel
+import com.unipd.booktracker.FabExtendingOnScrollListener
+import com.unipd.booktracker.MainActivity
+import com.unipd.booktracker.R
 
-class WishlistFragment : Fragment() {
+class LibraryFragment : Fragment() {
+    private lateinit var viewModel: BookViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
+
+        viewModel = ViewModelProvider(requireActivity() as MainActivity)[BookViewModel::class.java]
+        viewModel.getLibrary().observe(requireActivity()) {
+            // do something
+            Log.i("myLog", "something has changed")
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -50,6 +65,15 @@ class WishlistFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_wishlist, container, false)
+        return inflater.inflate(R.layout.fragment_library, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // extend and reduce FAB on scroll
+        val fab = view.findViewById<ExtendedFloatingActionButton>(R.id.fab)
+        val recyclerView = view.findViewById<RecyclerView>(R.id.rw_library)
+        recyclerView.addOnScrollListener(FabExtendingOnScrollListener(fab))
     }
 }

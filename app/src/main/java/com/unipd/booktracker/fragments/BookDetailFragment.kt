@@ -1,8 +1,9 @@
-package com.unipd.booktracker
+package com.unipd.booktracker.fragments
 
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
+import com.unipd.booktracker.R
 
 class BookDetailFragment : Fragment() {
 
