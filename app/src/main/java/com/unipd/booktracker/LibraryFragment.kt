@@ -10,6 +10,8 @@ import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.unipd.booktracker.db.LibraryBook
 
 class LibraryFragment : Fragment() {
@@ -62,5 +64,14 @@ class LibraryFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_library, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // extend and reduce FAB on scroll
+        val fab = view.findViewById<ExtendedFloatingActionButton>(R.id.fab)
+        val recyclerView = view.findViewById<RecyclerView>(R.id.rw_library)
+        recyclerView.addOnScrollListener(FabExtendingOnScrollListener(fab))
     }
 }
