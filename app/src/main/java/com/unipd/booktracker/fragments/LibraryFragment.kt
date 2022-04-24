@@ -31,7 +31,8 @@ class LibraryFragment : Fragment() {
         viewModel = ViewModelProvider(requireActivity() as MainActivity)[BookViewModel::class.java]
 
         lifecycleScope.launch(Dispatchers.IO) {
-            //viewModel.getBooksFromQuery("flowers")
+            if (viewModel.librarySize() == 0)
+                viewModel.getBooksFromQuery("flowers")
             val libraryAdapter = BookAdapter(viewModel.getLibrary())
             withContext(Dispatchers.Main) {
                 val recyclerView = view?.findViewById<RecyclerView>(R.id.rw_library)
