@@ -5,16 +5,21 @@ import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import androidx.fragment.app.Fragment
 import androidx.appcompat.widget.SearchView
+import androidx.core.view.marginBottom
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-import com.unipd.booktracker.BookViewModel
-import com.unipd.booktracker.FabExtendingOnScrollListener
-import com.unipd.booktracker.MainActivity
-import com.unipd.booktracker.R
+import com.unipd.booktracker.*
+import com.unipd.booktracker.db.LibraryBook
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class LibraryFragment : Fragment() {
     private lateinit var viewModel: BookViewModel
@@ -24,9 +29,19 @@ class LibraryFragment : Fragment() {
         setHasOptionsMenu(true)
 
         viewModel = ViewModelProvider(requireActivity() as MainActivity)[BookViewModel::class.java]
-        viewModel.getLibrary().observe(requireActivity()) {
-            // do something
-            Log.i("myLog", "something has changed")
+
+        lifecycleScope.launch(Dispatchers.IO) {
+            viewModel.getBooksFromQuery("flowers")
+            val libraryAdapter = BookAdapter(viewModel.getLibrary())
+            withContext(Dispatchers.Main) {
+                val recyclerView = view?.findViewById<RecyclerView>(R.id.rw_library)
+                recyclerView?.adapter = libraryAdapter
+                viewModel.getObservableLibrary().observe(requireActivity(), object : Observer<List<LibraryBook>> {
+                    override fun onChanged(notes: List<LibraryBook>) {
+                        libraryAdapter.notifyDataSetChanged()
+                    }
+                })
+            }
         }
     }
 
@@ -70,6 +85,11 @@ class LibraryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        /* Should set appropriate padding to recycler view
+        recyclerView.setPadding(0,0,0,fab.height + fab.marginBottom)
+        recyclerView.clipToPadding = false
+         */
 
         // extend and reduce FAB on scroll
         val fab = view.findViewById<ExtendedFloatingActionButton>(R.id.fab)

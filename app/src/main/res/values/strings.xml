@@ -17,4 +17,5 @@
     <string name="filter_in_reading">In reading</string>
     <string name="filter_not_read">Not read</string>
     <string name="filter_sort">Sort by</string>
+    <string name="fab_action">Add book</string>
 </resources>
