@@ -5,62 +5,98 @@ import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.widget.FrameLayout
+import android.widget.GridLayout
+import android.widget.LinearLayout
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.marginBottom
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.unipd.booktracker.*
-import com.unipd.booktracker.db.LibraryBook
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class LibraryFragment : Fragment() {
     private lateinit var viewModel: BookViewModel
+    private lateinit var libraryAdapter : BookAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
 
+        setHasOptionsMenu(true)
         viewModel = ViewModelProvider(requireActivity() as MainActivity)[BookViewModel::class.java]
 
         lifecycleScope.launch(Dispatchers.IO) {
+            // Execute on IO thread because of network and database requests
             if (viewModel.librarySize() == 0)
                 viewModel.getBooksFromQuery("flowers")
-            val libraryAdapter = BookAdapter(viewModel.getLibrary())
+            libraryAdapter = BookAdapter(viewModel.getLibrary())
             withContext(Dispatchers.Main) {
+                // Execute on Main thread
                 val recyclerView = view?.findViewById<RecyclerView>(R.id.rw_library)
                 recyclerView?.adapter = libraryAdapter
-                viewModel.getObservableLibrary().observe(requireActivity(), object : Observer<List<LibraryBook>> {
-                    override fun onChanged(notes: List<LibraryBook>) {
-                        libraryAdapter.notifyDataSetChanged()
-                    }
-                })
+                viewModel.getObservableLibrary().observe(requireActivity()) {
+                    libraryAdapter.notifyDataSetChanged()
+                }
             }
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        val recyclerView = view?.findViewById<RecyclerView>(R.id.rw_library)
+        recyclerView?.adapter = libraryAdapter
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_library, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val fab = view.findViewById<ExtendedFloatingActionButton>(R.id.fab)
+        val recyclerView = view.findViewById<RecyclerView>(R.id.rw_library)
+
+        // Set appropriate padding to recycler view's bottom, otherwise fab will cover the last item
+        fab.measure(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT)
+        recyclerView.setPadding(0,0,0,fab.measuredHeight + fab.marginBottom)
+        recyclerView.clipToPadding = false
+
+        // Extend and reduce FAB on scroll
+        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                if (!recyclerView.canScrollVertically(-1))
+                    fab.extend()
+                else
+                    fab.shrink()
+                super.onScrollStateChanged(recyclerView, newState)
+            }
+        })
+    }
+
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+
         inflater.inflate(R.menu.list_action_menu, menu)
         inflater.inflate(R.menu.default_action_menu, menu)
-
         // Associate searchable configuration with the SearchView
         val searchManager = requireActivity().getSystemService(Context.SEARCH_SERVICE) as SearchManager
         val searchView = menu.findItem(R.id.action_search).actionView as SearchView
         searchView.apply {
             setSearchableInfo(searchManager.getSearchableInfo(requireActivity().componentName))
         }
-        super.onCreateOptionsMenu(menu, inflater)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle item selection
         return when (item.itemId) {
             R.id.action_search -> {
                 true
@@ -74,36 +110,5 @@ class LibraryFragment : Fragment() {
             }
             else -> super.onOptionsItemSelected(item)
         }
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_library, container, false)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        // extend and reduce FAB on scroll
-        val fab = view.findViewById<ExtendedFloatingActionButton>(R.id.fab)
-        val recyclerView = view.findViewById<RecyclerView>(R.id.rw_library)
-
-        /* Should set appropriate padding to recycler view, otherwise fab will cover last item
-        recyclerView.setPadding(0,0,0,fab.height + fab.marginBottom)
-        recyclerView.clipToPadding = false
-         */
-
-        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                if (!recyclerView.canScrollVertically(-1))
-                    fab.extend()
-                else
-                    fab.shrink()
-                super.onScrollStateChanged(recyclerView, newState)
-            }
-        })
     }
 }
