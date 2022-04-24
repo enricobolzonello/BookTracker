@@ -6,8 +6,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.FrameLayout
-import android.widget.GridLayout
-import android.widget.LinearLayout
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.marginBottom
 import androidx.fragment.app.Fragment
@@ -16,7 +14,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.unipd.booktracker.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -31,18 +28,19 @@ class LibraryFragment : Fragment() {
 
         setHasOptionsMenu(true)
         viewModel = ViewModelProvider(requireActivity() as MainActivity)[BookViewModel::class.java]
+        libraryAdapter = BookAdapter()
 
         lifecycleScope.launch(Dispatchers.IO) {
             // Execute on IO thread because of network and database requests
             if (viewModel.librarySize() == 0)
                 viewModel.getBooksFromQuery("flowers")
-            libraryAdapter = BookAdapter(viewModel.getLibrary())
+            libraryAdapter.setBooks(viewModel.getLibrary())
             withContext(Dispatchers.Main) {
                 // Execute on Main thread
                 val recyclerView = view?.findViewById<RecyclerView>(R.id.rw_library)
                 recyclerView?.adapter = libraryAdapter
                 viewModel.getObservableLibrary().observe(requireActivity()) {
-                    libraryAdapter.notifyDataSetChanged()
+                    libraryAdapter.notifyItemInserted(it.size - 1)
                 }
             }
         }

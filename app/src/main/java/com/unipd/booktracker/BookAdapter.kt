@@ -9,7 +9,9 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.unipd.booktracker.db.LibraryBook
 
-class BookAdapter(private val library : List<LibraryBook>) : RecyclerView.Adapter<BookAdapter.BookViewHolder>() {
+class BookAdapter : RecyclerView.Adapter<BookAdapter.BookViewHolder>() {
+
+    private var library : List<LibraryBook> = listOf()
 
     // Describes an item view and its place within the RecyclerView
     inner class BookViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -38,5 +40,9 @@ class BookAdapter(private val library : List<LibraryBook>) : RecyclerView.Adapte
     // Displays data at a certain position
     override fun onBindViewHolder(holder: BookViewHolder, position: Int) {
         holder.bind(library[position])
+    }
+
+    fun setBooks(books : List<LibraryBook>) {
+        library = books
     }
 }
