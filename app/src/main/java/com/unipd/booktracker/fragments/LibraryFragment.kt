@@ -97,7 +97,6 @@ class LibraryFragment : Fragment() {
 
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                // If view is static extend the fab
                 if (!recyclerView.canScrollVertically(-1))
                     fab.extend()
                 else
