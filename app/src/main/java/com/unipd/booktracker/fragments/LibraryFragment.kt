@@ -31,7 +31,7 @@ class LibraryFragment : Fragment() {
         viewModel = ViewModelProvider(requireActivity() as MainActivity)[BookViewModel::class.java]
 
         lifecycleScope.launch(Dispatchers.IO) {
-            viewModel.getBooksFromQuery("flowers")
+            //viewModel.getBooksFromQuery("flowers")
             val libraryAdapter = BookAdapter(viewModel.getLibrary())
             withContext(Dispatchers.Main) {
                 val recyclerView = view?.findViewById<RecyclerView>(R.id.rw_library)
@@ -86,14 +86,24 @@ class LibraryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        /* Should set appropriate padding to recycler view
+        // extend and reduce FAB on scroll
+        val fab = view.findViewById<ExtendedFloatingActionButton>(R.id.fab)
+        val recyclerView = view.findViewById<RecyclerView>(R.id.rw_library)
+
+        /* Should set appropriate padding to recycler view, otherwise fab will cover last item
         recyclerView.setPadding(0,0,0,fab.height + fab.marginBottom)
         recyclerView.clipToPadding = false
          */
 
-        // extend and reduce FAB on scroll
-        val fab = view.findViewById<ExtendedFloatingActionButton>(R.id.fab)
-        val recyclerView = view.findViewById<RecyclerView>(R.id.rw_library)
-        recyclerView.addOnScrollListener(FabExtendingOnScrollListener(fab))
+        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                // If view is static extend the fab
+                if (!recyclerView.canScrollVertically(-1))
+                    fab.extend()
+                else
+                    fab.shrink()
+                super.onScrollStateChanged(recyclerView, newState)
+            }
+        })
     }
 }
