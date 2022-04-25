@@ -5,8 +5,12 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
+enum class OrderColumns {
+    title, author
+}
+
 @Entity(tableName = "book_table")
-open class Book(
+data class Book(
     @PrimaryKey@ColumnInfo(name = "id") val id: String,
     @ColumnInfo(name = "title") val title: String,
     @ColumnInfo(name = "pages") val pages: Int,

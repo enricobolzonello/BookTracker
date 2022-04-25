@@ -15,16 +15,32 @@ interface BookDao {
     @Query("SELECT * FROM book_table WHERE readPages IS NULL")
     fun getObservableWishlist(): LiveData<List<Book>>
 
-    @Query("SELECT * FROM book_table WHERE readPages IS NOT NULL ORDER BY title ASC")
-    fun getLibraryByTitle(): List<Book>
-
-    @Query("SELECT * FROM book_table WHERE readPages IS NULL ORDER BY title ASC")
-    fun getWishlistByTitle(): List<Book>
-
-    @Query("SELECT * FROM book_table WHERE :read AND readPages = 0 " +
+    @Query("SELECT * FROM " +
+            "(SELECT * FROM book_table WHERE :read AND readPages = 0 " +
             "UNION SELECT * FROM book_table WHERE :reading AND (readPages > 0 AND readPages < pages) " +
-            "UNION SELECT * FROM book_table WHERE :notRead AND readPages = pages")
-    fun getFilteredBooks(read: Boolean, reading: Boolean, notRead: Boolean): List<Book>
+            "UNION SELECT * FROM book_table WHERE :notRead AND readPages = pages)" +
+            "ORDER BY " +
+            "CASE WHEN :asc THEN " +
+                "CASE WHEN :orderColumn = 'title' THEN title " +
+                "WHEN :orderColumn = 'author' THEN author END " +
+            "END ASC, " +
+            "CASE WHEN NOT :asc THEN " +
+                "CASE WHEN :orderColumn = 'title' THEN title " +
+                "WHEN :orderColumn = 'author' THEN author END " +
+            "END DESC")
+    fun getFilteredLibrary(read: Boolean, reading: Boolean, notRead: Boolean, orderColumn: OrderColumns, asc: Boolean): List<Book>
+
+    @Query("SELECT * FROM book_table WHERE readPages IS NULL " +
+            "ORDER BY " +
+            "CASE WHEN :asc THEN " +
+                "CASE WHEN :orderColumn = 'title' THEN title " +
+                "WHEN :orderColumn = 'author' THEN author END " +
+            "END ASC, " +
+            "CASE WHEN NOT :asc THEN " +
+                "CASE WHEN :orderColumn = 'title' THEN title " +
+                "WHEN :orderColumn = 'author' THEN author END " +
+            "END DESC")
+    fun getFilteredWishlist(orderColumn : OrderColumns, asc : Boolean): List<Book>
 
     @Query("SELECT COUNT(*) FROM book_table WHERE readPages IS NOT NULL")
     fun countLibraryBooks(): Int
