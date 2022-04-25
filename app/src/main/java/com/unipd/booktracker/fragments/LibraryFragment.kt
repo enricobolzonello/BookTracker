@@ -1,5 +1,6 @@
 package com.unipd.booktracker.fragments
 
+import android.annotation.SuppressLint
 import android.app.SearchManager
 import android.content.Context
 import android.os.Bundle
@@ -14,9 +15,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.unipd.booktracker.*
-import com.unipd.booktracker.db.OrderColumns
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -24,12 +25,9 @@ import kotlinx.coroutines.withContext
 class LibraryFragment : Fragment() {
     private lateinit var viewModel: BookViewModel
     private lateinit var bookAdapter : BookAdapter
-
     private var readFilter = false
     private var readingFilter = false
     private var notReadFilter = false
-    private var orderColumn = OrderColumns.title
-    private var asc = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,8 +43,8 @@ class LibraryFragment : Fragment() {
             updateFilters()
             withContext(Dispatchers.Main) {
                 // Execute on Main thread
-                val rwLibrary = view?.findViewById<RecyclerView>(R.id.rw_library)
-                rwLibrary?.adapter = bookAdapter
+                val recyclerView = view?.findViewById<RecyclerView>(R.id.rw_library)
+                recyclerView?.adapter = bookAdapter
                 viewModel.getObservableLibrary().observe(requireActivity()) {
                     bookAdapter.notifyDataSetChanged()
                 }
@@ -66,7 +64,7 @@ class LibraryFragment : Fragment() {
 
         val rwLibrary = view?.findViewById<RecyclerView>(R.id.rw_library)
         updateFilters()
-        rwLibrary?.adapter = bookAdapter
+        rwLibrary?.let { it.adapter = bookAdapter }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -120,10 +118,8 @@ class LibraryFragment : Fragment() {
 
     private fun updateFilters() {
         lifecycleScope.launch(Dispatchers.IO) {
-            // Execute on IO thread because of database requests
-            bookAdapter.setBooks(viewModel.getFilteredLibrary(readFilter, readingFilter, notReadFilter, orderColumn, asc))
+            bookAdapter.setBooks(viewModel.getFilteredBooks(readFilter, readingFilter, notReadFilter))
             withContext(Dispatchers.Main){
-                // Execute on Main thread
                 bookAdapter.notifyDataSetChanged()
             }
         }
