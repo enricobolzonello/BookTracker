@@ -7,11 +7,11 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.unipd.booktracker.db.LibraryBook
+import com.unipd.booktracker.db.Book
 
 class BookAdapter : RecyclerView.Adapter<BookAdapter.BookViewHolder>() {
 
-    private var library : List<LibraryBook> = listOf()
+    private var library : List<Book> = listOf()
 
     // Describes an item view and its place within the RecyclerView
     inner class BookViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -19,9 +19,9 @@ class BookAdapter : RecyclerView.Adapter<BookAdapter.BookViewHolder>() {
         private val tvAuthors: TextView = itemView.findViewById(R.id.tv_book_author)
         private val ivThumbnail: ImageView = itemView.findViewById(R.id.iv_book_thumbnail)
 
-        fun bind(book: LibraryBook) {
+        fun bind(book: Book) {
             tvTitle.text = book.title
-            tvAuthors.text = book.authors.joinToString(", ")
+            tvAuthors.text = book.author
             ivThumbnail.setImageBitmap(BitmapFactory.decodeFile(book.thumbnailPath))
         }
     }
@@ -42,7 +42,7 @@ class BookAdapter : RecyclerView.Adapter<BookAdapter.BookViewHolder>() {
         holder.bind(library[position])
     }
 
-    fun setBooks(books : List<LibraryBook>) {
+    fun setBooks(books : List<Book>) {
         library = books
     }
 }

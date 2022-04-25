@@ -32,11 +32,13 @@ class LibraryFragment : Fragment() {
 
         lifecycleScope.launch(Dispatchers.IO) {
             // Execute on IO thread because of network and database requests
+
             if (viewModel.librarySize() == 0)
                 viewModel.getBooksFromQuery("flowers")
             libraryAdapter.setBooks(viewModel.getLibrary())
             withContext(Dispatchers.Main) {
                 // Execute on Main thread
+
                 val recyclerView = view?.findViewById<RecyclerView>(R.id.rw_library)
                 recyclerView?.adapter = libraryAdapter
                 viewModel.getObservableLibrary().observe(requireActivity()) {

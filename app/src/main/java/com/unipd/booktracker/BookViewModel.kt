@@ -6,9 +6,7 @@ import android.graphics.BitmapFactory
 import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.*
-import com.unipd.booktracker.db.BookRoomDatabase
-import com.unipd.booktracker.db.LibraryBook
-import com.unipd.booktracker.db.LibraryDao
+import com.unipd.booktracker.db.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -24,32 +22,47 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
     private val context = getApplication<Application>()
 
     private val bookDatabase : BookRoomDatabase = BookRoomDatabase.getDatabase(application.applicationContext)
-    private val libraryDao : LibraryDao = bookDatabase.libraryDao()
+    private val bookDao : BookDao = bookDatabase.bookDao()
 
-    fun getObservableLibrary() : LiveData<List<LibraryBook>> {
-        return libraryDao.getObservableBooks()
+    fun getObservableLibrary() : LiveData<List<Book>> {
+        return bookDao.getObservableLibrary()
     }
 
-    fun getLibrary() : List<LibraryBook> {
-        return libraryDao.getBooksByTitle()
+    fun getObservableWishlist() : LiveData<List<Book>> {
+        return bookDao.getObservableWishlist()
     }
 
-    fun addToLibrary(book : LibraryBook) = viewModelScope.launch {
-        libraryDao.insert(book)
+    fun getLibrary() : List<Book> {
+        return bookDao.getLibraryByTitle()
     }
 
-    fun clearLibrary() {
-        libraryDao.deleteAllBooks()
+    fun getWishlist() : List<Book> {
+        return bookDao.getWishlistByTitle()
+    }
+
+    fun addBook(book : Book) = viewModelScope.launch {
+        bookDao.insert(book)
     }
 
     fun librarySize() : Int {
-        return libraryDao.countBooks()
+        return bookDao.countLibraryBooks()
     }
 
-    fun getBooksFromQuery(query : String) : List<LibraryBook> {
-        val books : MutableList<LibraryBook> = mutableListOf()
-        val url = "https://www.googleapis.com/books/v1/volumes?key=AIzaSyAXQ5xBUTifutFOr7ucRNUicUqmO_kTv_g&q=$query"
+    fun wishlistSize() : Int {
+        return bookDao.countWishlistBooks()
+    }
 
+    fun clearLibrary() {
+        bookDao.deleteLibraryBooks()
+    }
+
+    fun clearWishlist() {
+        bookDao.deleteWishlistBooks()
+    }
+
+    fun getBooksFromQuery(query : String) : List<Book> {
+        val books : MutableList<Book> = mutableListOf()
+        val url = "https://www.googleapis.com/books/v1/volumes?key=AIzaSyAXQ5xBUTifutFOr7ucRNUicUqmO_kTv_g&q=$query"
         val response: String
         try {
             response = URL(url).readText()
@@ -58,29 +71,61 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
             return books
         }
 
-        val volumes = JSONObject(response).getJSONArray("items")
-        for (i in 0 until volumes.length()) {
-            val volume = volumes.getJSONObject(i)
-            val volumeInfo = volume.getJSONObject("volumeInfo")
-            val id = volume.optString("id","-")
-            val title = volumeInfo.optString("title","-")
-            val authors : MutableList<String> = mutableListOf()
-            if (volumeInfo.has("authors")) {
-                val curAuthors = volumeInfo.getJSONArray("authors")
-                for (j in 0 until curAuthors.length())
-                    authors.add(curAuthors.getString(j))
+        val items = JSONObject(response).getJSONArray("items")
+        for (i in 0 until items.length()) {
+            val item = items.getJSONObject(i)
+            val itemUrl = item.getString("selfLink")
+            getBookInfo(itemUrl)?.let {
+                books.add(it)
+                addBook(it)
             }
-            val pages = volumeInfo.optInt("pageCount",-1)
-            val thumbnailPath =
-                if (volumeInfo.has("imageLinks") && volumeInfo.getJSONObject("imageLinks").has("thumbnail"))
-                    getBookThumbnail(id, volumeInfo.getJSONObject("imageLinks").getString("thumbnail"))
-                else
-                    getDefaultThumbnail()
-            books.add(LibraryBook(id, title, authors, pages, thumbnailPath))
-            addToLibrary(LibraryBook(id, title, authors, pages, thumbnailPath))
         }
         return books
     }
+
+    private fun getBookInfo(url : String) : Book? {
+        val response : String
+        try {
+            response = URL(url).readText()
+        } catch (e: IOException) {
+            Toast.makeText(context,"An error occurred while connecting to Books API", Toast.LENGTH_SHORT).show()
+            return null
+        }
+        val volume = JSONObject(response)
+        val volumeInfo = volume.getJSONObject("volumeInfo")
+
+        if (!(volume.has("id") && volumeInfo.has("title") && volumeInfo.has("pageCount")))
+            return null
+        val id = volume.getString("id")
+        val title = volumeInfo.getString("title")
+        val pages = volumeInfo.getInt("pageCount")
+        val author =
+            if (volumeInfo.has("authors"))
+                volumeInfo.getJSONArray("authors").get(0).toString()
+            else
+                "-"
+        val publisher = volumeInfo.optString("publisher","-")
+        val isbn =
+            if (volumeInfo.has("industryIdentifiers"))
+                JSONObject(volumeInfo.getJSONArray("industryIdentifiers").get(1).toString()).getString("identifier")
+            else
+                "-"
+        val category =
+            if (volumeInfo.has("categories"))
+                volumeInfo.getJSONArray("categories").get(0).toString()
+            else
+                "-"
+        val description = volumeInfo.optString("description","-")
+        val date = volumeInfo.optString("publishedDate","-")
+        val language = volumeInfo.optString("language","-")
+        val thumbnailPath =
+            if (volumeInfo.has("imageLinks") && volumeInfo.getJSONObject("imageLinks").has("thumbnail"))
+                getBookThumbnail(id, volumeInfo.getJSONObject("imageLinks").getString("thumbnail"))
+            else
+                getDefaultThumbnail()
+        return Book(id, title, pages, author, publisher, isbn, category, description, date, language, thumbnailPath, 1)
+    }
+
 
     private fun getBookThumbnail(id: String, url: String) : String {
         val file = File(context.filesDir, "$id.jpg")
