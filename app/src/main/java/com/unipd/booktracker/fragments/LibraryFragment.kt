@@ -118,7 +118,7 @@ class LibraryFragment : Fragment() {
 
     private fun updateFilters() {
         lifecycleScope.launch(Dispatchers.IO) {
-            bookAdapter.setBooks(viewModel.getFilteredBooks(readFilter, readingFilter, notReadFilter))
+            bookAdapter.setBooks(viewModel.getFilteredLibrary(readFilter, readingFilter, notReadFilter))
             withContext(Dispatchers.Main){
                 bookAdapter.notifyDataSetChanged()
             }
