@@ -18,6 +18,7 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.unipd.booktracker.*
+import com.unipd.booktracker.db.OrderColumns
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -28,6 +29,8 @@ class LibraryFragment : Fragment() {
     private var readFilter = false
     private var readingFilter = false
     private var notReadFilter = false
+    private var orderColumn = OrderColumns.title
+    private var asc = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -118,7 +121,7 @@ class LibraryFragment : Fragment() {
 
     private fun updateFilters() {
         lifecycleScope.launch(Dispatchers.IO) {
-            bookAdapter.setBooks(viewModel.getFilteredLibrary(readFilter, readingFilter, notReadFilter))
+            bookAdapter.setBooks(viewModel.getFilteredLibrary(readFilter, readingFilter, notReadFilter, orderColumn, asc))
             withContext(Dispatchers.Main){
                 bookAdapter.notifyDataSetChanged()
             }
