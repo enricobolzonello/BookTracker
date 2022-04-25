@@ -98,6 +98,7 @@ class LibraryFragment : Fragment() {
             }
         })
 
+        // tapping card gets to fragment_book_detail
         val card = view.findViewById<MaterialCardView>(R.id.cv_book)
         card.setOnClickListener { findNavController().navigate(R.id.action_navigation_library_to_navigation_book_detail) }
 
