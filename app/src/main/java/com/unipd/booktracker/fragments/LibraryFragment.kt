@@ -60,12 +60,12 @@ class LibraryFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
-        val chRead = view?.findViewById<Chip>(R.id.ch_read)
-        chRead?.let { readFilter = it.isChecked }
-        val chReading = view?.findViewById<Chip>(R.id.ch_reading)
-        chReading?.let { readingFilter = it.isChecked }
         val chNotRead = view?.findViewById<Chip>(R.id.ch_not_read)
         chNotRead?.let { notReadFilter = it.isChecked }
+        val chReading = view?.findViewById<Chip>(R.id.ch_reading)
+        chReading?.let { readingFilter = it.isChecked }
+        val chRead = view?.findViewById<Chip>(R.id.ch_read)
+        chRead?.let { readFilter = it.isChecked }
 
         val rwLibrary = view?.findViewById<RecyclerView>(R.id.rw_library)
         updateFilters()
@@ -108,10 +108,10 @@ class LibraryFragment : Fragment() {
         card.setOnClickListener { findNavController().navigate(R.id.action_navigation_library_to_navigation_book_detail) }
         */
 
-        val chRead = view.findViewById<Chip>(R.id.ch_read)
-        readFilter = chRead.isChecked
-        chRead.setOnClickListener {
-            readFilter = (it as Chip).isChecked
+        val chNotRead = view.findViewById<Chip>(R.id.ch_not_read)
+        notReadFilter = chNotRead.isChecked
+        chNotRead.setOnClickListener {
+            notReadFilter = (it as Chip).isChecked
             updateFilters()
         }
 
@@ -122,17 +122,17 @@ class LibraryFragment : Fragment() {
             updateFilters()
         }
 
-        val chNotRead = view.findViewById<Chip>(R.id.ch_not_read)
-        notReadFilter = chNotRead.isChecked
-        chNotRead.setOnClickListener {
-            notReadFilter = (it as Chip).isChecked
+        val chRead = view.findViewById<Chip>(R.id.ch_read)
+        readFilter = chRead.isChecked
+        chRead.setOnClickListener {
+            readFilter = (it as Chip).isChecked
             updateFilters()
         }
     }
 
     private fun updateFilters() {
         lifecycleScope.launch(Dispatchers.IO) {
-            bookAdapter.setBooks(viewModel.getFilteredLibrary(readFilter, readingFilter, notReadFilter, orderColumn, asc))
+            bookAdapter.setBooks(viewModel.getFilteredLibrary(notReadFilter, readingFilter, readFilter, orderColumn, asc))
             withContext(Dispatchers.Main){
                 bookAdapter.notifyDataSetChanged()
             }
