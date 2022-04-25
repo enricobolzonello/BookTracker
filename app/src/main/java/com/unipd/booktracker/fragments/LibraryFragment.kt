@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.card.MaterialCardView
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
@@ -96,6 +97,9 @@ class LibraryFragment : Fragment() {
                 super.onScrollStateChanged(recyclerView, newState)
             }
         })
+
+        val card = view.findViewById<MaterialCardView>(R.id.cv_book)
+        card.setOnClickListener { findNavController().navigate(R.id.action_navigation_library_to_navigation_book_detail) }
 
         val chRead = view.findViewById<Chip>(R.id.ch_read)
         readFilter = chRead.isChecked
