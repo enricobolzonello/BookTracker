@@ -15,6 +15,7 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 import java.net.URL
+import androidx.room.*
 
 class BookViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -32,16 +33,21 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
         return bookDao.getObservableWishlist()
     }
 
-    fun getLibraryByTitle() : List<Book> {
-        return bookDao.getLibraryByTitle()
+    fun getFilteredLibrary(
+        read: Boolean = true,
+        reading: Boolean = true,
+        notRead: Boolean = true,
+        orderColumn: OrderColumns = OrderColumns.title,
+        asc: Boolean = true)
+    : List<Book> {
+        return bookDao.getFilteredLibrary(read, reading, notRead, orderColumn, asc)
     }
 
-    fun getWishlistByTitle() : List<Book> {
-        return bookDao.getWishlistByTitle()
-    }
-
-    fun getFilteredBooks(read: Boolean, reading: Boolean, notRead: Boolean): List<Book> {
-        return bookDao.getFilteredBooks(read, reading, notRead)
+    fun getFilteredWishlist(
+        orderColumn: OrderColumns = OrderColumns.title,
+        asc: Boolean = true)
+    : List<Book> {
+        return bookDao.getFilteredWishlist(orderColumn, asc)
     }
 
     fun addBook(book : Book) = viewModelScope.launch {
