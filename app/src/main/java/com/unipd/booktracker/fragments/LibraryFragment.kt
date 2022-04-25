@@ -1,5 +1,6 @@
 package com.unipd.booktracker.fragments
 
+import android.annotation.SuppressLint
 import android.app.SearchManager
 import android.content.Context
 import android.os.Bundle
@@ -13,6 +14,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.unipd.booktracker.*
 import kotlinx.coroutines.Dispatchers
@@ -21,28 +24,29 @@ import kotlinx.coroutines.withContext
 
 class LibraryFragment : Fragment() {
     private lateinit var viewModel: BookViewModel
-    private lateinit var libraryAdapter : BookAdapter
+    private lateinit var bookAdapter : BookAdapter
+    private var readFilter = false
+    private var readingFilter = false
+    private var notReadFilter = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setHasOptionsMenu(true)
         viewModel = ViewModelProvider(requireActivity() as MainActivity)[BookViewModel::class.java]
-        libraryAdapter = BookAdapter()
+        bookAdapter = BookAdapter()
 
         lifecycleScope.launch(Dispatchers.IO) {
             // Execute on IO thread because of network and database requests
-
             if (viewModel.librarySize() == 0)
                 viewModel.getBooksFromQuery("flowers")
-            libraryAdapter.setBooks(viewModel.getLibrary())
+            updateFilters()
             withContext(Dispatchers.Main) {
                 // Execute on Main thread
-
                 val recyclerView = view?.findViewById<RecyclerView>(R.id.rw_library)
-                recyclerView?.adapter = libraryAdapter
+                recyclerView?.adapter = bookAdapter
                 viewModel.getObservableLibrary().observe(requireActivity()) {
-                    libraryAdapter.notifyItemInserted(it.size - 1)
+                    bookAdapter.notifyDataSetChanged()
                 }
             }
         }
@@ -51,8 +55,16 @@ class LibraryFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
-        val recyclerView = view?.findViewById<RecyclerView>(R.id.rw_library)
-        recyclerView?.adapter = libraryAdapter
+        val chRead = view?.findViewById<Chip>(R.id.ch_read)
+        chRead?.let { readFilter = it.isChecked }
+        val chReading = view?.findViewById<Chip>(R.id.ch_reading)
+        chReading?.let { readingFilter = it.isChecked }
+        val chNotRead = view?.findViewById<Chip>(R.id.ch_not_read)
+        chNotRead?.let { notReadFilter = it.isChecked }
+
+        val rwLibrary = view?.findViewById<RecyclerView>(R.id.rw_library)
+        updateFilters()
+        rwLibrary?.let { it.adapter = bookAdapter }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -64,15 +76,15 @@ class LibraryFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val fab = view.findViewById<ExtendedFloatingActionButton>(R.id.fab)
-        val recyclerView = view.findViewById<RecyclerView>(R.id.rw_library)
+        val rwLibrary = view.findViewById<RecyclerView>(R.id.rw_library)
 
         // Set appropriate padding to recycler view's bottom, otherwise fab will cover the last item
         fab.measure(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT)
-        recyclerView.setPadding(0,0,0,fab.measuredHeight + fab.marginBottom)
-        recyclerView.clipToPadding = false
+        rwLibrary.setPadding(0,0,0,fab.measuredHeight + fab.marginBottom)
+        rwLibrary.clipToPadding = false
 
         // Extend and reduce FAB on scroll
-        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        rwLibrary.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 if (!recyclerView.canScrollVertically(-1))
                     fab.extend()
@@ -81,6 +93,36 @@ class LibraryFragment : Fragment() {
                 super.onScrollStateChanged(recyclerView, newState)
             }
         })
+
+        val chRead = view.findViewById<Chip>(R.id.ch_read)
+        readFilter = chRead.isChecked
+        chRead.setOnClickListener {
+            readFilter = (it as Chip).isChecked
+            updateFilters()
+        }
+
+        val chReading = view.findViewById<Chip>(R.id.ch_reading)
+        readingFilter = chReading.isChecked
+        chReading.setOnClickListener {
+            readingFilter = (it as Chip).isChecked
+            updateFilters()
+        }
+
+        val chNotRead = view.findViewById<Chip>(R.id.ch_not_read)
+        notReadFilter = chNotRead.isChecked
+        chNotRead.setOnClickListener {
+            notReadFilter = (it as Chip).isChecked
+            updateFilters()
+        }
+    }
+
+    private fun updateFilters() {
+        lifecycleScope.launch(Dispatchers.IO) {
+            bookAdapter.setBooks(viewModel.getFilteredBooks(readFilter, readingFilter, notReadFilter))
+            withContext(Dispatchers.Main){
+                bookAdapter.notifyDataSetChanged()
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

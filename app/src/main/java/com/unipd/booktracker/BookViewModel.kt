@@ -32,12 +32,16 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
         return bookDao.getObservableWishlist()
     }
 
-    fun getLibrary() : List<Book> {
+    fun getLibraryByTitle() : List<Book> {
         return bookDao.getLibraryByTitle()
     }
 
-    fun getWishlist() : List<Book> {
+    fun getWishlistByTitle() : List<Book> {
         return bookDao.getWishlistByTitle()
+    }
+
+    fun getFilteredBooks(read: Boolean, reading: Boolean, notRead: Boolean): List<Book> {
+        return bookDao.getFilteredBooks(read, reading, notRead)
     }
 
     fun addBook(book : Book) = viewModelScope.launch {
@@ -123,7 +127,7 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
                 getBookThumbnail(id, volumeInfo.getJSONObject("imageLinks").getString("thumbnail"))
             else
                 getDefaultThumbnail()
-        return Book(id, title, pages, author, publisher, isbn, category, description, date, language, thumbnailPath, 1)
+        return Book(id, title, pages, author, publisher, isbn, category, description, date, language, thumbnailPath, 0)
     }
 
 

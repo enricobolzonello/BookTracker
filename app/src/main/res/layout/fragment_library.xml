@@ -30,14 +30,14 @@
                 android:textAlignment="center"/>
 
             <com.google.android.material.chip.Chip
-                android:id="@+id/ch_in_reading"
+                android:id="@+id/ch_reading"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_marginHorizontal="@dimen/text_margin"
                 style="@style/Widget.MaterialComponents.Chip.Filter"
                 android:checked="true"
-                android:text="@string/filter_in_reading"
+                android:text="@string/filter_reading"
                 android:textAlignment="center"/>
 
             <com.google.android.material.chip.Chip
