@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/action_byTitleAsc"
+        android:title="@string/sort_byTitleAsc" />
+
+    <item
+        android:id="@+id/action_byTitleDesc"
+        android:title="@string/sort_byTitleDesc" />
+
+    <item
+        android:id="@+id/action_byAuthorAsc"
+        android:title="@string/sort_byAuthorAsc" />
+
+        <item
+        android:id="@+id/action_byAuthorDesc"
+        android:title="@string/sort_byAuthorDesc" />
+
+</menu>

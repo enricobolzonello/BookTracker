@@ -18,4 +18,8 @@
     <string name="filter_not_read">Not read</string>
     <string name="filter_sort">Sort by</string>
     <string name="fab_action">Add book</string>
+    <string name="sort_byTitleAsc">Sort ascending by Title</string>
+    <string name="sort_byTitleDesc">Sort descending by Title</string>
+    <string name="sort_byAuthorAsc">Sort ascending by Author</string>
+    <string name="sort_byAuthorDesc">Sort descending by Author</string>
 </resources>
