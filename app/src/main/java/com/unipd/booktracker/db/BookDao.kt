@@ -21,14 +21,10 @@ interface BookDao {
     @Query("SELECT * FROM book_table WHERE readPages IS NULL ORDER BY title ASC")
     fun getWishlistByTitle(): List<Book>
 
-    @Query("SELECT * FROM book_table WHERE readPages = 0")
-    fun getNotReadBooks(): List<Book>
-
-    @Query("SELECT * FROM book_table WHERE readPages > 0 AND readPages < pages")
-    fun getReadingBooks(): List<Book>
-
-    @Query("SELECT * FROM book_table WHERE readPages = pages")
-    fun getReadBooks(): List<Book>
+    @Query("SELECT * FROM book_table WHERE :read AND readPages = 0 " +
+            "UNION SELECT * FROM book_table WHERE :reading AND (readPages > 0 AND readPages < pages) " +
+            "UNION SELECT * FROM book_table WHERE :notRead AND readPages = pages")
+    fun getFilteredBooks(read: Boolean, reading: Boolean, notRead: Boolean): List<Book>
 
     @Query("SELECT COUNT(*) FROM book_table WHERE readPages IS NOT NULL")
     fun countLibraryBooks(): Int

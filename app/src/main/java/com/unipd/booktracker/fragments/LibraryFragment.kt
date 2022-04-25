@@ -13,7 +13,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.card.MaterialCardView
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.unipd.booktracker.*
 import kotlinx.coroutines.Dispatchers
@@ -82,10 +81,6 @@ class LibraryFragment : Fragment() {
                 super.onScrollStateChanged(recyclerView, newState)
             }
         })
-
-        // tapping card gets to fragment_book_detail
-        val card = view.findViewById<MaterialCardView>(R.id.cv_book)
-        card.setOnClickListener { findNavController().navigate(R.id.action_navigation_library_to_navigation_book_detail) }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
