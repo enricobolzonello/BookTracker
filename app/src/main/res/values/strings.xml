@@ -22,4 +22,15 @@
     <string name="sort_byTitleDesc">Sort descending by Title</string>
     <string name="sort_byAuthorAsc">Sort ascending by Author</string>
     <string name="sort_byAuthorDesc">Sort descending by Author</string>
+    <string name="genres_placeholder">genres</string>
+    <string name="bd_language_title">Lingua</string>
+    <string name="bd_language">IT</string>
+    <string name="bd_pages_title">Pagine</string>
+    <string name="bd_pages">0</string>
+    <string name="bd_description_title">Descrizione</string>
+    <string name="bd_description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
+    <string name="bd_editor_title">Casa Editrice</string>
+    <string name="bd_editor">Casa Editrice Placeholder</string>
+    <string name="bd_isbn_title">ISBN</string>
+    <string name="bd_isbn">000000000000000</string>
 </resources>
