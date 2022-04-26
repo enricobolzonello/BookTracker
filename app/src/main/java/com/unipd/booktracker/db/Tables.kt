@@ -18,13 +18,13 @@ data class Book(
     @ColumnInfo(name = "title") val title: String,
     @ColumnInfo(name = "pages") val pages: Int,
     @ColumnInfo(name = "author") val author: String,
-    @ColumnInfo(name = "publisher") val publisher: String,
-    @ColumnInfo(name = "isbn") val isbn: String,
-    @ColumnInfo(name = "category") val category: String,
-    @ColumnInfo(name = "description") val description: String,
-    @ColumnInfo(name = "publishedDate") val publishedDate: String,
-    @ColumnInfo(name = "language") val language: String,
-    @ColumnInfo(name = "thumbnail", typeAffinity = ColumnInfo.BLOB) val thumbnail: Bitmap? = null,
+    @Nullable@ColumnInfo(name = "publisher") val publisher: String?,
+    @Nullable@ColumnInfo(name = "isbn") val isbn: String?,
+    @Nullable@ColumnInfo(name = "category") val category: String?,
+    @Nullable@ColumnInfo(name = "description") val description: String?,
+    @Nullable@ColumnInfo(name = "publishedDate") val publishedDate: String?,
+    @Nullable@ColumnInfo(name = "language") val language: String?,
+    @Nullable@ColumnInfo(name = "thumbnail", typeAffinity = ColumnInfo.BLOB) val thumbnail: Bitmap? = null,
     @Nullable@ColumnInfo(name = "readPages") val readPages: Int? = null
 )
 

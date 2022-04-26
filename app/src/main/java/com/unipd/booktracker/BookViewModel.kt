@@ -118,41 +118,63 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
         val volume = JSONObject(response)
         val volumeInfo = volume.getJSONObject("volumeInfo")
 
-        if (!(volume.has("id") && volumeInfo.has("title") && volumeInfo.has("pageCount")))
+        // Check if minimum required parameters are present
+        if (!(volume.has("id") && volumeInfo.has("title") && volumeInfo.has("pageCount") && volumeInfo.has("authors")))
             return null
         val id = volume.getString("id")
         val title = volumeInfo.getString("title")
         val pages = volumeInfo.getInt("pageCount")
-        val author =
-            if (volumeInfo.has("authors"))
-                volumeInfo.getJSONArray("authors").get(0).toString()
+        val author = volumeInfo.getJSONArray("authors").get(0).toString()
+
+        val publisher =
+            if (volumeInfo.has("publisher"))
+                    volumeInfo.getString("publisher")
             else
-                "-"
-        val publisher = volumeInfo.optString("publisher","-")
+                null
+
         val isbn =
-            if (volumeInfo.has("industryIdentifiers"))
+            if (volumeInfo.has("industryIdentifiers") && volumeInfo.getJSONArray("industryIdentifiers").length() == 2)
                 JSONObject(volumeInfo.getJSONArray("industryIdentifiers").get(1).toString()).getString("identifier")
             else
-                "-"
+                null
+
         val category =
             if (volumeInfo.has("categories"))
                 volumeInfo.getJSONArray("categories").get(0).toString()
             else
-                "-"
-        val description = volumeInfo.optString("description","-")
-        val date = volumeInfo.optString("publishedDate","-")
-        val language = volumeInfo.optString("language","-")
-        var thumbnail : Bitmap? = null
-        if (volumeInfo.has("imageLinks") && volumeInfo.getJSONObject("imageLinks").has("thumbnail")) {
-            val thumbnailUrl = volumeInfo.getJSONObject("imageLinks").getString("thumbnail")
-            // Cleartext HTTP traffic is not permitted, so secure url (https) is needed
-            val secureUrl = thumbnailUrl.replaceBefore(":","https")
-            try {
-                thumbnail = BitmapFactory.decodeStream(URL(secureUrl).openStream())
-            } catch (e: IOException) {
-                Toast.makeText(app.applicationContext,"An error occurred while connecting to Books API", Toast.LENGTH_SHORT).show()
+                null
+
+        val description =
+            if (volumeInfo.has("description"))
+                volumeInfo.getString("description")
+            else
+                null
+
+        val date =
+            if (volumeInfo.has("publishedDate"))
+                volumeInfo.getString("publishedDate")
+            else
+                null
+
+        val language =
+            if (volumeInfo.has("language"))
+                volumeInfo.getString("language")
+            else
+                null
+
+        val thumbnail =
+            if (volumeInfo.has("imageLinks") && volumeInfo.getJSONObject("imageLinks").has("thumbnail")) {
+                val thumbnailUrl = volumeInfo.getJSONObject("imageLinks").getString("thumbnail")
+                // Cleartext HTTP traffic is not permitted, so secure url (https) is needed
+                val secureUrl = thumbnailUrl.replaceBefore(":","https")
+                try {
+                    BitmapFactory.decodeStream(URL(secureUrl).openStream())
+                } catch (e: IOException) {
+                    null
+                }
             }
-        }
+            else
+                null
         return Book(id, title, pages, author, publisher, isbn, category, description, date, language, thumbnail, 100)
     }
 

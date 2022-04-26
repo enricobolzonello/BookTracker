@@ -6,6 +6,6 @@
     <dimen name="elevation">1dp</dimen>
     <dimen name="thumb_prev_height">100dp</dimen>
     <dimen name="thumb_prev_width">64dp</dimen>
-    <dimen name="thumb_height">300dp</dimen>
-    <dimen name="thumb_width">192dp</dimen>
+    <dimen name="thumb_height">199dp</dimen>
+    <dimen name="thumb_width">128dp</dimen>
 </resources>

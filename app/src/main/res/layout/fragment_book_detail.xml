@@ -82,15 +82,15 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
-                        android:maxLines="1"
                         android:text="@string/bd_language_title"
                         android:textAppearance="@style/TextAppearance.Material3.BodySmall" />
 
                     <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tv_book_language"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
-                        android:maxLines="1"
+                        android:maxLength="2"
                         android:text="@string/bd_language"
                         android:textAppearance="@style/TextAppearance.Material3.BodySmall" />
 
@@ -107,11 +107,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
-                        android:maxLines="1"
                         android:text="@string/bd_pages_title"
                         android:textAppearance="@style/TextAppearance.Material3.BodySmall" />
 
                     <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tv_book_pages"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
@@ -124,7 +124,7 @@
             </LinearLayout>
 
             <RatingBar
-                android:id="@+id/bd_rating"
+                android:id="@+id/rb_book_rating"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
@@ -146,6 +146,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -155,6 +156,7 @@
             android:textAppearance="@style/TextAppearance.Material3.BodySmall"/>
 
         <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_book_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
@@ -174,19 +176,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:text="@string/bd_editor_title"
+                android:text="@string/bd_publisher_title"
                 android:textAppearance="@style/TextAppearance.Material3.BodySmall"/>
 
             <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_book_publisher"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-                android:text="@string/bd_editor"/>
+                android:text="@string/bd_publisher"/>
             </LinearLayout>
 
         </com.google.android.material.card.MaterialCardView>
@@ -202,6 +206,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
                 <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -211,6 +216,7 @@
                     android:textAppearance="@style/TextAppearance.Material3.BodySmall"/>
 
                 <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tv_book_isbn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textAppearance="@style/TextAppearance.Material3.BodyMedium"

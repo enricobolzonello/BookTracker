@@ -19,6 +19,7 @@ import kotlinx.coroutines.withContext
 class BookDetailFragment : Fragment() {
     private lateinit var viewModel: BookViewModel
     private lateinit var binding: FragmentBookDetailBinding
+
     private val args: BookDetailFragmentArgs by navArgs()
     private lateinit var book : Book
 
@@ -34,12 +35,18 @@ class BookDetailFragment : Fragment() {
             withContext(Dispatchers.Main) {
                 // Execute on Main thread
 
-                binding.tvBookTitle.text = book.title
-                binding.tvBookAuthor.text = book.author
                 if (book.thumbnail == null)
                     binding.ivBookThumbnail.setBackgroundResource(R.drawable.default_thumbnail)
                 else
                     binding.ivBookThumbnail.setImageBitmap(book.thumbnail)
+                binding.tvBookTitle.text = book.title
+                binding.tvBookAuthor.text = book.author
+                binding.tvBookGenre.text = book.category
+                binding.tvBookLanguage.text = book.language
+                binding.tvBookPages.text = book.pages.toString()
+                binding.tvBookDescription.text = book.description
+                binding.tvBookPublisher.text = book.publisher
+                binding.tvBookIsbn.text = book.isbn
             }
         }
     }
