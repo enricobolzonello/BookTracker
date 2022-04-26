@@ -27,19 +27,22 @@ class MainActivity : AppCompatActivity() {
         NavigationUI.setupWithNavController(bottomNavigationView, navController)
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            if (destination.id == R.id.navigation_settings) {
-                supportActionBar?.setDisplayHomeAsUpEnabled(true)
-                supportActionBar?.setTitle(R.string.title_settings)
-                bottomNavigationView.visibility = View.GONE
-            }
-            if (destination.id == R.id.navigation_book_detail) {
-                supportActionBar?.setDisplayHomeAsUpEnabled(true)
-                supportActionBar?.setTitle(R.string.title_bookdetail)
-                bottomNavigationView.visibility = View.GONE
-            } else {
-                supportActionBar?.setDisplayHomeAsUpEnabled(false)
-                supportActionBar?.setTitle(R.string.app_name)
-                bottomNavigationView.visibility = View.VISIBLE
+            when(destination.id) {
+                R.id.navigation_settings -> {
+                    supportActionBar?.setDisplayHomeAsUpEnabled(true)
+                    supportActionBar?.setTitle(R.string.title_settings)
+                    bottomNavigationView.visibility = View.GONE
+                }
+                R.id.navigation_book_detail -> {
+                    supportActionBar?.setDisplayHomeAsUpEnabled(true)
+                    supportActionBar?.setTitle(R.string.title_bookdetail)
+                    bottomNavigationView.visibility = View.GONE
+                }
+                else -> {
+                    supportActionBar?.setDisplayHomeAsUpEnabled(false)
+                    supportActionBar?.setTitle(R.string.app_name)
+                    bottomNavigationView.visibility = View.VISIBLE
+                }
             }
         }
     }
