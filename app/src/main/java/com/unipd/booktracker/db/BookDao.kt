@@ -56,4 +56,7 @@ interface BookDao {
 
     @Query("DELETE FROM book_table WHERE readPages IS NULL")
     fun deleteWishlistBooks()
+
+    @Query("DELETE FROM book_table")
+    fun deleteBooks()
 }

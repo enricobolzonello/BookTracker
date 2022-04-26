@@ -3,7 +3,9 @@ package com.unipd.booktracker.db
 import androidx.annotation.Nullable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
+import java.util.Date
 
 enum class OrderColumns {
     title, author
@@ -19,8 +21,25 @@ data class Book(
     @ColumnInfo(name = "isbn") val isbn: String,
     @ColumnInfo(name = "category") val category: String,
     @ColumnInfo(name = "description") val description: String,
-    @ColumnInfo(name = "date") val date: String,
+    @ColumnInfo(name = "publishedDate") val publishedDate: String,
     @ColumnInfo(name = "language") val language: String,
     @ColumnInfo(name = "thumbnailPath") val thumbnailPath: String,
     @Nullable@ColumnInfo(name = "readPages") val readPages: Int? = null
+)
+
+@Entity(
+    tableName = "reading_table",
+    foreignKeys = [ForeignKey(
+        entity = Book::class,
+        parentColumns = arrayOf("id"),
+        childColumns = arrayOf("bookId"),
+        onUpdate = ForeignKey.CASCADE,
+        onDelete = ForeignKey.CASCADE
+    )]
+)
+data class Reading(
+    @PrimaryKey(autoGenerate = true) val id: Int,
+    @ColumnInfo(name = "bookId") val bookId: String,
+    @ColumnInfo(name = "date") val date: Date,
+    @ColumnInfo(name = "pageDifference") val pageDifference: Int
 )

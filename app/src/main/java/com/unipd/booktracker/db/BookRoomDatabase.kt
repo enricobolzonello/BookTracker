@@ -7,10 +7,12 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 
 // Annotates class to be a Room Database with a table (entity) of the Word class
-@Database(entities = [Book::class], version = 1, exportSchema = false)
+@Database(entities = [Book::class, Reading::class], version = 1, exportSchema = false)
+@TypeConverters(Converters::class)
 abstract class BookRoomDatabase : RoomDatabase() {
 
     abstract fun bookDao(): BookDao
+    abstract fun readingDao(): ReadingDao
 
     companion object {
         // Singleton prevents multiple instances of database opening at the same time.

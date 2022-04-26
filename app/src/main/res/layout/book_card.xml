@@ -50,12 +50,14 @@
                 android:textAppearance="@style/TextAppearance.Material3.BodyMedium" />
 
             <ProgressBar
-                android:id="@+id/progressBar"
+                android:id="@+id/pb_read"
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:indeterminate="false"
-                android:progress="0" />
+                android:min="0"
+                android:max="100"
+                android:progress="10"/>
 
         </LinearLayout>
 

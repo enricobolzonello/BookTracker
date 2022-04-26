@@ -1,10 +1,13 @@
 package com.unipd.booktracker
 
 import android.graphics.BitmapFactory
+import android.opengl.Visibility
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.unipd.booktracker.db.Book
@@ -18,11 +21,17 @@ class BookAdapter : RecyclerView.Adapter<BookAdapter.BookViewHolder>() {
         private val tvTitle: TextView = itemView.findViewById(R.id.tv_book_title)
         private val tvAuthors: TextView = itemView.findViewById(R.id.tv_book_author)
         private val ivThumbnail: ImageView = itemView.findViewById(R.id.iv_book_thumbnail)
+        private val pbRead: ProgressBar = itemView.findViewById(R.id.pb_read)
 
         fun bind(book: Book) {
             tvTitle.text = book.title
             tvAuthors.text = book.author
             ivThumbnail.setImageBitmap(BitmapFactory.decodeFile(book.thumbnailPath))
+            if (book.readPages == null)
+                pbRead.visibility = View.GONE
+            else {
+                pbRead.progress = (book.readPages.toDouble() / book.pages.toDouble() * 100).toInt()
+            }
         }
     }
 
