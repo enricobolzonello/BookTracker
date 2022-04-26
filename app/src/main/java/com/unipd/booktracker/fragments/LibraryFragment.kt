@@ -1,9 +1,10 @@
 package com.unipd.booktracker.fragments
 
+import android.R.attr.button
 import android.app.SearchManager
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
+import android.provider.SyncStateContract
 import android.view.*
 import android.widget.FrameLayout
 import android.widget.Toast
@@ -16,6 +17,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.unipd.booktracker.*
 import com.unipd.booktracker.databinding.FragmentLibraryBinding
 import com.unipd.booktracker.db.OrderColumns
@@ -28,7 +30,6 @@ class LibraryFragment : Fragment() {
     private lateinit var binding: FragmentLibraryBinding
     private lateinit var viewModel: BookViewModel
     private lateinit var bookAdapter : BookAdapter
-
     private var readFilter = false
     private var readingFilter = false
     private var notReadFilter = false
@@ -37,9 +38,10 @@ class LibraryFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
 
         binding = FragmentLibraryBinding.inflate(layoutInflater)
+
+        setHasOptionsMenu(true)
         viewModel = ViewModelProvider(requireActivity() as MainActivity)[BookViewModel::class.java]
         bookAdapter = BookAdapter()
 
@@ -50,14 +52,8 @@ class LibraryFragment : Fragment() {
             updateFilters()
             withContext(Dispatchers.Main) {
                 // Execute on Main thread
-
                 val recyclerView = view?.findViewById<RecyclerView>(R.id.rw_library)
                 recyclerView?.adapter = bookAdapter
-                /*
-                        NOT WORKING
-                        binding.rwLibrary.adapter = bookAdapter
-                 */
-
                 viewModel.getObservableLibrary().observe(requireActivity()) {
                     bookAdapter.notifyDataSetChanged()
                 }
@@ -109,20 +105,23 @@ class LibraryFragment : Fragment() {
         card.setOnClickListener { findNavController().navigate(R.id.action_navigation_library_to_navigation_book_detail) }
         */
 
-        notReadFilter = binding.chNotRead.isChecked
-        binding.chNotRead.setOnClickListener {
+        val chNotRead = view.findViewById<Chip>(R.id.ch_not_read)
+        notReadFilter = chNotRead.isChecked
+        chNotRead.setOnClickListener {
             notReadFilter = (it as Chip).isChecked
             updateFilters()
         }
 
-        readingFilter = binding.chReading.isChecked
-        binding.chReading.setOnClickListener {
+        val chReading = view.findViewById<Chip>(R.id.ch_reading)
+        readingFilter = chReading.isChecked
+        chReading.setOnClickListener {
             readingFilter = (it as Chip).isChecked
             updateFilters()
         }
 
-        readFilter = binding.chRead.isChecked
-        binding.chRead.setOnClickListener {
+        val chRead = view.findViewById<Chip>(R.id.ch_read)
+        readFilter = chRead.isChecked
+        chRead.setOnClickListener {
             readFilter = (it as Chip).isChecked
             updateFilters()
         }

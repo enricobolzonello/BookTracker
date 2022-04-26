@@ -33,4 +33,10 @@
     <string name="bd_editor">Casa Editrice Placeholder</string>
     <string name="bd_isbn_title">ISBN</string>
     <string name="bd_isbn">000000000000000</string>
+    <string name="settings_theme">App theme</string>
+    <string-array name="theme_spinner_array">
+        <item>As system</item>
+        <item>Light</item>
+        <item>Dark</item>
+    </string-array>
 </resources>
