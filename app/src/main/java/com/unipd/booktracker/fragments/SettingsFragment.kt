@@ -10,6 +10,7 @@ import com.unipd.booktracker.databinding.FragmentSettingsBinding
 
 class SettingsFragment : Fragment() {
 
+    // https://developer.android.com/guide/topics/ui/settings <-- guida per la pagina delle impostazioni
     private lateinit var binding: FragmentSettingsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
