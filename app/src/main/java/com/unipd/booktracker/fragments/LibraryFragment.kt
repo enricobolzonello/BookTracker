@@ -3,10 +3,8 @@ package com.unipd.booktracker.fragments
 import android.app.SearchManager
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.FrameLayout
-import android.widget.Toast
 import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.marginBottom
@@ -40,11 +38,13 @@ class LibraryFragment : Fragment() {
 
         lifecycleScope.launch(Dispatchers.IO) {
             // Execute on IO thread because of network and database requests
+
             if (viewModel.librarySize() == 0)
                 viewModel.getBooksFromQuery("flowers")
             updateFilters()
             withContext(Dispatchers.Main) {
                 // Execute on Main thread
+
                 binding.rwLibrary.adapter = bookAdapter
                 viewModel.getObservableLibrary().observe(requireActivity()) {
                     bookAdapter.notifyDataSetChanged()
@@ -89,9 +89,10 @@ class LibraryFragment : Fragment() {
         })
     }
 
-    private fun updateFilters() {
+    private fun updateFilters(query : String = "") {
         lifecycleScope.launch(Dispatchers.IO) {
             bookAdapter.setBooks(viewModel.getFilteredLibrary(
+                query,
                 binding.chNotRead.isChecked,
                 binding.chReading.isChecked,
                 binding.chRead.isChecked,
@@ -116,6 +117,16 @@ class LibraryFragment : Fragment() {
         searchView.apply {
             setSearchableInfo(searchManager.getSearchableInfo(requireActivity().componentName))
         }
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                updateFilters(newText)
+                return true
+            }
+        })
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

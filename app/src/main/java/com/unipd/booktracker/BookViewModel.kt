@@ -39,20 +39,22 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun getFilteredLibrary(
+        query: String = "",
         notRead: Boolean = true,
         reading: Boolean = true,
         read: Boolean = true,
         orderColumn: OrderColumns = OrderColumns.title,
         asc: Boolean = true
     ) : List<Book> {
-        return bookDao.getFilteredLibrary(notRead, reading, read, orderColumn, asc)
+        return bookDao.getFilteredLibrary(query, notRead, reading, read, orderColumn, asc)
     }
 
     fun getFilteredWishlist(
+        query: String = "",
         orderColumn: OrderColumns = OrderColumns.title,
         asc: Boolean = true
     ) : List<Book> {
-        return bookDao.getFilteredWishlist(orderColumn, asc)
+        return bookDao.getFilteredWishlist(query, orderColumn, asc)
     }
 
     fun addBook(book : Book) = viewModelScope.launch {
@@ -65,7 +67,7 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
 
     fun addReadPages(book : Book, pages : Int) = viewModelScope.launch {
         readingDao.insert(Reading(bookId = book.id, date = Date(), pageDifference = pages))
-        readingDao.updateReadPages(book.id)
+        bookDao.updateReadPages(book.id)
     }
 
     fun librarySize() : Int {
