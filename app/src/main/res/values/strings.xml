@@ -18,10 +18,10 @@
     <string name="filter_read">Read</string>
     <string name="filter_sort">Sort by</string>
     <string name="fab_action">Add book</string>
-    <string name="sort_byTitleAsc">Sort ascending by Title</string>
-    <string name="sort_byTitleDesc">Sort descending by Title</string>
-    <string name="sort_byAuthorAsc">Sort ascending by Author</string>
-    <string name="sort_byAuthorDesc">Sort descending by Author</string>
+    <string name="sort_byTitleAsc">By Title (A-Z)</string>
+    <string name="sort_byTitleDesc">By Title (Z-A)</string>
+    <string name="sort_byAuthorAsc">By Author (A-Z)</string>
+    <string name="sort_byAuthorDesc">By Author (Z-A)</string>
     <string name="genres_placeholder">genres</string>
     <string name="bd_language_title">Lingua</string>
     <string name="bd_language">IT</string>

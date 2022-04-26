@@ -11,7 +11,7 @@ enum class OrderColumns {
     title, author
 }
 
-@Entity(tableName = "book_table")
+@Entity(tableName = "books")
 data class Book(
     @PrimaryKey@ColumnInfo(name = "id") val id: String,
     @ColumnInfo(name = "title") val title: String,
@@ -28,7 +28,7 @@ data class Book(
 )
 
 @Entity(
-    tableName = "reading_table",
+    tableName = "readings",
     foreignKeys = [ForeignKey(
         entity = Book::class,
         parentColumns = arrayOf("id"),
@@ -38,8 +38,8 @@ data class Book(
     )]
 )
 data class Reading(
-    @PrimaryKey(autoGenerate = true) val id: Int,
-    @ColumnInfo(name = "bookId") val bookId: String,
+    @PrimaryKey(autoGenerate = true) val id: Int = 0,
+    @ColumnInfo(name = "bookId", index = true) val bookId: String,
     @ColumnInfo(name = "date") val date: Date,
     @ColumnInfo(name = "pageDifference") val pageDifference: Int
 )
