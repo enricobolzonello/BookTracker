@@ -4,6 +4,7 @@ import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.unipd.booktracker.db.Book
 import com.unipd.booktracker.databinding.BookCardBinding
@@ -17,7 +18,7 @@ class BookAdapter : RecyclerView.Adapter<BookAdapter.BookViewHolder>() {
     }
 
     // Describes an item view and its place within the RecyclerView
-    inner class BookViewHolder(val binding: BookCardBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class BookViewHolder(private val binding: BookCardBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(book: Book) {
             binding.tvBookTitle.text = book.title
             binding.tvBookAuthor.text = book.author
@@ -26,6 +27,11 @@ class BookAdapter : RecyclerView.Adapter<BookAdapter.BookViewHolder>() {
                 binding.pbRead.visibility = View.GONE
             else {
                 binding.pbRead.progress = (book.readPages.toDouble() / book.pages.toDouble() * 100).toInt()
+            }
+
+            binding.cvBook.setOnClickListener {
+                //TODO: put safeArgs
+                binding.root.findNavController().navigate(R.id.navigation_book_detail)
             }
         }
     }

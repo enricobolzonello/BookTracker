@@ -31,6 +31,11 @@ class MainActivity : AppCompatActivity() {
                 supportActionBar?.setDisplayHomeAsUpEnabled(true)
                 supportActionBar?.setTitle(R.string.title_settings)
                 bottomNavigationView.visibility = View.GONE
+            }
+            if (destination.id == R.id.navigation_book_detail) {
+                supportActionBar?.setDisplayHomeAsUpEnabled(true)
+                supportActionBar?.setTitle(R.string.title_bookdetail)
+                bottomNavigationView.visibility = View.GONE
             } else {
                 supportActionBar?.setDisplayHomeAsUpEnabled(false)
                 supportActionBar?.setTitle(R.string.app_name)

@@ -55,7 +55,6 @@ class LibraryFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-
         updateFilters()
         binding.rwLibrary.adapter = bookAdapter
     }
@@ -68,6 +67,10 @@ class LibraryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.chNotRead.setOnClickListener { updateFilters() }
+        binding.chReading.setOnClickListener { updateFilters() }
+        binding.chRead.setOnClickListener { updateFilters() }
 
         // Set appropriate padding to recycler view's bottom, otherwise fab will cover the last item
         binding.fab.measure(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT)
@@ -84,19 +87,6 @@ class LibraryFragment : Fragment() {
                 super.onScrollStateChanged(recyclerView, newState)
             }
         })
-
-        /*
-
-        Attempt to invoke virtual method 'void com.google.android.material.card.MaterialCardView.setOnClickListener(android.view.View$OnClickListener)' on a null object reference
-
-        // tapping card gets to fragment_book_detail
-        val card = view.findViewById<MaterialCardView>(R.id.cv_book)
-        card.setOnClickListener { findNavController().navigate(R.id.action_navigation_library_to_navigation_book_detail) }
-        */
-
-        binding.chNotRead.setOnClickListener { updateFilters() }
-        binding.chReading.setOnClickListener { updateFilters() }
-        binding.chRead.setOnClickListener { updateFilters() }
     }
 
     private fun updateFilters() {

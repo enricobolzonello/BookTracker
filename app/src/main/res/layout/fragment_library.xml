@@ -3,11 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!--
     <data>
-        <variable
-            name="libraryFragment"
-            type="com.unipd.booktracker.fragments.LibraryFragment" />
+    <variable
+        name="libraryFragment"
+        type="com.unipd.booktracker.fragments.LibraryFragment" />
     </data>
+    -->
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -60,7 +62,7 @@
                     android:layout_weight="1"
                     android:checked="true"
                     android:text="@string/filter_read"
-                    android:textAlignment="center" />
+                    android:textAlignment="center"/>
 
             </LinearLayout>
 
