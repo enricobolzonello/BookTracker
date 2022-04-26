@@ -5,6 +5,7 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.unipd.booktracker.R
+import com.unipd.booktracker.databinding.FragmentBookDetailBinding
 import com.unipd.booktracker.databinding.FragmentStatsBinding
 
 class StatsFragment : Fragment() {
@@ -13,10 +14,9 @@ class StatsFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
 
         binding = FragmentStatsBinding.inflate(layoutInflater)
-
-        setHasOptionsMenu(true)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -35,11 +35,9 @@ class StatsFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_stats, container, false)
+        binding = FragmentStatsBinding.inflate(inflater, container, false)
+        return binding.root
     }
 }
