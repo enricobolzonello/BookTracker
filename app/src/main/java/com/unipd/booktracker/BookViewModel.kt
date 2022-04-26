@@ -34,13 +34,13 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun getFilteredLibrary(
-        read: Boolean = true,
-        reading: Boolean = true,
         notRead: Boolean = true,
+        reading: Boolean = true,
+        read: Boolean = true,
         orderColumn: OrderColumns = OrderColumns.title,
         asc: Boolean = true)
     : List<Book> {
-        return bookDao.getFilteredLibrary(read, reading, notRead, orderColumn, asc)
+        return bookDao.getFilteredLibrary(notRead, reading, read, orderColumn, asc)
     }
 
     fun getFilteredWishlist(
@@ -133,7 +133,7 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
                 getBookThumbnail(id, volumeInfo.getJSONObject("imageLinks").getString("thumbnail"))
             else
                 getDefaultThumbnail()
-        return Book(id, title, pages, author, publisher, isbn, category, description, date, language, thumbnailPath, 0)
+        return Book(id, title, pages, author, publisher, isbn, category, description, date, language, thumbnailPath,0)
     }
 
 

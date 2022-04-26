@@ -19,7 +19,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.unipd.booktracker.*
-import com.unipd.booktracker.databinding.FragmentLibraryBinding
 import com.unipd.booktracker.db.OrderColumns
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -27,7 +26,6 @@ import kotlinx.coroutines.withContext
 
 
 class LibraryFragment : Fragment() {
-    private lateinit var binding: FragmentLibraryBinding
     private lateinit var viewModel: BookViewModel
     private lateinit var bookAdapter : BookAdapter
     private var readFilter = false
@@ -38,8 +36,6 @@ class LibraryFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        binding = FragmentLibraryBinding.inflate(layoutInflater)
 
         setHasOptionsMenu(true)
         viewModel = ViewModelProvider(requireActivity() as MainActivity)[BookViewModel::class.java]
@@ -64,12 +60,16 @@ class LibraryFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
-        binding.chRead.let { readFilter = it.isChecked }
-        binding.chReading.let { readingFilter = it.isChecked }
-        binding.chNotRead.let { notReadFilter = it.isChecked }
+        val chNotRead = view?.findViewById<Chip>(R.id.ch_not_read)
+        chNotRead?.let { notReadFilter = it.isChecked }
+        val chReading = view?.findViewById<Chip>(R.id.ch_reading)
+        chReading?.let { readingFilter = it.isChecked }
+        val chRead = view?.findViewById<Chip>(R.id.ch_read)
+        chRead?.let { readFilter = it.isChecked }
 
+        val rwLibrary = view?.findViewById<RecyclerView>(R.id.rw_library)
         updateFilters()
-        binding.rwLibrary.let { it.adapter = bookAdapter }
+        rwLibrary?.let { it.adapter = bookAdapter }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -80,15 +80,16 @@ class LibraryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val fab = binding.fab
+        val fab = view.findViewById<ExtendedFloatingActionButton>(R.id.fab)
+        val rwLibrary = view.findViewById<RecyclerView>(R.id.rw_library)
 
         // Set appropriate padding to recycler view's bottom, otherwise fab will cover the last item
-        binding.fab.measure(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT)
-        binding.rwLibrary.setPadding(0,0,0,fab.measuredHeight + fab.marginBottom)
-        binding.rwLibrary.clipToPadding = false
+        fab.measure(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT)
+        rwLibrary.setPadding(0,0,0,fab.measuredHeight + fab.marginBottom)
+        rwLibrary.clipToPadding = false
 
         // Extend and reduce FAB on scroll
-        binding.rwLibrary.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        rwLibrary.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 if (!recyclerView.canScrollVertically(-1))
                     fab.extend()
@@ -107,28 +108,31 @@ class LibraryFragment : Fragment() {
         card.setOnClickListener { findNavController().navigate(R.id.action_navigation_library_to_navigation_book_detail) }
         */
 
-        readFilter = binding.chRead.isChecked
-        binding.chRead.setOnClickListener {
-            readFilter = (it as Chip).isChecked
+        val chNotRead = view.findViewById<Chip>(R.id.ch_not_read)
+        notReadFilter = chNotRead.isChecked
+        chNotRead.setOnClickListener {
+            notReadFilter = (it as Chip).isChecked
             updateFilters()
         }
 
-        readingFilter = binding.chReading.isChecked
-        binding.chReading.setOnClickListener {
+        val chReading = view.findViewById<Chip>(R.id.ch_reading)
+        readingFilter = chReading.isChecked
+        chReading.setOnClickListener {
             readingFilter = (it as Chip).isChecked
             updateFilters()
         }
 
-        notReadFilter = binding.chNotRead.isChecked
-        binding.chNotRead.setOnClickListener {
-            notReadFilter = (it as Chip).isChecked
+        val chRead = view.findViewById<Chip>(R.id.ch_read)
+        readFilter = chRead.isChecked
+        chRead.setOnClickListener {
+            readFilter = (it as Chip).isChecked
             updateFilters()
         }
     }
 
     private fun updateFilters() {
         lifecycleScope.launch(Dispatchers.IO) {
-            bookAdapter.setBooks(viewModel.getFilteredLibrary(readFilter, readingFilter, notReadFilter, orderColumn, asc))
+            bookAdapter.setBooks(viewModel.getFilteredLibrary(notReadFilter, readingFilter, readFilter, orderColumn, asc))
             withContext(Dispatchers.Main){
                 bookAdapter.notifyDataSetChanged()
             }

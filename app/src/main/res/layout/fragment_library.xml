@@ -19,14 +19,14 @@
             android:weightSum="3">
 
             <com.google.android.material.chip.Chip
-                android:id="@+id/ch_read"
+                android:id="@+id/ch_not_read"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_marginHorizontal="@dimen/text_margin"
                 style="@style/Widget.MaterialComponents.Chip.Filter"
                 android:checked="true"
-                android:text="@string/filter_read"
+                android:text="@string/filter_not_read"
                 android:textAlignment="center"/>
 
             <com.google.android.material.chip.Chip
@@ -41,14 +41,14 @@
                 android:textAlignment="center"/>
 
             <com.google.android.material.chip.Chip
-                android:id="@+id/ch_not_read"
+                android:id="@+id/ch_read"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_marginHorizontal="@dimen/text_margin"
                 style="@style/Widget.MaterialComponents.Chip.Filter"
                 android:checked="true"
-                android:text="@string/filter_not_read"
+                android:text="@string/filter_read"
                 android:textAlignment="center"/>
 
         </LinearLayout>
