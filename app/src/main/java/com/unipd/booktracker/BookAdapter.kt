@@ -12,6 +12,10 @@ class BookAdapter : RecyclerView.Adapter<BookAdapter.BookViewHolder>() {
 
     private var library : List<Book> = listOf()
 
+    fun setBooks(books : List<Book>) {
+        library = books
+    }
+
     // Describes an item view and its place within the RecyclerView
     inner class BookViewHolder(val binding: BookCardBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(book: Book) {
@@ -40,9 +44,5 @@ class BookAdapter : RecyclerView.Adapter<BookAdapter.BookViewHolder>() {
     // Displays data at a certain position
     override fun onBindViewHolder(holder: BookViewHolder, position: Int) {
         holder.bind(library[position])
-    }
-
-    fun setBooks(books : List<Book>) {
-        library = books
     }
 }

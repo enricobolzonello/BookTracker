@@ -26,10 +26,10 @@
                 android:orientation="horizontal"
                 android:weightSum="3">
 
+                <!-- android:onCheckedChanged="@{() -> libraryFragment.updateFilters()}" -->
                 <com.google.android.material.chip.Chip
                     android:id="@+id/ch_not_read"
                     style="@style/Widget.MaterialComponents.Chip.Filter"
-                    android:onCheckedChanged="@{() -> libraryFragment.updateFilters()}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/text_margin"
@@ -38,10 +38,10 @@
                     android:text="@string/filter_not_read"
                     android:textAlignment="center" />
 
+                <!-- android:onCheckedChanged="@{() -> libraryFragment.updateFilters()}" -->
                 <com.google.android.material.chip.Chip
                     android:id="@+id/ch_reading"
                     style="@style/Widget.MaterialComponents.Chip.Filter"
-                    android:onCheckedChanged="@{() -> libraryFragment.updateFilters()}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/text_margin"
@@ -50,9 +50,9 @@
                     android:text="@string/filter_reading"
                     android:textAlignment="center" />
 
+                <!-- android:onCheckedChanged="@{() -> libraryFragment.updateFilters()}" -->
                 <com.google.android.material.chip.Chip
                     android:id="@+id/ch_read"
-                    android:onCheckedChanged="@{() -> libraryFragment.updateFilters()}"
                     style="@style/Widget.MaterialComponents.Chip.Filter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

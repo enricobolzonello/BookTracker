@@ -1,10 +1,9 @@
 package com.unipd.booktracker.fragments
 
-import android.R.attr.button
 import android.app.SearchManager
 import android.content.Context
 import android.os.Bundle
-import android.provider.SyncStateContract
+import android.util.Log
 import android.view.*
 import android.widget.FrameLayout
 import android.widget.Toast
@@ -16,8 +15,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.chip.Chip
-import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.unipd.booktracker.*
 import com.unipd.booktracker.databinding.FragmentLibraryBinding
 import com.unipd.booktracker.db.OrderColumns
@@ -30,18 +27,14 @@ class LibraryFragment : Fragment() {
     private lateinit var binding: FragmentLibraryBinding
     private lateinit var viewModel: BookViewModel
     private lateinit var bookAdapter : BookAdapter
-    private var readFilter = false
-    private var readingFilter = false
-    private var notReadFilter = false
     private var orderColumn = OrderColumns.title
     private var asc = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
 
         binding = FragmentLibraryBinding.inflate(layoutInflater)
-
-        setHasOptionsMenu(true)
         viewModel = ViewModelProvider(requireActivity() as MainActivity)[BookViewModel::class.java]
         bookAdapter = BookAdapter()
 
@@ -52,8 +45,7 @@ class LibraryFragment : Fragment() {
             updateFilters()
             withContext(Dispatchers.Main) {
                 // Execute on Main thread
-                val recyclerView = view?.findViewById<RecyclerView>(R.id.rw_library)
-                recyclerView?.adapter = bookAdapter
+                binding.rwLibrary.adapter = bookAdapter
                 viewModel.getObservableLibrary().observe(requireActivity()) {
                     bookAdapter.notifyDataSetChanged()
                 }
@@ -64,17 +56,14 @@ class LibraryFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
-        binding.chNotRead.let { notReadFilter = it.isChecked }
-        binding.chReading.let { readingFilter = it.isChecked }
-        binding.chRead.let { readFilter = it.isChecked }
-
         updateFilters()
         binding.rwLibrary.adapter = bookAdapter
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_library, container, false)
+        binding = FragmentLibraryBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -105,31 +94,20 @@ class LibraryFragment : Fragment() {
         card.setOnClickListener { findNavController().navigate(R.id.action_navigation_library_to_navigation_book_detail) }
         */
 
-        val chNotRead = view.findViewById<Chip>(R.id.ch_not_read)
-        notReadFilter = chNotRead.isChecked
-        chNotRead.setOnClickListener {
-            notReadFilter = (it as Chip).isChecked
-            updateFilters()
-        }
-
-        val chReading = view.findViewById<Chip>(R.id.ch_reading)
-        readingFilter = chReading.isChecked
-        chReading.setOnClickListener {
-            readingFilter = (it as Chip).isChecked
-            updateFilters()
-        }
-
-        val chRead = view.findViewById<Chip>(R.id.ch_read)
-        readFilter = chRead.isChecked
-        chRead.setOnClickListener {
-            readFilter = (it as Chip).isChecked
-            updateFilters()
-        }
+        binding.chNotRead.setOnClickListener { updateFilters() }
+        binding.chReading.setOnClickListener { updateFilters() }
+        binding.chRead.setOnClickListener { updateFilters() }
     }
 
     private fun updateFilters() {
         lifecycleScope.launch(Dispatchers.IO) {
-            bookAdapter.setBooks(viewModel.getFilteredLibrary(notReadFilter, readingFilter, readFilter, orderColumn, asc))
+            bookAdapter.setBooks(viewModel.getFilteredLibrary(
+                binding.chNotRead.isChecked,
+                binding.chReading.isChecked,
+                binding.chRead.isChecked,
+                orderColumn,
+                asc)
+            )
             withContext(Dispatchers.Main){
                 bookAdapter.notifyDataSetChanged()
             }
@@ -141,6 +119,7 @@ class LibraryFragment : Fragment() {
 
         inflater.inflate(R.menu.list_action_menu, menu)
         inflater.inflate(R.menu.default_action_menu, menu)
+
         // Associate searchable configuration with the SearchView
         val searchManager = requireActivity().getSystemService(Context.SEARCH_SERVICE) as SearchManager
         val searchView = menu.findItem(R.id.action_search).actionView as SearchView
