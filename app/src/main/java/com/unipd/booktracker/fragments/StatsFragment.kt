@@ -5,11 +5,17 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.unipd.booktracker.R
+import com.unipd.booktracker.databinding.FragmentStatsBinding
 
 class StatsFragment : Fragment() {
 
+    private lateinit var binding: FragmentStatsBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        binding = FragmentStatsBinding.inflate(layoutInflater)
+
         setHasOptionsMenu(true)
     }
 
