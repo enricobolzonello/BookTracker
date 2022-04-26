@@ -20,8 +20,7 @@ abstract class BookRoomDatabase : RoomDatabase() {
         private var INSTANCE: BookRoomDatabase? = null
 
         fun getDatabase(context: Context): BookRoomDatabase {
-            // if the INSTANCE is not null, then return it,
-            // if it is, then create the database
+            // if the INSTANCE is not null, then return it, if it is, then create the database
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,

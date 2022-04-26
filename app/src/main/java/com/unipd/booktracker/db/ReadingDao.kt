@@ -26,9 +26,6 @@ interface ReadingDao {
     @Query("SELECT AVG(pageDifference) FROM readings GROUP BY strftime('%Y-%m', date / 1000, 'unixepoch')")
     fun avgReadPagesByMonth() : Int
 
-    @Query("DELETE FROM readings where bookId = :bookId")
-    fun deleteBookReadings(bookId: String) : Int
-
     @Query("DELETE FROM readings")
     fun deleteReadings()
 

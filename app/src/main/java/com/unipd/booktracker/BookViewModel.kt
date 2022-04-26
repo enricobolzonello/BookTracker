@@ -121,12 +121,14 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
         val volumeInfo = volume.getJSONObject("volumeInfo")
 
         // Check if minimum required parameters are present
-        if (!(volume.has("id") && volumeInfo.has("title") && volumeInfo.has("pageCount") && volumeInfo.has("authors")))
+        if (!(volume.has("id") && volumeInfo.has("title") && volumeInfo.has("authors") && volumeInfo.has("pageCount")))
             return null
+
         val id = volume.getString("id")
         val title = volumeInfo.getString("title")
+        val mainAuthor = volumeInfo.getJSONArray("authors").get(0).toString()
         val pages = volumeInfo.getInt("pageCount")
-        val author = volumeInfo.getJSONArray("authors").get(0).toString()
+
 
         val publisher =
             if (volumeInfo.has("publisher"))
@@ -140,7 +142,7 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
             else
                 null
 
-        val category =
+        val mainCategory =
             if (volumeInfo.has("categories"))
                 volumeInfo.getJSONArray("categories").get(0).toString()
             else
@@ -177,35 +179,6 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
             }
             else
                 null
-        return Book(id, title, pages, author, publisher, isbn, category, description, date, language, thumbnail, 100)
+        return Book(id, title, mainAuthor, pages, publisher, isbn, mainCategory, description, date, language, thumbnail, 100)
     }
-
-
-    /*private fun getBookThumbnail(id: String, url: String) : String {
-        val file = File(app.applicationContext.filesDir, "$id.jpg")
-        // Cleartext HTTP traffic is not permitted, so secure url (https) is needed
-        val secureUrl = url.replaceBefore(":","https")
-        val bitmap : Bitmap
-        try {
-            bitmap = BitmapFactory.decodeStream(URL(secureUrl).openStream())
-        } catch (e: IOException) {
-            Toast.makeText(app.applicationContext,"An error occurred while connecting to Books API", Toast.LENGTH_SHORT).show()
-            return getDefaultThumbnail()
-        }
-        val stream = FileOutputStream(file)
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
-        stream.close()
-        return file.absolutePath
-    }
-
-    private fun getDefaultThumbnail(): String {
-        val file = File(app.applicationContext.filesDir, "default.jpg")
-        if (!file.exists()){
-            val bitmap = BitmapFactory.decodeResource(app.applicationContext.resources, R.drawable.default_thumbnail)
-            val stream = FileOutputStream(file)
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
-            stream.close()
-        }
-        return file.absolutePath
-    }*/
 }

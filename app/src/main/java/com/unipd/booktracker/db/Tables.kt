@@ -16,11 +16,11 @@ enum class OrderColumns {
 data class Book(
     @PrimaryKey@ColumnInfo(name = "id") val id: String,
     @ColumnInfo(name = "title") val title: String,
+    @ColumnInfo(name = "mainAuthor") val mainAuthor: String,
     @ColumnInfo(name = "pages") val pages: Int,
-    @ColumnInfo(name = "author") val author: String,
     @Nullable@ColumnInfo(name = "publisher") val publisher: String?,
     @Nullable@ColumnInfo(name = "isbn") val isbn: String?,
-    @Nullable@ColumnInfo(name = "category") val category: String?,
+    @Nullable@ColumnInfo(name = "mainCategory") val mainCategory: String?,
     @Nullable@ColumnInfo(name = "description") val description: String?,
     @Nullable@ColumnInfo(name = "publishedDate") val publishedDate: String?,
     @Nullable@ColumnInfo(name = "language") val language: String?,
@@ -39,7 +39,7 @@ data class Book(
     )]
 )
 data class Reading(
-    @PrimaryKey(autoGenerate = true) val id: Int = 0,
+    @ColumnInfo(name = "id")@PrimaryKey(autoGenerate = true) val id: Int = 0,
     @ColumnInfo(name = "bookId", index = true) val bookId: String,
     @ColumnInfo(name = "date") val date: Date,
     @ColumnInfo(name = "pageDifference") val pageDifference: Int

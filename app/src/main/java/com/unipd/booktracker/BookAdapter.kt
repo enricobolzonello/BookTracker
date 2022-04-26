@@ -1,6 +1,5 @@
 package com.unipd.booktracker
 
-import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,11 +9,11 @@ import com.unipd.booktracker.db.Book
 import com.unipd.booktracker.databinding.BookCardBinding
 import com.unipd.booktracker.fragments.LibraryFragmentDirections
 
-class BookAdapter : RecyclerView.Adapter<BookAdapter.BookViewHolder>() {
+class BookAdapter: RecyclerView.Adapter<BookAdapter.BookViewHolder>() {
 
-    private var library : List<Book> = listOf()
+    private var library: List<Book> = listOf()
 
-    fun setBooks(books : List<Book>) {
+    fun setBooks(books: List<Book>) {
         library = books
     }
 
@@ -22,7 +21,7 @@ class BookAdapter : RecyclerView.Adapter<BookAdapter.BookViewHolder>() {
     inner class BookViewHolder(private val binding: BookCardBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(book: Book) {
             binding.tvBookTitle.text = book.title
-            binding.tvBookAuthor.text = book.author
+            binding.tvBookAuthor.text = book.mainAuthor
             if (book.thumbnail == null)
                 binding.ivBookThumbnail.setBackgroundResource(R.drawable.default_thumbnail)
             else

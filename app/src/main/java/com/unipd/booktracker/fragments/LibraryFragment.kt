@@ -22,7 +22,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 
-class LibraryFragment : Fragment() {
+class LibraryFragment: Fragment() {
     private lateinit var binding: FragmentLibraryBinding
     private lateinit var viewModel: BookViewModel
     private lateinit var bookAdapter : BookAdapter

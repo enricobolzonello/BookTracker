@@ -21,7 +21,7 @@ class BookDetailFragment : Fragment() {
     private lateinit var binding: FragmentBookDetailBinding
 
     private val args: BookDetailFragmentArgs by navArgs()
-    private lateinit var book : Book
+    private lateinit var chosenBook : Book
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,22 +31,22 @@ class BookDetailFragment : Fragment() {
         lifecycleScope.launch(Dispatchers.IO) {
             // Execute on IO thread because of database requests
 
-            book = viewModel.getBook(args.bookId)
+            chosenBook = viewModel.getBook(args.bookId)
             withContext(Dispatchers.Main) {
                 // Execute on Main thread
 
-                if (book.thumbnail == null)
+                binding.tvBookTitle.text = chosenBook.title
+                binding.tvBookAuthor.text = chosenBook.mainAuthor
+                binding.tvBookPages.text = chosenBook.pages.toString()
+                binding.tvBookGenre.text = chosenBook.mainCategory ?: "-"
+                binding.tvBookLanguage.text = chosenBook.language ?: "-"
+                binding.tvBookDescription.text = chosenBook.description ?: "-"
+                binding.tvBookPublisher.text = chosenBook.publisher ?: "-"
+                binding.tvBookIsbn.text = chosenBook.isbn ?: "-"
+                if (chosenBook.thumbnail == null)
                     binding.ivBookThumbnail.setBackgroundResource(R.drawable.default_thumbnail)
                 else
-                    binding.ivBookThumbnail.setImageBitmap(book.thumbnail)
-                binding.tvBookTitle.text = book.title
-                binding.tvBookAuthor.text = book.author
-                binding.tvBookGenre.text = book.category
-                binding.tvBookLanguage.text = book.language
-                binding.tvBookPages.text = book.pages.toString()
-                binding.tvBookDescription.text = book.description
-                binding.tvBookPublisher.text = book.publisher
-                binding.tvBookIsbn.text = book.isbn
+                    binding.ivBookThumbnail.setImageBitmap(chosenBook.thumbnail)
             }
         }
     }

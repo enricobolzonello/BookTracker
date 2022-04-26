@@ -25,28 +25,28 @@ interface BookDao {
             "(SELECT * FROM books WHERE :notRead AND readPages = 0 " +
             "UNION SELECT * FROM books WHERE :reading AND (readPages > 0 AND readPages < pages) " +
             "UNION SELECT * FROM books WHERE :read AND readPages = pages)" +
-            "WHERE title LIKE '%' || :query || '%' OR author LIKE '%' || :query || '%'" +
+            "WHERE title LIKE '%' || :query || '%' OR mainAuthor LIKE '%' || :query || '%'" +
             "ORDER BY " +
             "CASE WHEN :asc THEN " +
                 "CASE WHEN :orderColumn = 'title' THEN title " +
-                "WHEN :orderColumn = 'author' THEN author END " +
+                "WHEN :orderColumn = 'author' THEN mainAuthor END " +
             "END ASC, " +
             "CASE WHEN NOT :asc THEN " +
                 "CASE WHEN :orderColumn = 'title' THEN title " +
-                "WHEN :orderColumn = 'author' THEN author END " +
+                "WHEN :orderColumn = 'author' THEN mainAuthor END " +
             "END DESC")
     fun getFilteredLibrary(query: String, notRead: Boolean, reading: Boolean, read: Boolean, orderColumn: OrderColumns, asc: Boolean): List<Book>
 
     @Query("SELECT * FROM books WHERE readPages IS NULL " +
-            "AND title LIKE '%' || :query || '%' OR author LIKE '%' || :query || '%'" +
+            "AND title LIKE '%' || :query || '%' OR mainAuthor LIKE '%' || :query || '%'" +
             "ORDER BY " +
             "CASE WHEN :asc THEN " +
                 "CASE WHEN :orderColumn = 'title' THEN title " +
-                "WHEN :orderColumn = 'author' THEN author END " +
+                "WHEN :orderColumn = 'author' THEN mainAuthor END " +
             "END ASC, " +
             "CASE WHEN NOT :asc THEN " +
                 "CASE WHEN :orderColumn = 'title' THEN title " +
-                "WHEN :orderColumn = 'author' THEN author END " +
+                "WHEN :orderColumn = 'author' THEN mainAuthor END " +
             "END DESC")
     fun getFilteredWishlist(query: String, orderColumn : OrderColumns, asc : Boolean): List<Book>
 
