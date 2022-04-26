@@ -22,7 +22,7 @@ class BookAdapter : RecyclerView.Adapter<BookAdapter.BookViewHolder>() {
         fun bind(book: Book) {
             binding.tvBookTitle.text = book.title
             binding.tvBookAuthor.text = book.author
-            binding.ivBookThumbnail.setImageBitmap(BitmapFactory.decodeFile(book.thumbnailPath))
+            binding.ivBookThumbnail.setImageBitmap(book.thumbnail)
             if (book.readPages == null)
                 binding.pbRead.visibility = View.GONE
             else {

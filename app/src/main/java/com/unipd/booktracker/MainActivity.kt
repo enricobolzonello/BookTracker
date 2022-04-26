@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.unipd.booktracker.databinding.ActivityMainBinding
@@ -11,13 +13,14 @@ import com.unipd.booktracker.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
     private val viewModel : BookViewModel by viewModels()
     private lateinit var binding : ActivityMainBinding
+    private lateinit var navController : NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val navController = (binding.navHostFragment.getFragment() as NavHostFragment).navController
+        navController = (binding.navHostFragment.getFragment() as NavHostFragment).navController
         NavigationUI.setupWithNavController(binding.navView, navController)
 
         navController.addOnDestinationChangedListener { _, destination, _ ->

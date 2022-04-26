@@ -1,5 +1,6 @@
 package com.unipd.booktracker.db
 
+import android.graphics.Bitmap
 import androidx.annotation.Nullable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
@@ -23,7 +24,7 @@ data class Book(
     @ColumnInfo(name = "description") val description: String,
     @ColumnInfo(name = "publishedDate") val publishedDate: String,
     @ColumnInfo(name = "language") val language: String,
-    @ColumnInfo(name = "thumbnailPath") val thumbnailPath: String,
+    @ColumnInfo(name = "thumbnail", typeAffinity = ColumnInfo.BLOB) val thumbnail: Bitmap? = null,
     @Nullable@ColumnInfo(name = "readPages") val readPages: Int? = null
 )
 

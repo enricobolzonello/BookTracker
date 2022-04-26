@@ -9,6 +9,9 @@ interface BookDao {
     @Insert(onConflict = OnConflictStrategy.ABORT)
     suspend fun insert(book: Book)
 
+    @Query("SELECT * FROM books WHERE id = :bookId")
+    fun getBook(bookId: String): Book
+
     @Query("SELECT * FROM books WHERE readPages IS NOT NULL")
     fun getObservableLibrary(): LiveData<List<Book>>
 
