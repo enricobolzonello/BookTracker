@@ -24,6 +24,7 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
 
     private val bookDatabase : BookRoomDatabase = BookRoomDatabase.getDatabase(application.applicationContext)
     private val bookDao : BookDao = bookDatabase.bookDao()
+    private val readingDao : ReadingDao = bookDatabase.readingDao()
 
     fun getObservableLibrary() : LiveData<List<Book>> {
         return bookDao.getObservableLibrary()
@@ -133,7 +134,7 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
                 getBookThumbnail(id, volumeInfo.getJSONObject("imageLinks").getString("thumbnail"))
             else
                 getDefaultThumbnail()
-        return Book(id, title, pages, author, publisher, isbn, category, description, date, language, thumbnailPath,0)
+        return Book(id, title, pages, author, publisher, isbn, category, description, date, language, thumbnailPath, 100)
     }
 
 
