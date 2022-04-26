@@ -96,15 +96,6 @@ class LibraryFragment : Fragment() {
             }
         })
 
-        /*
-
-        Attempt to invoke virtual method 'void com.google.android.material.card.MaterialCardView.setOnClickListener(android.view.View$OnClickListener)' on a null object reference
-
-        // tapping card gets to fragment_book_detail
-        val card = view.findViewById<MaterialCardView>(R.id.cv_book)
-        card.setOnClickListener { findNavController().navigate(R.id.action_navigation_library_to_navigation_book_detail) }
-        */
-
         val chNotRead = view.findViewById<Chip>(R.id.ch_not_read)
         notReadFilter = chNotRead.isChecked
         chNotRead.setOnClickListener {
@@ -127,7 +118,7 @@ class LibraryFragment : Fragment() {
         }
     }
 
-    private fun updateFilters() {
+    fun updateFilters() {
         lifecycleScope.launch(Dispatchers.IO) {
             bookAdapter.setBooks(viewModel.getFilteredLibrary(notReadFilter, readingFilter, readFilter, orderColumn, asc))
             withContext(Dispatchers.Main){

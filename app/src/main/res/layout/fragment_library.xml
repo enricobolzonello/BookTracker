@@ -1,78 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".fragments.LibraryFragment">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <LinearLayout
+    <data>
+        <variable
+            name="libraryFragment"
+            type="com.unipd.booktracker.fragments.LibraryFragment" />
+    </data>
+
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        tools:context=".fragments.LibraryFragment">
 
         <LinearLayout
-            android:id="@+id/ch_group"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="3">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <com.google.android.material.chip.Chip
-                android:id="@+id/ch_not_read"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/ch_group"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginHorizontal="@dimen/text_margin"
-                style="@style/Widget.MaterialComponents.Chip.Filter"
-                android:checked="true"
-                android:text="@string/filter_not_read"
-                android:textAlignment="center"/>
+                android:orientation="horizontal"
+                android:weightSum="3">
 
-            <com.google.android.material.chip.Chip
-                android:id="@+id/ch_reading"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginHorizontal="@dimen/text_margin"
-                style="@style/Widget.MaterialComponents.Chip.Filter"
-                android:checked="true"
-                android:text="@string/filter_reading"
-                android:textAlignment="center"/>
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/ch_not_read"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
+                    android:onCheckedChanged="@{() -> libraryFragment.updateFilters()}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/text_margin"
+                    android:layout_weight="1"
+                    android:checked="true"
+                    android:text="@string/filter_not_read"
+                    android:textAlignment="center" />
 
-            <com.google.android.material.chip.Chip
-                android:id="@+id/ch_read"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/ch_reading"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
+                    android:onCheckedChanged="@{() -> libraryFragment.updateFilters()}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/text_margin"
+                    android:layout_weight="1"
+                    android:checked="true"
+                    android:text="@string/filter_reading"
+                    android:textAlignment="center" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/ch_read"
+                    android:onCheckedChanged="@{() -> libraryFragment.updateFilters()}"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/text_margin"
+                    android:layout_weight="1"
+                    android:checked="true"
+                    android:text="@string/filter_read"
+                    android:textAlignment="center" />
+
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rw_library"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
                 android:layout_weight="1"
-                android:layout_marginHorizontal="@dimen/text_margin"
-                style="@style/Widget.MaterialComponents.Chip.Filter"
-                android:checked="true"
-                android:text="@string/filter_read"
-                android:textAlignment="center"/>
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/book_card" />
 
         </LinearLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rw_library"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            tools:listitem="@layout/book_card"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_marginEnd="@dimen/content_margin"
+            android:layout_marginBottom="@dimen/content_margin"
+            android:contentDescription="@string/app_name"
+            android:elevation="@dimen/elevation"
+            android:text="@string/fab_action"
+            app:icon="@drawable/ic_baseline_add_24" />
 
-    </LinearLayout>
+    </FrameLayout>
+</layout>
 
-    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/content_margin"
-        android:layout_marginEnd="@dimen/content_margin"
-        android:contentDescription="@string/app_name"
-        android:elevation="@dimen/elevation"
-        android:text="@string/fab_action"
-        app:icon="@drawable/ic_baseline_add_24"
-        android:layout_gravity="bottom|end"/>
-
-</FrameLayout>
+    <!-- android:onClick="@{() -> function()}"  change function when implemented -->
