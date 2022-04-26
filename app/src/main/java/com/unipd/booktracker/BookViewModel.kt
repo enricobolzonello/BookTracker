@@ -16,13 +16,17 @@ import java.io.FileOutputStream
 import java.io.IOException
 import java.net.URL
 import androidx.room.*
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.ZonedDateTime
+import java.util.*
 
 class BookViewModel(application: Application) : AndroidViewModel(application) {
 
     // The application context is only used to save file in the app-specific directory and show toasts
-    private val context = getApplication<Application>()
+    private val app = application
 
-    private val bookDatabase : BookRoomDatabase = BookRoomDatabase.getDatabase(application.applicationContext)
+    private val bookDatabase : BookRoomDatabase = BookRoomDatabase.getDatabase(app.applicationContext)
     private val bookDao : BookDao = bookDatabase.bookDao()
     private val readingDao : ReadingDao = bookDatabase.readingDao()
 
@@ -39,20 +43,25 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
         reading: Boolean = true,
         read: Boolean = true,
         orderColumn: OrderColumns = OrderColumns.title,
-        asc: Boolean = true)
-    : List<Book> {
+        asc: Boolean = true
+    ) : List<Book> {
         return bookDao.getFilteredLibrary(notRead, reading, read, orderColumn, asc)
     }
 
     fun getFilteredWishlist(
         orderColumn: OrderColumns = OrderColumns.title,
-        asc: Boolean = true)
-    : List<Book> {
+        asc: Boolean = true
+    ) : List<Book> {
         return bookDao.getFilteredWishlist(orderColumn, asc)
     }
 
     fun addBook(book : Book) = viewModelScope.launch {
         bookDao.insert(book)
+    }
+
+    fun addReadPages(book : Book, pages : Int) = viewModelScope.launch {
+        readingDao.insert(Reading(bookId = book.id, date = Date(), pageDifference = pages))
+        readingDao.updateReadPages(book.id)
     }
 
     fun librarySize() : Int {
@@ -78,7 +87,7 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
         try {
             response = URL(url).readText()
         } catch (e: IOException) {
-            Toast.makeText(context,"An error occurred while connecting to Books API", Toast.LENGTH_SHORT).show()
+            Toast.makeText(app.applicationContext,"An error occurred while connecting to Books API", Toast.LENGTH_SHORT).show()
             return books
         }
 
@@ -99,7 +108,7 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
         try {
             response = URL(url).readText()
         } catch (e: IOException) {
-            Toast.makeText(context,"An error occurred while connecting to Books API", Toast.LENGTH_SHORT).show()
+            Toast.makeText(app.applicationContext,"An error occurred while connecting to Books API", Toast.LENGTH_SHORT).show()
             return null
         }
         val volume = JSONObject(response)
@@ -139,14 +148,14 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
 
 
     private fun getBookThumbnail(id: String, url: String) : String {
-        val file = File(context.filesDir, "$id.jpg")
+        val file = File(app.applicationContext.filesDir, "$id.jpg")
         // Cleartext HTTP traffic is not permitted, so secure url (https) is needed
         val secureUrl = url.replaceBefore(":","https")
         val bitmap : Bitmap
         try {
             bitmap = BitmapFactory.decodeStream(URL(secureUrl).openStream())
         } catch (e: IOException) {
-            Toast.makeText(context,"An error occurred while connecting to Books API", Toast.LENGTH_SHORT).show()
+            Toast.makeText(app.applicationContext,"An error occurred while connecting to Books API", Toast.LENGTH_SHORT).show()
             return getDefaultThumbnail()
         }
         val stream = FileOutputStream(file)
@@ -156,9 +165,9 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     private fun getDefaultThumbnail(): String {
-        val file = File(context.filesDir, "default.jpg")
+        val file = File(app.applicationContext.filesDir, "default.jpg")
         if (!file.exists()){
-            val bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.default_thumbnail)
+            val bitmap = BitmapFactory.decodeResource(app.applicationContext.resources, R.drawable.default_thumbnail)
             val stream = FileOutputStream(file)
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
             stream.close()
