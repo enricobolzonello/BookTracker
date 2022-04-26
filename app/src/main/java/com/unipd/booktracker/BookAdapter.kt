@@ -8,6 +8,7 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.unipd.booktracker.db.Book
 import com.unipd.booktracker.databinding.BookCardBinding
+import com.unipd.booktracker.fragments.LibraryFragmentDirections
 
 class BookAdapter : RecyclerView.Adapter<BookAdapter.BookViewHolder>() {
 
@@ -22,16 +23,18 @@ class BookAdapter : RecyclerView.Adapter<BookAdapter.BookViewHolder>() {
         fun bind(book: Book) {
             binding.tvBookTitle.text = book.title
             binding.tvBookAuthor.text = book.author
-            binding.ivBookThumbnail.setImageBitmap(book.thumbnail)
+            if (book.thumbnail == null)
+                binding.ivBookThumbnail.setBackgroundResource(R.drawable.default_thumbnail)
+            else
+                binding.ivBookThumbnail.setImageBitmap(book.thumbnail)
             if (book.readPages == null)
                 binding.pbRead.visibility = View.GONE
-            else {
+            else
                 binding.pbRead.progress = (book.readPages.toDouble() / book.pages.toDouble() * 100).toInt()
-            }
 
             binding.cvBook.setOnClickListener {
-                //TODO: put safeArgs
-                binding.root.findNavController().navigate(R.id.navigation_book_detail)
+                val action = LibraryFragmentDirections.actionNavigationLibraryToNavigationBookDetail(book.id)
+                binding.root.findNavController().navigate(action)
             }
         }
     }

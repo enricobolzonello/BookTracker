@@ -3,7 +3,9 @@
     <dimen name="content_margin">10dp</dimen>
     <dimen name="text_margin">5dp</dimen>
     <dimen name="card_elevation">10dp</dimen>
+    <dimen name="elevation">1dp</dimen>
     <dimen name="thumb_prev_height">100dp</dimen>
     <dimen name="thumb_prev_width">64dp</dimen>
-    <dimen name="elevation">1dp</dimen>
+    <dimen name="thumb_height">300dp</dimen>
+    <dimen name="thumb_width">192dp</dimen>
 </resources>

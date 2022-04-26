@@ -12,10 +12,10 @@
         tools:layout="@layout/fragment_library">
         <action
             android:id="@+id/action_navigation_library_to_navigation_settings"
-            app:destination="@id/navigation_settings" />
+            app:destination="@id/navigation_settings"/>
         <action
             android:id="@+id/action_navigation_library_to_navigation_book_detail"
-            app:destination="@id/navigation_book_detail" />
+            app:destination="@id/navigation_book_detail"/>
     </fragment>
     <fragment
         android:id="@+id/navigation_wishlist"
@@ -41,7 +41,12 @@
     <fragment
         android:id="@+id/navigation_book_detail"
         android:name="com.unipd.booktracker.fragments.BookDetailFragment"
-        tools:layout="@layout/fragment_book_detail" />
+        tools:layout="@layout/fragment_book_detail">
+        <argument
+            android:name="bookId"
+            app:argType="string"/>
+    </fragment>
+
     <fragment
         android:id="@+id/navigation_settings"
         android:name="com.unipd.booktracker.fragments.SettingsFragment"
