@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.unipd.booktracker.*
+import com.unipd.booktracker.databinding.FragmentLibraryBinding
 import com.unipd.booktracker.db.OrderColumns
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -26,6 +27,7 @@ import kotlinx.coroutines.withContext
 
 
 class LibraryFragment : Fragment() {
+    private lateinit var binding: FragmentLibraryBinding
     private lateinit var viewModel: BookViewModel
     private lateinit var bookAdapter : BookAdapter
     private var readFilter = false
@@ -36,6 +38,8 @@ class LibraryFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        binding = FragmentLibraryBinding.inflate(layoutInflater)
 
         setHasOptionsMenu(true)
         viewModel = ViewModelProvider(requireActivity() as MainActivity)[BookViewModel::class.java]
@@ -60,16 +64,12 @@ class LibraryFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
-        val chNotRead = view?.findViewById<Chip>(R.id.ch_not_read)
-        chNotRead?.let { notReadFilter = it.isChecked }
-        val chReading = view?.findViewById<Chip>(R.id.ch_reading)
-        chReading?.let { readingFilter = it.isChecked }
-        val chRead = view?.findViewById<Chip>(R.id.ch_read)
-        chRead?.let { readFilter = it.isChecked }
+        binding.chNotRead.let { notReadFilter = it.isChecked }
+        binding.chReading.let { readingFilter = it.isChecked }
+        binding.chRead.let { readFilter = it.isChecked }
 
-        val rwLibrary = view?.findViewById<RecyclerView>(R.id.rw_library)
         updateFilters()
-        rwLibrary?.let { it.adapter = bookAdapter }
+        binding.rwLibrary.adapter = bookAdapter
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -80,21 +80,18 @@ class LibraryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val fab = view.findViewById<ExtendedFloatingActionButton>(R.id.fab)
-        val rwLibrary = view.findViewById<RecyclerView>(R.id.rw_library)
-
         // Set appropriate padding to recycler view's bottom, otherwise fab will cover the last item
-        fab.measure(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT)
-        rwLibrary.setPadding(0,0,0,fab.measuredHeight + fab.marginBottom)
-        rwLibrary.clipToPadding = false
+        binding.fab.measure(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT)
+        binding.rwLibrary.setPadding(0,0,0,binding.fab.measuredHeight + binding.fab.marginBottom)
+        binding.rwLibrary.clipToPadding = false
 
         // Extend and reduce FAB on scroll
-        rwLibrary.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        binding.rwLibrary.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 if (!recyclerView.canScrollVertically(-1))
-                    fab.extend()
+                    binding.fab.extend()
                 else
-                    fab.shrink()
+                    binding.fab.shrink()
                 super.onScrollStateChanged(recyclerView, newState)
             }
         })

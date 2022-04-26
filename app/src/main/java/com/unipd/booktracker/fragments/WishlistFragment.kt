@@ -8,11 +8,16 @@ import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.unipd.booktracker.R
+import com.unipd.booktracker.databinding.FragmentWishlistBinding
 
 class WishlistFragment : Fragment() {
+    private lateinit var binding: FragmentWishlistBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        binding = FragmentWishlistBinding.inflate(layoutInflater)
+
         setHasOptionsMenu(true)
     }
 

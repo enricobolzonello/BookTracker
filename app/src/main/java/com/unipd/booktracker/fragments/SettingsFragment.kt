@@ -4,8 +4,11 @@ import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import com.unipd.booktracker.R
+import com.unipd.booktracker.databinding.FragmentSettingsBinding
 
 class SettingsFragment : Fragment() {
+
+    private lateinit var binding: FragmentSettingsBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
