@@ -11,14 +11,24 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/iv_book_thumbnail"
-            android:layout_width="@dimen/thumb_width"
-            android:layout_height="@dimen/thumb_height"
-            android:layout_gravity="center_horizontal"
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardElevation="@dimen/elevation"
             android:layout_margin="@dimen/content_margin"
-            android:contentDescription="@string/thumb_description"
-            android:src="@drawable/default_thumbnail" />
+            app:contentPadding="@dimen/content_margin"
+            android:layout_gravity="center_horizontal">
+
+            <ImageView
+                android:id="@+id/iv_book_thumbnail"
+                android:layout_width="@dimen/thumb_width"
+                android:layout_height="@dimen/thumb_height"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="@dimen/content_margin"
+                android:contentDescription="@string/thumb_description"
+                android:src="@drawable/default_thumbnail" />
+
+        </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
@@ -40,9 +50,9 @@
                 android:maxLines="3"
                 android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"
                 android:text="@string/title_placeholder"
+                android:textAlignment="center"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="5dp"
-                />
+                android:layout_marginBottom="5dp" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tv_book_author"
@@ -163,6 +173,7 @@
             android:text="@string/bd_description"/>
 
         </LinearLayout>
+
     </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
@@ -226,4 +237,5 @@
         </com.google.android.material.card.MaterialCardView>
 
     </LinearLayout>
+
 </ScrollView>

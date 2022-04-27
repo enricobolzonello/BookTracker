@@ -5,6 +5,7 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.FrameLayout
@@ -23,6 +24,7 @@ import com.unipd.booktracker.BookViewModel
 import com.unipd.booktracker.MainActivity
 import com.unipd.booktracker.R
 import com.unipd.booktracker.databinding.FragmentLibraryBinding
+import com.unipd.booktracker.db.Book
 import com.unipd.booktracker.db.OrderColumns
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -45,13 +47,15 @@ class LibraryFragment: Fragment() {
         binding = FragmentLibraryBinding.inflate(layoutInflater)
         viewModel = ViewModelProvider(requireActivity() as MainActivity)[BookViewModel::class.java]
         bookAdapter = BookAdapter(this)
+        binding.rwLibrary.adapter = bookAdapter
 
         lifecycleScope.launch(Dispatchers.IO) {
             // Execute on IO thread because of network and database requests
+            if (viewModel.librarySize() == 0)
+                viewModel.addBooks(viewModel.getBooksFromQuery("fiori"))
             updateFilters()
             withContext(Dispatchers.Main) {
                 // Execute on Main thread
-                binding.rwLibrary.adapter = bookAdapter
                 viewModel.getObservableLibrary().observe(requireActivity()) {
                     bookAdapter.notifyDataSetChanged()
                 }
@@ -187,6 +191,30 @@ class LibraryFragment: Fragment() {
                         }
                         R.id.action_byAuthorDesc -> {
                             orderColumn = OrderColumns.author
+                            asc = false
+                            updateFilters()
+                            true
+                        }
+                        R.id.action_byYearAsc -> {
+                            orderColumn = OrderColumns.year
+                            asc = true
+                            updateFilters()
+                            true
+                        }
+                        R.id.action_byYearDesc -> {
+                            orderColumn = OrderColumns.year
+                            asc = false
+                            updateFilters()
+                            true
+                        }
+                        R.id.action_byReadProgressAsc -> {
+                            orderColumn = OrderColumns.progress
+                            asc = true
+                            updateFilters()
+                            true
+                        }
+                        R.id.action_byReadProgressDesc -> {
+                            orderColumn = OrderColumns.progress
                             asc = false
                             updateFilters()
                             true

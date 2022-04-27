@@ -3,11 +3,15 @@ package com.unipd.booktracker.db
 import androidx.lifecycle.LiveData
 import androidx.room.*
 
+
 @Dao
 interface BookDao {
 
     @Insert(onConflict = OnConflictStrategy.ABORT)
     suspend fun insert(book: Book)
+
+    @Insert(onConflict = OnConflictStrategy.ABORT)
+    fun insert(books: List<Book>)
 
     @Query("SELECT * FROM books WHERE id = :bookId")
     fun getBook(bookId: String): Book
@@ -28,12 +32,20 @@ interface BookDao {
             "WHERE title LIKE '%' || :query || '%' OR mainAuthor LIKE '%' || :query || '%'" +
             "ORDER BY " +
             "CASE WHEN :asc THEN " +
-                "CASE WHEN :orderColumn = 'title' THEN title " +
-                "WHEN :orderColumn = 'author' THEN mainAuthor END " +
+                "CASE " +
+                    "WHEN :orderColumn = 'title' THEN title " +
+                    "WHEN :orderColumn = 'author' THEN mainAuthor " +
+                    "WHEN :orderColumn = 'year' THEN year " +
+                    "WHEN :orderColumn = 'progress' THEN (CAST(readPages AS float) / CAST(pages AS FLOAT)) " +
+                "END " +
             "END ASC, " +
             "CASE WHEN NOT :asc THEN " +
-                "CASE WHEN :orderColumn = 'title' THEN title " +
-                "WHEN :orderColumn = 'author' THEN mainAuthor END " +
+                "CASE " +
+                    "WHEN :orderColumn = 'title' THEN title " +
+                    "WHEN :orderColumn = 'author' THEN mainAuthor " +
+                    "WHEN :orderColumn = 'year' THEN year " +
+                    "WHEN :orderColumn = 'progress' THEN (CAST(readPages AS float) / CAST(pages AS FLOAT)) " +
+                "END " +
             "END DESC")
     fun getFilteredLibrary(query: String, notRead: Boolean, reading: Boolean, read: Boolean, orderColumn: OrderColumns, asc: Boolean): List<Book>
 
@@ -41,12 +53,18 @@ interface BookDao {
             "AND title LIKE '%' || :query || '%' OR mainAuthor LIKE '%' || :query || '%'" +
             "ORDER BY " +
             "CASE WHEN :asc THEN " +
-                "CASE WHEN :orderColumn = 'title' THEN title " +
-                "WHEN :orderColumn = 'author' THEN mainAuthor END " +
+                "CASE " +
+                    "WHEN :orderColumn = 'title' THEN title " +
+                    "WHEN :orderColumn = 'author' THEN mainAuthor " +
+                    "WHEN :orderColumn = 'year' THEN year " +
+                "END " +
             "END ASC, " +
             "CASE WHEN NOT :asc THEN " +
-                "CASE WHEN :orderColumn = 'title' THEN title " +
-                "WHEN :orderColumn = 'author' THEN mainAuthor END " +
+                "CASE " +
+                    "WHEN :orderColumn = 'title' THEN title " +
+                    "WHEN :orderColumn = 'author' THEN mainAuthor " +
+                    "WHEN :orderColumn = 'year' THEN year " +
+                "END " +
             "END DESC")
     fun getFilteredWishlist(query: String, orderColumn : OrderColumns, asc : Boolean): List<Book>
 

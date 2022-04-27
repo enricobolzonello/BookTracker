@@ -22,6 +22,10 @@
     <string name="sort_byTitleDesc">Per Titolo (Z-A)</string>
     <string name="sort_byAuthorAsc">Per Autore (A-Z)</string>
     <string name="sort_byAuthorDesc">Per Autore (Z-A)</string>
+    <string name="sort_byYearAsc">Per Anno Crescente</string>
+    <string name="sort_byYearDesc">Per Autore Decrescente</string>
+    <string name="sort_byReadProgressAsc">Per Progresso lettura Crescente</string>
+    <string name="sort_byReadProgressDesc">Per Progresso lettura Crescente</string>
     <string name="genres_placeholder">Genere</string>
     <string name="bd_language_title">Lingua</string>
     <string name="bd_language">IT</string>
