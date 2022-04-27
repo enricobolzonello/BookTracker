@@ -140,7 +140,7 @@ class LibraryFragment: Fragment() {
             }
         })
 
-        searchView.setOnCloseListener (object : SearchView.OnCloseListener {
+        searchView.setOnCloseListener(object : SearchView.OnCloseListener {
             override fun onClose(): Boolean {
                 query = ""
                 return false

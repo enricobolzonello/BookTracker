@@ -1,25 +1,21 @@
 package com.unipd.booktracker
 
 import android.app.Application
-import android.graphics.Bitmap
+import android.content.ComponentName
+import android.content.pm.ApplicationInfo
+import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
 import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.*
+import androidx.room.*
 import com.unipd.booktracker.db.*
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import org.json.JSONObject
-import java.io.File
-import java.io.FileOutputStream
 import java.io.IOException
 import java.net.URL
-import androidx.room.*
-import java.time.LocalDateTime
-import java.time.ZoneId
-import java.time.ZonedDateTime
 import java.util.*
+
 
 class BookViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -86,9 +82,20 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
         bookDao.deleteWishlistBooks()
     }
 
+    private fun getApiKey(): String? {
+        val appInfo = app.packageManager.getApplicationInfo(app.packageName, PackageManager.GET_META_DATA)
+        val bundle = appInfo.metaData
+        return bundle.getString("google.books.key")
+    }
+
     fun getBooksFromQuery(query : String) : List<Book> {
         val books : MutableList<Book> = mutableListOf()
-        val url = "https://www.googleapis.com/books/v1/volumes?key=AIzaSyAXQ5xBUTifutFOr7ucRNUicUqmO_kTv_g&q=$query"
+        val key = getApiKey()
+        if (key == null) {
+            Toast.makeText(app.applicationContext,"An error occurred while connecting to Books API", Toast.LENGTH_SHORT).show()
+            return books
+        }
+        val url = "https://www.googleapis.com/books/v1/volumes?key=$key&q=$query"
         val response: String
         try {
             response = URL(url).readText()

@@ -21,5 +21,8 @@
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable"/>
         </activity>
+        <meta-data
+            android:name="google.books.key"
+            android:value="AIzaSyAXQ5xBUTifutFOr7ucRNUicUqmO_kTv_g"/>
     </application>
 </manifest>
