@@ -7,12 +7,12 @@
         android:summary="Questa è una preferenza random" />
 
     <CheckBoxPreference
-        android:key="checkbox_key"
+        android:key="checkbox_preference_key"
         android:title="@string/preference"
         android:summary="Questa è una preference random con checkbox"/>
 
     <SwitchPreferenceCompat
-        android:key="switch_key"
+        android:key="switch_preference_key"
         android:title="@string/preference"
         android:summary="Questa è una preference random con switch"/>
 
@@ -23,10 +23,33 @@
         android:entryValues="@array/theme_spinner_array"/>
 
     <SeekBarPreference
-        android:key="seekbar_key"
+        android:key="seekbar_preference_key"
         android:title="@string/preference"
         android:max="10"
         android:defaultValue="5" />
+
+    <EditTextPreference
+        android:key="edittext_preference_key"
+        android:title="Some input"
+        android:dialogTitle="This is the title"/>
+
+    <PreferenceCategory
+        android:title="Preference con liste">
+
+        <ListPreference
+            android:key="list_preference_key"
+            android:title="Some list"
+            android:entries="@array/entries_preference_array"
+            android:entryValues="@array/entries_preference_array" />
+
+        <MultiSelectListPreference
+            android:key="multi_select_list_preference_key"
+            android:title="Some multi select list"
+            android:summary="This is a summary"
+            android:entries="@array/entries_preference_array"
+            android:entryValues="@array/entries_preference_array"/>
+
+    </PreferenceCategory>
 
 
 </androidx.preference.PreferenceScreen>
