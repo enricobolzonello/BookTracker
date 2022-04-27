@@ -26,6 +26,8 @@ class LibraryFragment: Fragment() {
     private lateinit var binding: FragmentLibraryBinding
     private lateinit var viewModel: BookViewModel
     private lateinit var bookAdapter : BookAdapter
+
+    private var query = ""
     private var orderColumn = OrderColumns.title
     private var asc = true
 
@@ -90,7 +92,7 @@ class LibraryFragment: Fragment() {
         })
     }
 
-    private fun updateFilters(query : String = "") {
+    private fun updateFilters() {
         lifecycleScope.launch(Dispatchers.IO) {
             bookAdapter.setBooks(viewModel.getFilteredLibrary(
                 query,
@@ -118,18 +120,30 @@ class LibraryFragment: Fragment() {
         searchView.apply {
             setSearchableInfo(searchManager.getSearchableInfo(requireActivity().componentName))
         }
+
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String): Boolean {
+            override fun onQueryTextSubmit(submittedText: String): Boolean {
                 // Hiding the keyboard after typing has ended
                 val imm = searchView.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                 imm.hideSoftInputFromWindow(searchView.windowToken, 0)
                 searchView.clearFocus()
+
+                query = submittedText
+                updateFilters()
                 return true
             }
 
             override fun onQueryTextChange(newText: String): Boolean {
-                updateFilters(newText)
+                query = newText
+                updateFilters()
                 return true
+            }
+        })
+
+        searchView.setOnCloseListener (object : SearchView.OnCloseListener {
+            override fun onClose(): Boolean {
+                query = ""
+                return false
             }
         })
     }
