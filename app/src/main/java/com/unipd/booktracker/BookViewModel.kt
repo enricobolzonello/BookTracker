@@ -88,7 +88,7 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
         val books : MutableList<Book> = mutableListOf()
         val key = getApiKey()
         if (key == null) {
-            Toast.makeText(app.applicationContext,"An error occurred while connecting to Books API", Toast.LENGTH_SHORT).show()
+            Toast.makeText(app.applicationContext, app.getString(R.string.books_api_error), Toast.LENGTH_SHORT).show()
             return books
         }
         val url = "https://www.googleapis.com/books/v1/volumes?key=$key&q=$query"
@@ -96,7 +96,7 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
         try {
             response = URL(url).readText()
         } catch (e: IOException) {
-            Toast.makeText(app.applicationContext,"An error occurred while connecting to Books API", Toast.LENGTH_SHORT).show()
+            Toast.makeText(app.applicationContext, app.getString(R.string.books_api_error), Toast.LENGTH_SHORT).show()
             return books
         }
 
@@ -116,7 +116,7 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
         try {
             response = URL(url).readText()
         } catch (e: IOException) {
-            Toast.makeText(app.applicationContext,"An error occurred while connecting to Books API", Toast.LENGTH_SHORT).show()
+            Toast.makeText(app.applicationContext, app.getString(R.string.books_api_error), Toast.LENGTH_SHORT).show()
             return null
         }
         val volume = JSONObject(response)

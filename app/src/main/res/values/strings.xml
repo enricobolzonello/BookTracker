@@ -34,6 +34,8 @@
     <string name="bd_isbn_title">ISBN</string>
     <string name="bd_isbn">000000000000000</string>
     <string name="add_book_hint">Cerca libro</string>
+    <string name="network_errror">Per favore controlla che la connessione di rete sia attiva</string>
+    <string name="books_api_error">Si è verificato un errore durante la connessione a Books API</string>
     <string name="settings_theme">Tema dell\'app</string>
     <string name="preference">Preferenza random</string>
     <string-array name="theme_spinner_array">

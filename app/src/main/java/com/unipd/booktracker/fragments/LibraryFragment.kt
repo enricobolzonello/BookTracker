@@ -2,20 +2,26 @@ package com.unipd.booktracker.fragments
 
 import android.app.SearchManager
 import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.os.Bundle
 import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.FrameLayout
+import android.widget.Toast
 import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.SearchView
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.view.marginBottom
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.unipd.booktracker.*
+import com.unipd.booktracker.BookAdapter
+import com.unipd.booktracker.BookViewModel
+import com.unipd.booktracker.MainActivity
+import com.unipd.booktracker.R
 import com.unipd.booktracker.databinding.FragmentLibraryBinding
 import com.unipd.booktracker.db.OrderColumns
 import kotlinx.coroutines.Dispatchers
@@ -88,8 +94,12 @@ class LibraryFragment: Fragment() {
         })
 
         binding.fab.setOnClickListener {
-            val dialog = AddDialogFragment()
-            dialog.show(childFragmentManager, R.string.title_add_book.toString())
+            if (!isNetworkAvailable())
+                Toast.makeText(requireActivity(),getString(R.string.network_errror), Toast.LENGTH_SHORT).show()
+            else {
+                val dialog = AddDialogFragment()
+                dialog.show(childFragmentManager, getString(R.string.title_add_book))
+            }
         }
     }
 
@@ -125,20 +135,15 @@ class LibraryFragment: Fragment() {
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(submittedText: String): Boolean {
-                // Hiding the keyboard after typing has ended
-                val imm = searchView.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                imm.hideSoftInputFromWindow(searchView.windowToken, 0)
-                searchView.clearFocus()
-
                 query = submittedText
                 updateFilters()
-                return true
+                return false
             }
 
             override fun onQueryTextChange(newText: String): Boolean {
                 query = newText
                 updateFilters()
-                return true
+                return false
             }
         })
 
@@ -199,5 +204,14 @@ class LibraryFragment: Fragment() {
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun isNetworkAvailable(): Boolean {
+        val connectivityManager = requireActivity().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetwork = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+        return activeNetwork != null && (
+                activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
+                activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)
+        )
     }
 }
