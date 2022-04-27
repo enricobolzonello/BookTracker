@@ -3,12 +3,13 @@ package com.unipd.booktracker.fragments
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
+import androidx.preference.PreferenceFragmentCompat
 import com.unipd.booktracker.R
 import com.unipd.booktracker.databinding.FragmentBookDetailBinding
 import com.unipd.booktracker.databinding.FragmentLibraryBinding
 import com.unipd.booktracker.databinding.FragmentSettingsBinding
 
-class SettingsFragment : Fragment() {
+class SettingsFragment : PreferenceFragmentCompat() {
 
     // https://developer.android.com/guide/topics/ui/settings <-- guida per la pagina delle impostazioni
     private lateinit var binding: FragmentSettingsBinding
@@ -23,5 +24,9 @@ class SettingsFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentSettingsBinding.inflate(inflater, container, false)
         return binding.root
+    }
+
+    override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+        setPreferencesFromResource(R.xml.preference_settings, rootKey)
     }
 }

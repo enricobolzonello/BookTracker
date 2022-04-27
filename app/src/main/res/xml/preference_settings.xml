@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
+    //https://medium.com/google-developer-experts/exploring-android-jetpack-preferences-8bcb0b7bdd14
+
     <Preference
         android:key="preference_key"
         android:title="@string/preference"
