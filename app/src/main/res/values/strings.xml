@@ -25,7 +25,7 @@
     <string name="sort_byYearAsc">Per Anno Crescente</string>
     <string name="sort_byYearDesc">Per Autore Decrescente</string>
     <string name="sort_byReadProgressAsc">Per Progresso lettura Crescente</string>
-    <string name="sort_byReadProgressDesc">Per Progresso lettura Crescente</string>
+    <string name="sort_byReadProgressDesc">Per Progresso lettura Decrescente</string>
     <string name="genres_placeholder">Genere</string>
     <string name="bd_language_title">Lingua</string>
     <string name="bd_language">IT</string>
