@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <Preference
+        android:key="preference_key"
+        android:title="@string/preference"
+        android:summary="Questa è una preferenza random" />
+
+    <CheckBoxPreference
+        android:key="checkbox_key"
+        android:title="@string/preference"
+        android:summary="Questa è una preference random con checkbox"/>
+
+    <SwitchPreferenceCompat
+        android:key="switch_key"
+        android:title="@string/preference"
+        android:summary="Questa è una preference random con switch"/>
+
+    <DropDownPreference
+        android:key="theme_preference_key"
+        android:title="@string/settings_theme"
+        android:entries="@array/theme_spinner_array"
+        android:entryValues="@array/theme_spinner_array"/>
+
+    <SeekBarPreference
+        android:key="seekbar_key"
+        android:title="@string/preference"
+        android:max="10"
+        android:defaultValue="5" />
+
+
+</androidx.preference.PreferenceScreen>

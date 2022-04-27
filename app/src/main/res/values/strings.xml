@@ -35,6 +35,7 @@
     <string name="bd_isbn">000000000000000</string>
     <string name="add_book_hint">Cerca libro</string>
     <string name="settings_theme">Tema dell\'app</string>
+    <string name="preference">Preferenza random</string>
     <string-array name="theme_spinner_array">
         <item>Sistema</item>
         <item>Chiaro</item>
