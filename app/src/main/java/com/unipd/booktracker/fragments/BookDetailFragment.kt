@@ -30,11 +30,9 @@ class BookDetailFragment : Fragment() {
 
         lifecycleScope.launch(Dispatchers.IO) {
             // Execute on IO thread because of database requests
-
-            chosenBook = viewModel.getBook(args.bookId)
+            chosenBook = args.chosenBook
             withContext(Dispatchers.Main) {
                 // Execute on Main thread
-
                 binding.tvBookTitle.text = chosenBook.title
                 binding.tvBookAuthor.text = chosenBook.mainAuthor
                 binding.tvBookPages.text = chosenBook.pages.toString()

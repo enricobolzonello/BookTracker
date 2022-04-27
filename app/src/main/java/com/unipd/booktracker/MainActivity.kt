@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.navigation_book_detail -> {
                     supportActionBar?.setDisplayHomeAsUpEnabled(true)
-                    supportActionBar?.setTitle(R.string.title_bookdetail)
+                    supportActionBar?.setTitle(R.string.title_book_detail)
                     binding.navView.visibility = View.GONE
                 }
                 else -> {

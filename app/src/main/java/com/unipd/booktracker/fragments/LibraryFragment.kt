@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.unipd.booktracker.*
 import com.unipd.booktracker.databinding.FragmentLibraryBinding
 import com.unipd.booktracker.db.OrderColumns
@@ -37,17 +38,13 @@ class LibraryFragment: Fragment() {
 
         binding = FragmentLibraryBinding.inflate(layoutInflater)
         viewModel = ViewModelProvider(requireActivity() as MainActivity)[BookViewModel::class.java]
-        bookAdapter = BookAdapter()
+        bookAdapter = BookAdapter(this)
 
         lifecycleScope.launch(Dispatchers.IO) {
             // Execute on IO thread because of network and database requests
-
-            if (viewModel.librarySize() == 0)
-                viewModel.getBooksFromQuery("flowers")
             updateFilters()
             withContext(Dispatchers.Main) {
                 // Execute on Main thread
-
                 binding.rwLibrary.adapter = bookAdapter
                 viewModel.getObservableLibrary().observe(requireActivity()) {
                     bookAdapter.notifyDataSetChanged()
@@ -58,7 +55,6 @@ class LibraryFragment: Fragment() {
 
     override fun onResume() {
         super.onResume()
-        updateFilters()
         binding.rwLibrary.adapter = bookAdapter
     }
 
@@ -90,20 +86,26 @@ class LibraryFragment: Fragment() {
                 super.onScrollStateChanged(recyclerView, newState)
             }
         })
+
+        binding.fab.setOnClickListener {
+            val dialog = AddDialogFragment()
+            dialog.show(childFragmentManager, R.string.title_add_book.toString())
+        }
     }
 
     private fun updateFilters() {
         lifecycleScope.launch(Dispatchers.IO) {
-            bookAdapter.setBooks(viewModel.getFilteredLibrary(
+            // Execute on IO thread because of database requests
+            val books = viewModel.getFilteredLibrary(
                 query,
                 binding.chNotRead.isChecked,
                 binding.chReading.isChecked,
-                binding.chRead.isChecked,
-                orderColumn,
-                asc)
+                binding.chRead.isChecked, orderColumn,
+                asc
             )
-            withContext(Dispatchers.Main){
-                bookAdapter.notifyDataSetChanged()
+            withContext(Dispatchers.Main) {
+                // Execute on Main thread
+                bookAdapter.setBooks(books)
             }
         }
     }

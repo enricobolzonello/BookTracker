@@ -57,10 +57,6 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
         bookDao.insert(book)
     }
 
-    fun getBook(bookId : String) : Book {
-        return bookDao.getBook(bookId)
-    }
-
     fun addReadPages(book : Book, pages : Int) = viewModelScope.launch {
         readingDao.insert(Reading(bookId = book.id, date = Date(), pageDifference = pages))
         bookDao.updateReadPages(book.id)
@@ -110,7 +106,6 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
             val itemUrl = item.getString("selfLink")
             getBookInfo(itemUrl)?.let {
                 books.add(it)
-                addBook(it)
             }
         }
         return books

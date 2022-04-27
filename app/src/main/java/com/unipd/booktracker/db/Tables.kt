@@ -6,6 +6,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
+import java.io.Serializable
 import java.util.Date
 
 enum class OrderColumns {
@@ -26,7 +27,7 @@ data class Book(
     @Nullable@ColumnInfo(name = "language") val language: String?,
     @Nullable@ColumnInfo(name = "thumbnail", typeAffinity = ColumnInfo.BLOB) val thumbnail: Bitmap? = null,
     @Nullable@ColumnInfo(name = "readPages") val readPages: Int? = null
-)
+): Serializable
 
 @Entity(
     tableName = "readings",

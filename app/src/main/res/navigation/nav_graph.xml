@@ -43,8 +43,8 @@
         android:name="com.unipd.booktracker.fragments.BookDetailFragment"
         tools:layout="@layout/fragment_book_detail">
         <argument
-            android:name="bookId"
-            app:argType="string"/>
+            android:name="chosenBook"
+            app:argType="com.unipd.booktracker.db.Book"/>
     </fragment>
 
     <fragment
@@ -52,4 +52,12 @@
         android:name="com.unipd.booktracker.fragments.SettingsFragment"
         android:label="@string/title_settings"
         tools:layout="@layout/fragment_settings" />
+    <dialog
+        android:id="@+id/addDialogFragment"
+        android:name="com.unipd.booktracker.fragments.AddDialogFragment"
+        android:label="AddDialogFragment" >
+        <action
+            android:id="@+id/action_addDialogFragment_to_navigation_book_detail"
+            app:destination="@id/navigation_book_detail" />
+    </dialog>
 </navigation>

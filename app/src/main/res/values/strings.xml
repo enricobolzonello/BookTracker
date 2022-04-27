@@ -4,10 +4,10 @@
     <string name="title_wishlist">Desideri</string>
     <string name="title_stats">Statistiche</string>
     <string name="title_settings">Impostazioni</string>
-    <string name="title_bookdetail">Dettagli libro</string>
+    <string name="title_book_detail">Dettagli libro</string>
     <string name="title_sort">Ordina</string>
     <string name="title_search">Ricerca</string>
-    <string name="title_addbook">Aggiungi libro</string>
+    <string name="title_add_book">Aggiungi libro</string>
     <string name="search_hint">Cerca libro</string>
     <string name="title_placeholder">Titolo</string>
     <string name="author_placeholder">Autore</string>
@@ -33,6 +33,7 @@
     <string name="bd_publisher">Editore placeholder</string>
     <string name="bd_isbn_title">ISBN</string>
     <string name="bd_isbn">000000000000000</string>
+    <string name="add_book_hint">Cerca libro</string>
     <string name="settings_theme">Tema dell\'app</string>
     <string-array name="theme_spinner_array">
         <item>Sistema</item>
