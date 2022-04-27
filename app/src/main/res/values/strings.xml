@@ -22,6 +22,10 @@
     <string name="sort_byTitleDesc">Per Titolo (Z-A)</string>
     <string name="sort_byAuthorAsc">Per Autore (A-Z)</string>
     <string name="sort_byAuthorDesc">Per Autore (Z-A)</string>
+    <string name="sort_byYearAsc">Per Anno Crescente</string>
+    <string name="sort_byYearDesc">Per Autore Decrescente</string>
+    <string name="sort_byReadProgressAsc">Per Progresso lettura Crescente</string>
+    <string name="sort_byReadProgressDesc">Per Progresso lettura Decrescente</string>
     <string name="genres_placeholder">Genere</string>
     <string name="bd_language_title">Lingua</string>
     <string name="bd_language">IT</string>
@@ -34,10 +38,18 @@
     <string name="bd_isbn_title">ISBN</string>
     <string name="bd_isbn">000000000000000</string>
     <string name="add_book_hint">Cerca libro</string>
+    <string name="network_errror">Per favore controlla che la connessione di rete sia attiva</string>
+    <string name="books_api_error">Si è verificato un errore durante la connessione a Books API</string>
     <string name="settings_theme">Tema dell\'app</string>
+    <string name="preference">Preferenza random</string>
     <string-array name="theme_spinner_array">
         <item>Sistema</item>
         <item>Chiaro</item>
         <item>Scuro</item>
+    </string-array>
+    <string-array name="entries_preference_array">
+        <item>Opzione 1</item>
+        <item>Opzione 2</item>
+        <item>Opzione 3</item>
     </string-array>
 </resources>

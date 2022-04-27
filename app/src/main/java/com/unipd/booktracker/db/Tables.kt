@@ -10,7 +10,7 @@ import java.io.Serializable
 import java.util.Date
 
 enum class OrderColumns {
-    title, author
+    title, author, year, progress
 }
 
 @Entity(tableName = "books")
@@ -23,7 +23,7 @@ data class Book(
     @Nullable@ColumnInfo(name = "isbn") val isbn: String?,
     @Nullable@ColumnInfo(name = "mainCategory") val mainCategory: String?,
     @Nullable@ColumnInfo(name = "description") val description: String?,
-    @Nullable@ColumnInfo(name = "publishedDate") val publishedDate: String?,
+    @Nullable@ColumnInfo(name = "year") val year: Int?,
     @Nullable@ColumnInfo(name = "language") val language: String?,
     @Nullable@ColumnInfo(name = "thumbnail", typeAffinity = ColumnInfo.BLOB) val thumbnail: Bitmap? = null,
     @Nullable@ColumnInfo(name = "readPages") val readPages: Int? = null
@@ -44,4 +44,4 @@ data class Reading(
     @ColumnInfo(name = "bookId", index = true) val bookId: String,
     @ColumnInfo(name = "date") val date: Date,
     @ColumnInfo(name = "pageDifference") val pageDifference: Int
-)
+): Serializable

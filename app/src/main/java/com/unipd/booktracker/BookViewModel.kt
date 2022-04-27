@@ -57,6 +57,10 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
         bookDao.insert(book)
     }
 
+    fun addBooks(books : List<Book>) {
+        bookDao.insert(books)
+    }
+
     fun addReadPages(book : Book, pages : Int) = viewModelScope.launch {
         readingDao.insert(Reading(bookId = book.id, date = Date(), pageDifference = pages))
         bookDao.updateReadPages(book.id)
@@ -88,7 +92,7 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
         val books : MutableList<Book> = mutableListOf()
         val key = getApiKey()
         if (key == null) {
-            Toast.makeText(app.applicationContext,"An error occurred while connecting to Books API", Toast.LENGTH_SHORT).show()
+            Toast.makeText(app.applicationContext, app.getString(R.string.books_api_error), Toast.LENGTH_SHORT).show()
             return books
         }
         val url = "https://www.googleapis.com/books/v1/volumes?key=$key&q=$query"
@@ -96,7 +100,7 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
         try {
             response = URL(url).readText()
         } catch (e: IOException) {
-            Toast.makeText(app.applicationContext,"An error occurred while connecting to Books API", Toast.LENGTH_SHORT).show()
+            Toast.makeText(app.applicationContext, app.getString(R.string.books_api_error), Toast.LENGTH_SHORT).show()
             return books
         }
 
@@ -116,7 +120,7 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
         try {
             response = URL(url).readText()
         } catch (e: IOException) {
-            Toast.makeText(app.applicationContext,"An error occurred while connecting to Books API", Toast.LENGTH_SHORT).show()
+            Toast.makeText(app.applicationContext, app.getString(R.string.books_api_error), Toast.LENGTH_SHORT).show()
             return null
         }
         val volume = JSONObject(response)
@@ -156,15 +160,15 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
             else
                 null
 
-        val date =
+        val year =
             if (volumeInfo.has("publishedDate"))
-                volumeInfo.getString("publishedDate")
+                volumeInfo.getString("publishedDate").substring(0,4).toInt()
             else
                 null
 
         val language =
             if (volumeInfo.has("language"))
-                volumeInfo.getString("language")
+                volumeInfo.getString("language").uppercase()
             else
                 null
 
@@ -181,6 +185,6 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
             }
             else
                 null
-        return Book(id, title, mainAuthor, pages, publisher, isbn, mainCategory, description, date, language, thumbnail, 100)
+        return Book(id, title, mainAuthor, pages, publisher, isbn, mainCategory, description, year, language, thumbnail, 100)
     }
 }

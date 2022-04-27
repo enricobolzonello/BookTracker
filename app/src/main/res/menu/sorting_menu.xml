@@ -13,8 +13,24 @@
         android:id="@+id/action_byAuthorAsc"
         android:title="@string/sort_byAuthorAsc" />
 
-        <item
+    <item
         android:id="@+id/action_byAuthorDesc"
         android:title="@string/sort_byAuthorDesc" />
+
+    <item
+        android:id="@+id/action_byYearAsc"
+        android:title="@string/sort_byYearAsc" />
+
+    <item
+        android:id="@+id/action_byYearDesc"
+        android:title="@string/sort_byYearDesc" />
+
+    <item
+        android:id="@+id/action_byReadProgressAsc"
+        android:title="@string/sort_byReadProgressAsc" />
+
+    <item
+        android:id="@+id/action_byReadProgressDesc"
+        android:title="@string/sort_byReadProgressDesc" />
 
 </menu>

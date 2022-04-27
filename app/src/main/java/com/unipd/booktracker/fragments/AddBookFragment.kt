@@ -53,11 +53,6 @@ class AddDialogFragment : DialogFragment() {
             }
 
             override fun onQueryTextSubmit(query: String): Boolean {
-                // Hiding the keyboard after typing has ended
-                val imm = swAddBook.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                imm.hideSoftInputFromWindow(swAddBook.windowToken, 0)
-                swAddBook.clearFocus()
-
                 lifecycleScope.launch(Dispatchers.IO) {
                     // Running coroutine with network usage
                     val books = viewModel.getBooksFromQuery(query)
@@ -66,7 +61,7 @@ class AddDialogFragment : DialogFragment() {
                         bookAdapter.setBooks(books)
                     }
                 }
-                return true
+                return false
             }
         })
         return dialog
