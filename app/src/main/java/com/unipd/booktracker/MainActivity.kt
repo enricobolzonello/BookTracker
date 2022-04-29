@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
@@ -17,7 +18,6 @@ import com.unipd.booktracker.databinding.ActivityMainBinding
 
 
 class MainActivity : AppCompatActivity() {
-    private val viewModel : BookViewModel by viewModels()
     private lateinit var navController : NavController
     private lateinit var binding : ActivityMainBinding
 
