@@ -8,17 +8,32 @@ import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.unipd.booktracker.R
+import com.unipd.booktracker.databinding.FragmentLibraryBinding
 import com.unipd.booktracker.databinding.FragmentStatsBinding
 import com.unipd.booktracker.databinding.FragmentWishlistBinding
 
 class WishlistFragment : Fragment() {
-    private lateinit var binding: FragmentWishlistBinding
+    private var _binding: FragmentWishlistBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
+    }
 
-        binding = FragmentWishlistBinding.inflate(layoutInflater)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        // Inflate the layout for this fragment
+        _binding = FragmentWishlistBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -49,11 +64,5 @@ class WishlistFragment : Fragment() {
             }
             else -> super.onOptionsItemSelected(item)
         }
-    }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        // Inflate the layout for this fragment
-        binding = FragmentWishlistBinding.inflate(inflater, container, false)
-        return binding.root
     }
 }

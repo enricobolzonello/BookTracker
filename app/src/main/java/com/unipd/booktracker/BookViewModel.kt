@@ -22,9 +22,10 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
     // The application context is only used to save file in the app-specific directory and show toasts
     private val app = application
 
-    private val bookDatabase : BookRoomDatabase = BookRoomDatabase.getDatabase(app.applicationContext)
+    private val bookDatabase : BookRoomDatabase = BookRoomDatabase.getDatabase(application.applicationContext)
     private val bookDao : BookDao = bookDatabase.bookDao()
     private val readingDao : ReadingDao = bookDatabase.readingDao()
+
 
     fun getObservableLibrary() : LiveData<List<Book>> {
         return bookDao.getObservableLibrary()

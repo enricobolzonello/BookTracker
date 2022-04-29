@@ -32,9 +32,10 @@ import kotlinx.coroutines.withContext
 
 
 class LibraryFragment: Fragment() {
-    private lateinit var binding: FragmentLibraryBinding
     private lateinit var viewModel: BookViewModel
     private lateinit var bookAdapter : BookAdapter
+    private var _binding: FragmentLibraryBinding? = null
+    private val binding get() = _binding!!
 
     private var query = ""
     private var orderColumn = OrderColumns.title
@@ -44,16 +45,13 @@ class LibraryFragment: Fragment() {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
 
-        binding = FragmentLibraryBinding.inflate(layoutInflater)
         viewModel = ViewModelProvider(requireActivity() as MainActivity)[BookViewModel::class.java]
         bookAdapter = BookAdapter(this)
-        binding.rwLibrary.adapter = bookAdapter
 
         lifecycleScope.launch(Dispatchers.IO) {
             // Execute on IO thread because of network and database requests
             if (viewModel.librarySize() == 0)
                 viewModel.addBooks(viewModel.getBooksFromQuery("fiori"))
-            updateFilters()
             withContext(Dispatchers.Main) {
                 // Execute on Main thread
                 viewModel.getObservableLibrary().observe(requireActivity()) {
@@ -63,19 +61,21 @@ class LibraryFragment: Fragment() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        binding.rwLibrary.adapter = bookAdapter
-    }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         // Inflate the layout for this fragment
-        binding = FragmentLibraryBinding.inflate(inflater, container, false)
+        _binding = FragmentLibraryBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.rwLibrary.adapter = bookAdapter
+        updateFilters()
 
         binding.chNotRead.setOnClickListener { updateFilters() }
         binding.chReading.setOnClickListener { updateFilters() }
@@ -98,13 +98,18 @@ class LibraryFragment: Fragment() {
         })
 
         binding.fab.setOnClickListener {
-            if (!isNetworkAvailable())
+            if (!(requireActivity() as MainActivity).isNetworkAvailable())
                 Toast.makeText(requireActivity(),getString(R.string.network_errror), Toast.LENGTH_SHORT).show()
             else {
                 val dialog = AddDialogFragment()
                 dialog.show(childFragmentManager, getString(R.string.title_add_book))
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun updateFilters() {
@@ -232,14 +237,5 @@ class LibraryFragment: Fragment() {
             }
             else -> super.onOptionsItemSelected(item)
         }
-    }
-
-    private fun isNetworkAvailable(): Boolean {
-        val connectivityManager = requireActivity().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val activeNetwork = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
-        return activeNetwork != null && (
-                activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
-                activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)
-        )
     }
 }

@@ -1,52 +1,52 @@
 package com.unipd.booktracker.fragments
 
-import android.app.Dialog
-import android.content.Context
 import android.content.res.Resources
 import android.os.Bundle
-import android.view.inputmethod.InputMethodManager
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.SearchView
-import androidx.core.content.ContextCompat.getSystemService
-import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.unipd.booktracker.BookAdapter
 import com.unipd.booktracker.BookViewModel
 import com.unipd.booktracker.MainActivity
-import com.unipd.booktracker.R
 import com.unipd.booktracker.databinding.FragmentAddBookBinding
-import com.unipd.booktracker.databinding.FragmentBookDetailBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 
-class AddDialogFragment : DialogFragment() {
+class AddDialogFragment : BottomSheetDialogFragment() {
     private lateinit var viewModel: BookViewModel
-    private lateinit var binding: FragmentAddBookBinding
     private lateinit var bookAdapter : BookAdapter
+    private var _binding: FragmentAddBookBinding? = null
+    private val binding get() = _binding!!
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        super.onCreateDialog(savedInstanceState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
         viewModel = ViewModelProvider(requireActivity() as MainActivity)[BookViewModel::class.java]
-        binding = FragmentAddBookBinding.inflate(layoutInflater)
         bookAdapter = BookAdapter(this)
+    }
 
-        val dialog = BottomSheetDialog(requireContext())
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        // Inflate the layout for this fragment
+        _binding = FragmentAddBookBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
-        // Pass null as the parent view because its going in the dialog layout (https://developer.android.com/guide/topics/ui/dialogs)
-        val dialogView = layoutInflater.inflate(R.layout.fragment_add_book, null)
-        dialog.setContentView(dialogView)
-        dialogView.layoutParams.height = Resources.getSystem().displayMetrics.heightPixels
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        val rwAddBook = dialogView.findViewById<RecyclerView>(R.id.rw_add_book)
-        rwAddBook.adapter = bookAdapter
-        val swAddBook = dialogView.findViewById<SearchView>(R.id.sw_add_book)
-
-        swAddBook.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+        binding.root.layoutParams.height = Resources.getSystem().displayMetrics.heightPixels
+        binding.rwAddBook.adapter = bookAdapter
+        binding.swAddBook.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
 
             override fun onQueryTextChange(newText: String): Boolean {
                 return false
@@ -64,11 +64,10 @@ class AddDialogFragment : DialogFragment() {
                 return false
             }
         })
-        return dialog
     }
 
-    override fun onResume() {
-        super.onResume()
-        binding.rwAddBook.adapter = bookAdapter
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

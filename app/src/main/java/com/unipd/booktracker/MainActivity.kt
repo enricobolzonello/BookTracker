@@ -1,7 +1,11 @@
 package com.unipd.booktracker
 
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.os.Bundle
 import android.view.View
+import android.view.ViewTreeObserver
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -48,5 +52,14 @@ class MainActivity : AppCompatActivity() {
     override fun onSupportNavigateUp() : Boolean {
         onBackPressed()
         return true
+    }
+
+    fun isNetworkAvailable(): Boolean {
+        val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetwork = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+        return activeNetwork != null && (
+                activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
+                activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)
+        )
     }
 }

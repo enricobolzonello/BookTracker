@@ -6,17 +6,31 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.unipd.booktracker.R
 import com.unipd.booktracker.databinding.FragmentBookDetailBinding
+import com.unipd.booktracker.databinding.FragmentLibraryBinding
 import com.unipd.booktracker.databinding.FragmentStatsBinding
 
 class StatsFragment : Fragment() {
-
-    private lateinit var binding: FragmentStatsBinding
+    private var _binding: FragmentStatsBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
+    }
 
-        binding = FragmentStatsBinding.inflate(layoutInflater)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        // Inflate the layout for this fragment
+        _binding = FragmentStatsBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -33,11 +47,5 @@ class StatsFragment : Fragment() {
             }
             else -> super.onOptionsItemSelected(item)
         }
-    }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        // Inflate the layout for this fragment
-        binding = FragmentStatsBinding.inflate(inflater, container, false)
-        return binding.root
     }
 }
