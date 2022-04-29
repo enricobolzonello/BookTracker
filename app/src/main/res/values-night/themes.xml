@@ -1,6 +1,7 @@
 <resources>
-
     <style name="Theme.BookTracker" parent="Theme.Material3.Dark">
+        <item name="android:windowSplashScreenBackground">@color/md_theme_light_primary</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/ic_logo_new</item>
         <item name="colorPrimary">@color/md_theme_dark_primary</item>
         <item name="colorOnPrimary">@color/md_theme_dark_onPrimary</item>
         <item name="colorPrimaryContainer">@color/md_theme_dark_primaryContainer</item>

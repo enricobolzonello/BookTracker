@@ -1,27 +1,29 @@
 package com.unipd.booktracker
 
 import android.content.Context
+import android.content.pm.PackageManager
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Bundle
+import android.util.Log
 import android.view.View
-import android.view.ViewTreeObserver
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
+import com.google.android.material.color.DynamicColors
 import com.unipd.booktracker.databinding.ActivityMainBinding
+
 
 class MainActivity : AppCompatActivity() {
     private val viewModel : BookViewModel by viewModels()
-    private lateinit var binding : ActivityMainBinding
     private lateinit var navController : NavController
+    private lateinit var binding : ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
