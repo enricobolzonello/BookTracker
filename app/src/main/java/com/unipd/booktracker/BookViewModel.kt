@@ -67,6 +67,10 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
         bookDao.updateReadPages(book.id)
     }
 
+    fun findBook(book: Book): Boolean{
+        return bookDao.findBook(book.id)
+    }
+
     fun librarySize() : Int {
         return bookDao.countLibraryBooks()
     }

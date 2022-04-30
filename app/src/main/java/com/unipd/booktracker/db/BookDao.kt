@@ -16,6 +16,9 @@ interface BookDao {
     @Query("SELECT * FROM books WHERE id = :bookId")
     fun getBook(bookId: String): Book
 
+    @Query ("SELECT EXISTS (SELECT 1 FROM books WHERE id = :bookId)")
+    fun findBook(bookId: String): Boolean
+
     @Query("UPDATE books SET readPages = (SELECT SUM(pageDifference) FROM readings WHERE bookId = :bookId) WHERE books.id = :bookId")
     suspend fun updateReadPages(bookId: String) : Int
 
