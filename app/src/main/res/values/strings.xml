@@ -42,6 +42,8 @@
     <string name="books_api_error">Si è verificato un errore durante la connessione a Books API</string>
     <string name="settings_theme">Tema dell\'app</string>
     <string name="preference">Preferenza random</string>
+    <string name="fbd_add_library">Libreria</string>
+    <string name="fbd_add_wishlist">Lista Desideri</string>
     <string-array name="theme_spinner_array">
         <item>Sistema</item>
         <item>Chiaro</item>

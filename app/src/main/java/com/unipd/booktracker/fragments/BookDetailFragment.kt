@@ -1,15 +1,18 @@
 package com.unipd.booktracker.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.unipd.booktracker.BookViewModel
 import com.unipd.booktracker.MainActivity
 import com.unipd.booktracker.R
 import com.unipd.booktracker.databinding.FragmentBookDetailBinding
 import com.unipd.booktracker.db.Book
+import kotlinx.coroutines.launch
 
 class BookDetailFragment : Fragment() {
     private lateinit var viewModel: BookViewModel
@@ -48,9 +51,15 @@ class BookDetailFragment : Fragment() {
         binding.tvBookDescription.text = chosenBook.description ?: "-"
         binding.tvBookPublisher.text = chosenBook.publisher ?: "-"
         binding.tvBookIsbn.text = chosenBook.isbn ?: "-"
+
         if (chosenBook.thumbnail == null)
             binding.ivBookThumbnail.setBackgroundResource(R.drawable.default_thumbnail)
         else
             binding.ivBookThumbnail.setImageBitmap(chosenBook.thumbnail)
+
+        // buttons to add the book to library
+        binding.chAddLibrary.setOnClickListener {
+            viewModel.addBook(chosenBook)
+        }
     }
 }
