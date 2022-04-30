@@ -57,9 +57,18 @@ class BookDetailFragment : Fragment() {
         else
             binding.ivBookThumbnail.setImageBitmap(chosenBook.thumbnail)
 
-        // buttons to add the book to library
         binding.chAddLibrary.setOnClickListener {
-            viewModel.addBook(chosenBook)
+            if (binding.chAddLibrary.isChecked)
+                viewModel.addBook(chosenBook)
+            else
+                viewModel.removeBook(chosenBook)
+        }
+
+        binding.chAddWishlist.setOnClickListener {
+            if (binding.chAddLibrary.isChecked)
+                viewModel.addBook(chosenBook)
+            else
+                viewModel.removeBook(chosenBook)
         }
     }
 }

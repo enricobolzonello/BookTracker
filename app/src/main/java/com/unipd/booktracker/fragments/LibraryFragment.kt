@@ -48,16 +48,8 @@ class LibraryFragment: Fragment() {
         viewModel = ViewModelProvider(requireActivity() as MainActivity)[BookViewModel::class.java]
         bookAdapter = BookAdapter(this)
 
-        lifecycleScope.launch(Dispatchers.IO) {
-            // Execute on IO thread because of network and database requests
-            if (viewModel.librarySize() == 0)
-                viewModel.addBooks(viewModel.getBooksFromQuery("fiori"))
-            withContext(Dispatchers.Main) {
-                // Execute on Main thread
-                viewModel.getObservableLibrary().observe(requireActivity()) {
-                    bookAdapter.notifyDataSetChanged()
-                }
-            }
+        viewModel.getObservableLibrary().observe(requireActivity()) {
+            bookAdapter.notifyDataSetChanged()
         }
     }
 

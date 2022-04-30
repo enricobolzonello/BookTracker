@@ -62,6 +62,10 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
         bookDao.insert(books)
     }
 
+    fun removeBook(book : Book) = viewModelScope.launch {
+        bookDao.delete(book)
+    }
+
     fun addReadPages(book : Book, pages : Int) = viewModelScope.launch {
         readingDao.insert(Reading(bookId = book.id, date = Date(), pageDifference = pages))
         bookDao.updateReadPages(book.id)
@@ -85,6 +89,10 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
 
     fun clearWishlist() {
         bookDao.deleteWishlistBooks()
+    }
+
+    fun clearAll() {
+        bookDao.deleteBooks()
     }
 
     private fun getApiKey(): String? {

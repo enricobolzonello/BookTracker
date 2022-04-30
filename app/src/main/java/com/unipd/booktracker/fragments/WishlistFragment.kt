@@ -43,16 +43,8 @@ class WishlistFragment: Fragment() {
         viewModel = ViewModelProvider(requireActivity() as MainActivity)[BookViewModel::class.java]
         bookAdapter = BookAdapter(this)
 
-        lifecycleScope.launch(Dispatchers.IO) {
-            // Execute on IO thread because of network and database requests
-            if (viewModel.wishlistSize() == 0)
-                viewModel.addBooks(viewModel.getBooksFromQuery("fiori"))
-            withContext(Dispatchers.Main) {
-                // Execute on Main thread
-                viewModel.getObservableWishlist().observe(requireActivity()) {
-                    bookAdapter.notifyDataSetChanged()
-                }
-            }
+        viewModel.getObservableWishlist().observe(requireActivity()) {
+            bookAdapter.notifyDataSetChanged()
         }
     }
 

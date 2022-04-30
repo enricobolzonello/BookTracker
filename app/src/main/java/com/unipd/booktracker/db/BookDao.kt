@@ -32,7 +32,8 @@ interface BookDao {
             "(SELECT * FROM books WHERE :notRead AND readPages = 0 " +
             "UNION SELECT * FROM books WHERE :reading AND (readPages > 0 AND readPages < pages) " +
             "UNION SELECT * FROM books WHERE :read AND readPages = pages)" +
-            "WHERE title LIKE '%' || :query || '%' OR mainAuthor LIKE '%' || :query || '%'" +
+            "WHERE readPages IS NOT NULL " +
+            "AND title LIKE '%' || :query || '%' OR mainAuthor LIKE '%' || :query || '%'" +
             "ORDER BY " +
             "CASE WHEN :asc THEN " +
                 "CASE " +
@@ -52,7 +53,8 @@ interface BookDao {
             "END DESC")
     fun getFilteredLibrary(query: String, notRead: Boolean, reading: Boolean, read: Boolean, orderColumn: OrderColumns, asc: Boolean): List<Book>
 
-    @Query("SELECT * FROM books WHERE readPages IS NULL " +
+    @Query("SELECT * FROM books " +
+            "WHERE readPages IS NULL " +
             "AND title LIKE '%' || :query || '%' OR mainAuthor LIKE '%' || :query || '%'" +
             "ORDER BY " +
             "CASE WHEN :asc THEN " +
