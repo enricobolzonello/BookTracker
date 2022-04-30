@@ -4,7 +4,8 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/Daniele/CodeProjects/AndroidStudioProjects/BookTracker/app/src/main/res/drawable/bt_logo.xml" value="0.1315" />
-        <entry key="..\:/Users/Daniele/CodeProjects/AndroidStudioProjects/BookTracker/app/src/main/res/drawable/ic_logo_dark.xml" value="0.1285" />
+        <entry key="..\:/Users/Daniele/CodeProjects/AndroidStudioProjects/BookTracker/app/src/main/res/drawable/ic_logo_dark.xml" value="0.124" />
+        <entry key="..\:/Users/Daniele/CodeProjects/AndroidStudioProjects/BookTracker/app/src/main/res/drawable/ic_logo_light.xml" value="0.124" />
         <entry key="..\:/Users/Daniele/CodeProjects/AndroidStudioProjects/BookTracker/app/src/main/res/drawable/ic_logo_new.xml" value="0.194" />
         <entry key="..\:/Users/Daniele/CodeProjects/AndroidStudioProjects/BookTracker/app/src/main/res/drawable/splash_screen.xml" value="0.194" />
         <entry key="..\:/Users/Daniele/CodeProjects/AndroidStudioProjects/BookTracker/app/src/main/res/layout/activity_main.xml" value="0.25416666666666665" />
@@ -12,8 +13,9 @@
         <entry key="..\:/Users/Daniele/CodeProjects/AndroidStudioProjects/BookTracker/app/src/main/res/layout/chip_group.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Daniele/CodeProjects/AndroidStudioProjects/BookTracker/app/src/main/res/layout/fragment_add_book.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Daniele/CodeProjects/AndroidStudioProjects/BookTracker/app/src/main/res/layout/fragment_book_detail.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/Daniele/CodeProjects/AndroidStudioProjects/BookTracker/app/src/main/res/layout/fragment_library.xml" value="0.1" />
+        <entry key="..\:/Users/Daniele/CodeProjects/AndroidStudioProjects/BookTracker/app/src/main/res/layout/fragment_library.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Daniele/CodeProjects/AndroidStudioProjects/BookTracker/app/src/main/res/layout/fragment_settings.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Daniele/CodeProjects/AndroidStudioProjects/BookTracker/app/src/main/res/layout/fragment_wishlist.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Daniele/CodeProjects/AndroidStudioProjects/BookTracker/app/src/main/res/menu/default_action_menu.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Daniele/CodeProjects/AndroidStudioProjects/BookTracker/app/src/main/res/menu/list_action_menu.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Daniele/CodeProjects/AndroidStudioProjects/BookTracker/app/src/main/res/menu/sorting_menu.xml" value="0.25416666666666665" />
