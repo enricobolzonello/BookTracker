@@ -1,7 +1,10 @@
 package com.unipd.booktracker.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
+import androidx.core.widget.addTextChangedListener
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -70,6 +73,11 @@ class BookDetailFragment : Fragment() {
                 lifecycleScope.launch(Dispatchers.IO) { viewModel.removeBook(chosenBook) }
         }
 
+        if (chosenBook.thumbnail == null)
+            binding.ivBookThumbnail.setBackgroundResource(R.drawable.default_thumbnail)
+        else
+            binding.ivBookThumbnail.setImageBitmap(chosenBook.thumbnail)
+
         binding.tvBookTitle.text = chosenBook.title
         binding.tvBookAuthor.text = chosenBook.mainAuthor
         binding.tvBookPages.text = chosenBook.pages.toString()
@@ -79,9 +87,22 @@ class BookDetailFragment : Fragment() {
         binding.tvBookPublisher.text = chosenBook.publisher ?: "-"
         binding.tvBookIsbn.text = chosenBook.isbn ?: "-"
 
-        if (chosenBook.thumbnail == null)
-            binding.ivBookThumbnail.setBackgroundResource(R.drawable.default_thumbnail)
-        else
-            binding.ivBookThumbnail.setImageBitmap(chosenBook.thumbnail)
+
+        if (chosenBook.readPages == null)
+            binding.slReadPages.visibility = View.GONE
+        else {
+            binding.etReadPages.setText(chosenBook.readPages.toString())
+            binding.slReadPages.valueTo = chosenBook.pages.toFloat()
+            binding.slReadPages.value = chosenBook.readPages!!.toFloat()
+
+            /*binding.slReadPages.addOnChangeListener { slider, value, fromUser ->
+                binding.etReadPages.setText(chosenBook.readPages.toString())
+            }
+
+            binding.etReadPages.addTextChangedListener {
+                Log.i("myLog",it.toString())
+                binding.slReadPages.value = it.toString().toFloat()
+            }*/
+        }
     }
 }
