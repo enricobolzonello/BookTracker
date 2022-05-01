@@ -41,7 +41,7 @@ class BookAdapter(val parentFragment: Fragment): RecyclerView.Adapter<BookAdapte
 
             binding.cvBook.setOnClickListener {
                 val bundle = Bundle()
-                bundle.putSerializable("chosenBook",book)
+                bundle.putSerializable("chosenBook", book)
                 parentFragment.findNavController().navigate(R.id.navigation_book_detail, bundle)
             }
         }

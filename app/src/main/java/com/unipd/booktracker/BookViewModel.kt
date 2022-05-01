@@ -26,12 +26,11 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
     private val bookDao : BookDao = bookDatabase.bookDao()
     private val readingDao : ReadingDao = bookDatabase.readingDao()
 
-
-    fun getObservableLibrary() : LiveData<List<Book>> {
+    fun getObservableLibrary(): LiveData<List<Book>> {
         return bookDao.getObservableLibrary()
     }
 
-    fun getObservableWishlist() : LiveData<List<Book>> {
+    fun getObservableWishlist(): LiveData<List<Book>> {
         return bookDao.getObservableWishlist()
     }
 
@@ -42,7 +41,7 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
         read: Boolean = true,
         orderColumn: OrderColumns = OrderColumns.title,
         asc: Boolean = true
-    ) : List<Book> {
+    ): List<Book> {
         return bookDao.getFilteredLibrary(query, notRead, reading, read, orderColumn, asc)
     }
 
@@ -50,29 +49,40 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
         query: String = "",
         orderColumn: OrderColumns = OrderColumns.title,
         asc: Boolean = true
-    ) : List<Book> {
+    ): List<Book> {
         return bookDao.getFilteredWishlist(query, orderColumn, asc)
     }
 
-    fun addBook(book : Book) = viewModelScope.launch {
+    fun addBook(book: Book) {
         bookDao.insert(book)
     }
 
-    fun addBooks(books : List<Book>) {
+    fun addBooks(books: List<Book>) {
         bookDao.insert(books)
     }
 
-    fun removeBook(book : Book) = viewModelScope.launch {
+    fun removeBook(book: Book) {
         bookDao.delete(book)
     }
 
-    fun addReadPages(book : Book, pages : Int) = viewModelScope.launch {
+    fun addReadPages(book: Book, pages: Int) {
         readingDao.insert(Reading(bookId = book.id, date = Date(), pageDifference = pages))
-        bookDao.updateReadPages(book.id)
     }
 
-    fun findBook(book: Book): Boolean{
-        return bookDao.findBook(book.id)
+    fun isBookInLibrary(book: Book): Boolean{
+        return bookDao.isBookInLibrary(book.id)
+    }
+
+    fun isBookInWishlist(book: Book): Boolean{
+        return bookDao.isBookInWishlist(book.id)
+    }
+
+    fun moveToLibrary(book: Book) {
+        bookDao.moveToLibrary(book.id)
+    }
+
+    fun moveToWishlist(book: Book) {
+        bookDao.moveToWishlist(book.id)
     }
 
     fun librarySize() : Int {
@@ -128,8 +138,8 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
         return books
     }
 
-    private fun getBookInfo(url : String) : Book? {
-        val response : String
+    private fun getBookInfo(url: String): Book? {
+        val response: String
         try {
             response = URL(url).readText()
         } catch (e: IOException) {
@@ -198,6 +208,6 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
             }
             else
                 null
-        return Book(id, title, mainAuthor, pages, publisher, isbn, mainCategory, description, year, language, thumbnail, 100)
+        return Book(id, title, mainAuthor, pages, publisher, isbn, mainCategory, description, year, language, thumbnail)
     }
 }

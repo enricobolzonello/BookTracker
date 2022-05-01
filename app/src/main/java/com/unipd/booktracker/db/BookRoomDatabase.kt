@@ -5,6 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import androidx.sqlite.db.SupportSQLiteDatabase
 
 // Annotates class to be a Room Database with a table (entity) of the Word class
 @Database(entities = [Book::class, Reading::class], version = 1, exportSchema = false)
@@ -23,13 +24,27 @@ abstract class BookRoomDatabase : RoomDatabase() {
             // if the INSTANCE is not null, then return it, if it is, then create the database
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
-                    context.applicationContext,
-                    BookRoomDatabase::class.java,
-                    "book_database"
-                ).build()
+                    context.applicationContext, BookRoomDatabase::class.java, "book_database"
+                )
+                //.addCallback(updateReadPages)
+                .build()
                 INSTANCE = instance
                 // return instance
                 instance
+            }
+        }
+
+        private val updateReadPages = object : RoomDatabase.Callback() {
+            override fun onCreate(db: SupportSQLiteDatabase) {
+                super.onCreate(db)
+                db.execSQL("CREATE TRIGGER update_read_pages " +
+                        "AFTER INSERT ON readings " +
+                        "WHEN (SELECT EXISTS (SELECT * FROM books WHERE id = NEW.bookId)) " +
+                        "BEGIN " +
+                            "UPDATE books " +
+                            "SET readPages = (SELECT SUM(pageDifference) FROM readings WHERE bookId = NEW.bookId) " +
+                            "WHERE books.id = NEW.bookId; " +
+                        "END")
             }
         }
     }

@@ -3,16 +3,16 @@
 
     <item
         android:id="@+id/navigation_library"
-        android:icon="@drawable/ic_baseline_library_books_24"
+        android:icon="@drawable/ic_library"
         android:title="@string/title_library" />
 
     <item
         android:id="@+id/navigation_wishlist"
-        android:icon="@drawable/ic_baseline_star_border_24"
+        android:icon="@drawable/ic_wishlist"
         android:title="@string/title_wishlist" />
 
     <item
         android:id="@+id/navigation_stats"
-        android:icon="@drawable/ic_baseline_bar_chart_24"
+        android:icon="@drawable/ic_stats"
         android:title="@string/title_stats" />
 </menu>

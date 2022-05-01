@@ -8,19 +8,37 @@ import androidx.room.*
 interface BookDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insert(book: Book)
+    fun insert(book: Book)
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(books: List<Book>)
 
+    @Delete
+    fun delete(book: Book)
+
+    @Query("DELETE FROM books WHERE readPages IS NOT NULL")
+    fun deleteLibraryBooks()
+
+    @Query("DELETE FROM books WHERE readPages IS NULL")
+    fun deleteWishlistBooks()
+
+    @Query("DELETE FROM books")
+    fun deleteBooks()
+
     @Query("SELECT * FROM books WHERE id = :bookId")
     fun getBook(bookId: String): Book
 
-    @Query ("SELECT EXISTS (SELECT 1 FROM books WHERE id = :bookId)")
-    fun findBook(bookId: String): Boolean
+    @Query ("SELECT EXISTS (SELECT * FROM books WHERE id = :bookId AND readPages IS NOT NULL)")
+    fun isBookInLibrary(bookId: String): Boolean
 
-    @Query("UPDATE books SET readPages = (SELECT SUM(pageDifference) FROM readings WHERE bookId = :bookId) WHERE books.id = :bookId")
-    suspend fun updateReadPages(bookId: String) : Int
+    @Query ("SELECT EXISTS (SELECT * FROM books WHERE id = :bookId AND readPages IS NULL)")
+    fun isBookInWishlist(bookId: String): Boolean
+
+    @Query ("UPDATE books SET readPages = 0 WHERE id = :bookId")
+    fun moveToLibrary(bookId: String)
+
+    @Query ("UPDATE books SET readPages = NULL WHERE id = :bookId")
+    fun moveToWishlist(bookId: String)
 
     @Query("SELECT * FROM books WHERE readPages IS NOT NULL")
     fun getObservableLibrary(): LiveData<List<Book>>
@@ -55,7 +73,7 @@ interface BookDao {
 
     @Query("SELECT * FROM books " +
             "WHERE readPages IS NULL " +
-            "AND title LIKE '%' || :query || '%' OR mainAuthor LIKE '%' || :query || '%'" +
+            "AND (title LIKE '%' || :query || '%' OR mainAuthor LIKE '%' || :query || '%') " +
             "ORDER BY " +
             "CASE WHEN :asc THEN " +
                 "CASE " +
@@ -78,16 +96,4 @@ interface BookDao {
 
     @Query("SELECT COUNT(*) FROM books WHERE readPages IS NULL")
     fun countWishlistBooks(): Int
-
-    @Delete
-    suspend fun delete(book: Book)
-
-    @Query("DELETE FROM books WHERE readPages IS NOT NULL")
-    fun deleteLibraryBooks()
-
-    @Query("DELETE FROM books WHERE readPages IS NULL")
-    fun deleteWishlistBooks()
-
-    @Query("DELETE FROM books")
-    fun deleteBooks()
 }

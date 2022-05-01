@@ -61,15 +61,6 @@
 
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/iv_book_state"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:contentDescription="@string/state_description"
-            android:src="@drawable/ic_baseline_done_24"
-            android:visibility="invisible" />
-
     </LinearLayout>
 
 </com.google.android.material.card.MaterialCardView>

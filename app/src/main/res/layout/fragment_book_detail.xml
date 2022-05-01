@@ -17,26 +17,27 @@
             android:layout_height="wrap_content">
 
             <com.google.android.material.chip.Chip
-                android:id="@+id/ch_add_library"
+                android:id="@+id/ch_library"
                 style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/text_margin"
+                android:layout_margin="@dimen/text_margin"
                 android:layout_weight="1"
-                android:checked="false"
+                app:chipIcon="@drawable/ic_library"
                 android:text="@string/fbd_add_library"
                 android:textAlignment="center" />
 
             <com.google.android.material.chip.Chip
-                android:id="@+id/ch_add_wishlist"
+                android:id="@+id/ch_wishlist"
                 style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/text_margin"
+                android:layout_margin="@dimen/text_margin"
                 android:layout_weight="1"
-                android:checked="false"
+                app:chipIcon="@drawable/ic_wishlist"
                 android:text="@string/fbd_add_wishlist"
                 android:textAlignment="center" />
+
         </LinearLayout>
 
         <com.google.android.material.card.MaterialCardView

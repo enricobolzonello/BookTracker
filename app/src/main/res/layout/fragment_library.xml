@@ -74,6 +74,6 @@
         android:elevation="@dimen/elevation"
         android:text="@string/fab_action"
         style="?attr/extendedFloatingActionButtonStyle"
-        app:icon="@drawable/ic_baseline_add_24" />
+        app:icon="@drawable/ic_add" />
 
 </FrameLayout>

@@ -6,7 +6,10 @@ import androidx.room.*
 interface ReadingDao {
 
     @Insert(onConflict = OnConflictStrategy.ABORT)
-    suspend fun insert(reading: Reading)
+    fun insert(reading: Reading)
+
+    @Query("DELETE FROM readings")
+    fun deleteAllReadings()
 
     @Query("SELECT SUM(pageDifference) FROM readings")
     fun countReadPages() : Int
@@ -25,8 +28,5 @@ interface ReadingDao {
 
     @Query("SELECT AVG(pageDifference) FROM readings GROUP BY strftime('%Y-%m', date / 1000, 'unixepoch')")
     fun avgReadPagesByMonth() : Int
-
-    @Query("DELETE FROM readings")
-    fun deleteReadings()
 
 }
