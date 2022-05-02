@@ -13,10 +13,8 @@ import com.unipd.booktracker.BookAdapter
 import com.unipd.booktracker.BookViewModel
 import com.unipd.booktracker.MainActivity
 import com.unipd.booktracker.databinding.FragmentAddBookBinding
-import com.unipd.booktracker.db.Book
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 
 

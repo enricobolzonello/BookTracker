@@ -31,12 +31,12 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
     private val bookDao : BookDao = bookDatabase.bookDao()
     private val readingDao : ReadingDao = bookDatabase.readingDao()
 
-    fun getObservableLibrary(): LiveData<List<Book>> {
-        return bookDao.getObservableLibrary()
+    fun getObservableLibrary(): LiveData<List<Book>> = runBlocking(Dispatchers.IO) {
+        return@runBlocking bookDao.getObservableLibrary()
     }
 
-    fun getObservableWishlist(): LiveData<List<Book>> {
-        return bookDao.getObservableWishlist()
+    fun getObservableWishlist(): LiveData<List<Book>> = runBlocking(Dispatchers.IO) {
+        return@runBlocking bookDao.getObservableWishlist()
     }
 
     fun getFilteredLibrary (
@@ -46,67 +46,67 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
         read: Boolean = true,
         orderColumn: OrderColumns = OrderColumns.title,
         asc: Boolean = true
-    ): List<Book> {
-        return bookDao.getFilteredLibrary(query, notRead, reading, read, orderColumn, asc)
+    ): List<Book> = runBlocking(Dispatchers.IO) {
+        return@runBlocking bookDao.getFilteredLibrary(query, notRead, reading, read, orderColumn, asc)
     }
 
     fun getFilteredWishlist(
         query: String = "",
         orderColumn: OrderColumns = OrderColumns.title,
         asc: Boolean = true
-    ): List<Book> {
-        return bookDao.getFilteredWishlist(query, orderColumn, asc)
+    ): List<Book> = runBlocking(Dispatchers.IO) {
+        return@runBlocking bookDao.getFilteredWishlist(query, orderColumn, asc)
     }
 
-    fun addBook(book: Book) {
+    fun addBook(book: Book) = viewModelScope.launch(Dispatchers.IO) {
         bookDao.insert(book)
     }
 
-    fun addBooks(books: List<Book>) {
+    fun addBooks(books: List<Book>) = viewModelScope.launch(Dispatchers.IO) {
         bookDao.insert(books)
     }
 
-    fun removeBook(book: Book) {
+    fun removeBook(book: Book) = viewModelScope.launch(Dispatchers.IO) {
         bookDao.delete(book)
     }
 
-    fun addReadPages(book: Book, pages: Int) {
+    fun addReadPages(book: Book, pages: Int) = viewModelScope.launch(Dispatchers.IO) {
         readingDao.insert(Reading(bookId = book.id, date = Date(), pageDifference = pages))
     }
 
-    fun isBookInLibrary(book: Book): Boolean{
-        return bookDao.isBookInLibrary(book.id)
+    fun isBookInLibrary(book: Book): Boolean = runBlocking(Dispatchers.IO) {
+        return@runBlocking bookDao.isBookInLibrary(book.id)
     }
 
-    fun isBookInWishlist(book: Book): Boolean{
-        return bookDao.isBookInWishlist(book.id)
+    fun isBookInWishlist(book: Book): Boolean = runBlocking(Dispatchers.IO) {
+        return@runBlocking bookDao.isBookInWishlist(book.id)
     }
 
-    fun moveToLibrary(book: Book) {
+    fun moveToLibrary(book: Book) = viewModelScope.launch(Dispatchers.IO) {
         bookDao.moveToLibrary(book.id)
     }
 
-    fun moveToWishlist(book: Book) {
+    fun moveToWishlist(book: Book) = viewModelScope.launch(Dispatchers.IO) {
         bookDao.moveToWishlist(book.id)
     }
 
-    fun librarySize() : Int {
-        return bookDao.countLibraryBooks()
+    fun librarySize() : Int = runBlocking(Dispatchers.IO) {
+        return@runBlocking bookDao.countLibraryBooks()
     }
 
-    fun wishlistSize() : Int {
-        return bookDao.countWishlistBooks()
+    fun wishlistSize() : Int = runBlocking(Dispatchers.IO) {
+        return@runBlocking bookDao.countWishlistBooks()
     }
 
-    fun clearLibrary() {
+    fun clearLibrary() = viewModelScope.launch(Dispatchers.IO) {
         bookDao.deleteLibraryBooks()
     }
 
-    fun clearWishlist() {
+    fun clearWishlist() = viewModelScope.launch(Dispatchers.IO) {
         bookDao.deleteWishlistBooks()
     }
 
-    fun clearAll() {
+    fun clearAll() = viewModelScope.launch(Dispatchers.IO) {
         bookDao.deleteBooks()
     }
 

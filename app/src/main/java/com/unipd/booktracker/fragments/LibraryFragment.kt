@@ -2,21 +2,16 @@ package com.unipd.booktracker.fragments
 
 import android.app.SearchManager
 import android.content.Context
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import android.view.inputmethod.InputMethodManager
 import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.SearchView
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.view.marginBottom
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.unipd.booktracker.BookAdapter
@@ -24,12 +19,7 @@ import com.unipd.booktracker.BookViewModel
 import com.unipd.booktracker.MainActivity
 import com.unipd.booktracker.R
 import com.unipd.booktracker.databinding.FragmentLibraryBinding
-import com.unipd.booktracker.db.Book
 import com.unipd.booktracker.db.OrderColumns
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-
 
 class LibraryFragment: Fragment() {
     private lateinit var viewModel: BookViewModel
@@ -105,20 +95,14 @@ class LibraryFragment: Fragment() {
     }
 
     private fun updateFilters() {
-        lifecycleScope.launch(Dispatchers.IO) {
-            // Running suspend fun on IO thread
-            val books = viewModel.getFilteredLibrary(
-                query,
-                binding.chNotRead.isChecked,
-                binding.chReading.isChecked,
-                binding.chRead.isChecked, orderColumn,
-                asc
-            )
-            withContext(Dispatchers.Main) {
-                // Updating the UI after the suspend fun has ended
-                bookAdapter.setBooks(books)
-            }
-        }
+        val books = viewModel.getFilteredLibrary(
+            query,
+            binding.chNotRead.isChecked,
+            binding.chReading.isChecked,
+            binding.chRead.isChecked, orderColumn,
+            asc
+        )
+        bookAdapter.setBooks(books)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

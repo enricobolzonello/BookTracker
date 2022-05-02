@@ -12,7 +12,6 @@ import androidx.appcompat.widget.SearchView
 import androidx.core.view.marginBottom
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.unipd.booktracker.BookAdapter
@@ -21,10 +20,6 @@ import com.unipd.booktracker.MainActivity
 import com.unipd.booktracker.R
 import com.unipd.booktracker.databinding.FragmentWishlistBinding
 import com.unipd.booktracker.db.OrderColumns
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-
 
 class WishlistFragment: Fragment() {
     private lateinit var viewModel: BookViewModel
@@ -96,14 +91,8 @@ class WishlistFragment: Fragment() {
     }
 
     private fun updateFilters() {
-        lifecycleScope.launch(Dispatchers.IO) {
-            // Running suspend fun on IO thread
-            val books = viewModel.getFilteredWishlist(query, orderColumn, asc)
-            withContext(Dispatchers.Main) {
-                // Updating the UI after the suspend fun has ended
-                bookAdapter.setBooks(books)
-            }
-        }
+        val books = viewModel.getFilteredWishlist(query, orderColumn, asc)
+        bookAdapter.setBooks(books)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

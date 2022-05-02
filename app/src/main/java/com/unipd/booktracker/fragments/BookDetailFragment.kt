@@ -3,19 +3,14 @@ package com.unipd.booktracker.fragments
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import androidx.core.widget.addTextChangedListener
-import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.unipd.booktracker.BookViewModel
 import com.unipd.booktracker.MainActivity
 import com.unipd.booktracker.R
 import com.unipd.booktracker.databinding.FragmentBookDetailBinding
 import com.unipd.booktracker.db.Book
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class BookDetailFragment : Fragment() {
     private lateinit var viewModel: BookViewModel
@@ -45,17 +40,14 @@ class BookDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        lifecycleScope.launch(Dispatchers.IO) {
-            // Running on IO thread because of database usage
-            binding.chLibrary.isChecked = viewModel.isBookInLibrary(chosenBook)
-            binding.chWishlist.isChecked = viewModel.isBookInWishlist(chosenBook)
-        }
+        binding.chLibrary.isChecked = viewModel.isBookInLibrary(chosenBook)
+        binding.chWishlist.isChecked = viewModel.isBookInWishlist(chosenBook)
 
         binding.chLibrary.setOnClickListener {
             if (binding.chLibrary.isChecked) {
                 if (!binding.chWishlist.isChecked)
-                    lifecycleScope.launch(Dispatchers.IO) { viewModel.addBook(chosenBook) }
-                lifecycleScope.launch(Dispatchers.IO) { viewModel.moveToLibrary(chosenBook) }
+                    viewModel.addBook(chosenBook)
+                viewModel.moveToLibrary(chosenBook)
                 binding.chLibrary.isClickable = false
                 binding.chWishlist.isChecked = false
                 binding.chWishlist.isClickable = true
@@ -65,8 +57,8 @@ class BookDetailFragment : Fragment() {
         binding.chWishlist.setOnClickListener {
             if (binding.chWishlist.isChecked)
                 if (!binding.chLibrary.isChecked)
-                    lifecycleScope.launch(Dispatchers.IO) { viewModel.addBook(chosenBook) }
-                lifecycleScope.launch(Dispatchers.IO) { viewModel.moveToWishlist(chosenBook) }
+                    viewModel.addBook(chosenBook)
+                viewModel.moveToWishlist(chosenBook)
                 binding.chWishlist.isClickable = false
                 binding.chLibrary.isChecked = false
                 binding.chLibrary.isClickable = true

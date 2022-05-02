@@ -5,8 +5,6 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.unipd.booktracker.R
-import com.unipd.booktracker.databinding.FragmentBookDetailBinding
-import com.unipd.booktracker.databinding.FragmentLibraryBinding
 import com.unipd.booktracker.databinding.FragmentStatsBinding
 
 class StatsFragment : Fragment() {
