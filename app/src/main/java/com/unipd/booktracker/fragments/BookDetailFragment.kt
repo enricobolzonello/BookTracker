@@ -55,22 +55,20 @@ class BookDetailFragment : Fragment() {
                 if (!binding.chWishlist.isChecked)
                     lifecycleScope.launch(Dispatchers.IO) { viewModel.addBook(chosenBook) }
                 lifecycleScope.launch(Dispatchers.IO) { viewModel.moveToLibrary(chosenBook) }
+                binding.chLibrary.isClickable = false
                 binding.chWishlist.isChecked = false
+                binding.chWishlist.isClickable = true
             }
-            else
-                lifecycleScope.launch(Dispatchers.IO) { viewModel.removeBook(chosenBook) }
         }
 
         binding.chWishlist.setOnClickListener {
             if (binding.chWishlist.isChecked)
                 if (!binding.chLibrary.isChecked)
                     lifecycleScope.launch(Dispatchers.IO) { viewModel.addBook(chosenBook) }
-                else {
-                    lifecycleScope.launch(Dispatchers.IO) { viewModel.moveToWishlist(chosenBook) }
-                    binding.chLibrary.isChecked = false
-                }
-            else
-                lifecycleScope.launch(Dispatchers.IO) { viewModel.removeBook(chosenBook) }
+                lifecycleScope.launch(Dispatchers.IO) { viewModel.moveToWishlist(chosenBook) }
+                binding.chWishlist.isClickable = false
+                binding.chLibrary.isChecked = false
+                binding.chLibrary.isClickable = true
         }
 
         if (chosenBook.thumbnail == null)
