@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.ComponentName
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Log
 import android.widget.Toast
@@ -12,6 +13,7 @@ import androidx.room.*
 import com.unipd.booktracker.db.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import java.io.IOException
@@ -113,7 +115,7 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
         return bundle.getString("google.books.key")
     }
 
-    fun getBooksFromQuery(query : String) : List<Book> {
+    suspend fun getBooksFromQuery(query : String) : List<Book> {
         val books : MutableList<Book> = mutableListOf()
         val key = getApiKey()
         if (key == null) {
@@ -121,12 +123,14 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
             return books
         }
         val url = "https://www.googleapis.com/books/v1/volumes?key=$key&q=$query"
-        val response: String
+        var response = ""
         try {
-            response = URL(url).readText()
-        } catch (e: IOException) {
+            viewModelScope.launch(Dispatchers.IO) {
+                // Running on IO thread because of network usage
+                response = URL(url).readText()
+            }.join()
+        } catch (e: Exception) {
             Toast.makeText(app.applicationContext, app.getString(R.string.books_api_error), Toast.LENGTH_SHORT).show()
-            return books
         }
 
         val items = JSONObject(response).getJSONArray("items")
@@ -140,10 +144,13 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
         return books
     }
 
-    private fun getBookInfo(url: String): Book? {
-        val response: String
+    private suspend fun getBookInfo(url: String): Book? {
+        var response = ""
         try {
-            response = URL(url).readText()
+            viewModelScope.launch(Dispatchers.IO) {
+                // Running on IO thread because of network usage
+                response = URL(url).readText()
+            }.join()
         } catch (e: IOException) {
             Toast.makeText(app.applicationContext, app.getString(R.string.books_api_error), Toast.LENGTH_SHORT).show()
             return null
@@ -197,19 +204,20 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
             else
                 null
 
-        val thumbnail =
-            if (volumeInfo.has("imageLinks") && volumeInfo.getJSONObject("imageLinks").has("thumbnail")) {
-                val thumbnailUrl = volumeInfo.getJSONObject("imageLinks").getString("thumbnail")
-                // Cleartext HTTP traffic is not permitted, so secure url (https) is needed
-                val secureUrl = thumbnailUrl.replaceBefore(":","https")
-                try {
-                    BitmapFactory.decodeStream(URL(secureUrl).openStream())
-                } catch (e: IOException) {
-                    null
-                }
+        var thumbnail: Bitmap? = null
+        if (volumeInfo.has("imageLinks") && volumeInfo.getJSONObject("imageLinks").has("thumbnail")) {
+            val thumbnailUrl = volumeInfo.getJSONObject("imageLinks").getString("thumbnail")
+            // Cleartext HTTP traffic is not permitted, so secure url (https) is needed
+            val secureUrl = thumbnailUrl.replaceBefore(":","https")
+            try {
+                viewModelScope.launch(Dispatchers.IO) {
+                    // Running on IO thread because of network usage
+                    thumbnail = BitmapFactory.decodeStream(URL(secureUrl).openStream())
+                }.join()
+            } catch (e: IOException) {
+                thumbnail = null
             }
-            else
-                null
+        }
         return Book(id, title, mainAuthor, pages, publisher, isbn, mainCategory, description, year, language, thumbnail)
     }
 }

@@ -97,14 +97,10 @@ class WishlistFragment: Fragment() {
 
     private fun updateFilters() {
         lifecycleScope.launch(Dispatchers.IO) {
-            // Execute on IO thread because of database requests
-            val books = viewModel.getFilteredWishlist(
-                query,
-                orderColumn,
-                asc
-            )
+            // Running suspend fun on IO thread
+            val books = viewModel.getFilteredWishlist(query, orderColumn, asc)
             withContext(Dispatchers.Main) {
-                // Execute on Main thread
+                // Updating the UI after the suspend fun has ended
                 bookAdapter.setBooks(books)
             }
         }

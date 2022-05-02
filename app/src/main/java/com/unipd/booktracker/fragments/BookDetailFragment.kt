@@ -46,6 +46,7 @@ class BookDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         lifecycleScope.launch(Dispatchers.IO) {
+            // Running on IO thread because of database usage
             binding.chLibrary.isChecked = viewModel.isBookInLibrary(chosenBook)
             binding.chWishlist.isChecked = viewModel.isBookInWishlist(chosenBook)
         }
@@ -84,7 +85,6 @@ class BookDetailFragment : Fragment() {
         binding.tvBookDescription.text = chosenBook.description ?: "-"
         binding.tvBookPublisher.text = chosenBook.publisher ?: "-"
         binding.tvBookIsbn.text = chosenBook.isbn ?: "-"
-
 
         if (chosenBook.readPages == null)
             binding.slReadPages.visibility = View.GONE

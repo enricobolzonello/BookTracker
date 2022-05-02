@@ -13,8 +13,10 @@ import com.unipd.booktracker.BookAdapter
 import com.unipd.booktracker.BookViewModel
 import com.unipd.booktracker.MainActivity
 import com.unipd.booktracker.databinding.FragmentAddBookBinding
+import com.unipd.booktracker.db.Book
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 
 
@@ -54,10 +56,10 @@ class AddDialogFragment : BottomSheetDialogFragment() {
 
             override fun onQueryTextSubmit(query: String): Boolean {
                 lifecycleScope.launch(Dispatchers.IO) {
-                    // Running coroutine with network usage
+                    // Running suspend fun on IO thread
                     val books = viewModel.getBooksFromQuery(query)
                     withContext(Dispatchers.Main) {
-                        // Updating the UI after the coroutine has ended
+                        // Updating the UI after the suspend fun has ended
                         bookAdapter.setBooks(books)
                     }
                 }
