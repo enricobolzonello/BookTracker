@@ -33,8 +33,7 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:weightSum="2">
+        android:layout_height="wrap_content">
 
         <com.google.android.material.chip.Chip
             android:id="@+id/ch_library"
@@ -164,26 +163,78 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/ll_read_pages"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="vertical"
+                android:gravity="center_horizontal">
 
-                <com.google.android.material.slider.Slider
-                    android:id="@+id/sl_read_pages"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:valueFrom="0.0"
-                    android:valueTo="100.0"
-                    android:stepSize="1.0"
-                    app:tickVisible="false"
-                    app:labelBehavior="gone" />
+                    android:orientation="horizontal"
+                    android:gravity="center_horizontal">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_read_pages"
-                    android:layout_width="wrap_content"
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_remove_page"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/content_margin"
+                        app:icon="@drawable/ic_remove"
+                        app:iconTint="?attr/colorOnPrimarySurface"
+                        android:backgroundTint="?attr/colorPrimarySurface"
+                        style="@style/Widget.Material3.Button.IconButton"/>
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_read_pages"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/content_margin"
+                        android:textAlignment="center"
+                        android:inputType="number" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_add_page"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/content_margin"
+                        app:icon="@drawable/ic_add"
+                        app:iconTint="?attr/colorOnPrimarySurface"
+                        android:backgroundTint="?attr/colorPrimarySurface"
+                        style="@style/Widget.Material3.Button.IconButton"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="number" />
+                    android:orientation="horizontal"
+                    android:gravity="center_horizontal">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tv_first_page"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/content_margin" />
+
+                    <com.google.android.material.slider.Slider
+                        android:id="@+id/sl_read_pages"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:valueFrom="0.0"
+                        android:valueTo="100.0"
+                        android:stepSize="1.0"
+                        app:tickVisible="false"
+                        app:labelBehavior="gone"
+                        android:layout_weight="1"/>
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tv_last_page"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/content_margin" />
+
+                </LinearLayout>
 
             </LinearLayout>
 
