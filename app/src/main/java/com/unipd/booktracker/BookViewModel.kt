@@ -19,6 +19,7 @@ import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import java.io.IOException
 import java.net.URL
+import java.time.LocalDate
 import java.util.*
 
 
@@ -37,6 +38,10 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
 
     fun getObservableWishlist(): LiveData<List<Book>> = runBlocking(Dispatchers.IO) {
         return@runBlocking bookDao.getObservableWishlist()
+    }
+
+    fun countReadPages(book: Book): Int = runBlocking(Dispatchers.IO) {
+        return@runBlocking readingDao.countReadPages(book.id)
     }
 
     fun getFilteredLibrary (
@@ -70,8 +75,9 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
         bookDao.delete(book)
     }
 
-    fun addReadPages(book: Book, pages: Int) = viewModelScope.launch(Dispatchers.IO) {
-        readingDao.insert(Reading(bookId = book.id, date = Date(), pageDifference = pages))
+    fun addReadPages(book: Book, pageDifference: Int) = viewModelScope.launch(Dispatchers.IO) {
+        Log.i("myLog",pageDifference.toString())
+        readingDao.insert(Reading(book.id, Date(), pageDifference))
     }
 
     fun isBookInLibrary(book: Book): Boolean = runBlocking(Dispatchers.IO) {

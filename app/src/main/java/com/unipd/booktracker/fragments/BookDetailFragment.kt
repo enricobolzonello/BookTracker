@@ -1,5 +1,6 @@
 package com.unipd.booktracker.fragments
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -15,9 +16,6 @@ import com.unipd.booktracker.databinding.FragmentBookDetailBinding
 import com.unipd.booktracker.db.Book
 import android.widget.LinearLayout.LayoutParams
 import android.widget.Toast
-import androidx.core.text.isDigitsOnly
-import androidx.core.widget.addTextChangedListener
-import androidx.lifecycle.MutableLiveData
 
 class BookDetailFragment : Fragment() {
     private lateinit var viewModel: BookViewModel
@@ -26,6 +24,7 @@ class BookDetailFragment : Fragment() {
 
     private val args: BookDetailFragmentArgs by navArgs()
     private lateinit var chosenBook : Book
+    private var prevReadPages: Int = -1
     private var curReadPages: Int = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,25 +46,49 @@ class BookDetailFragment : Fragment() {
 
     private fun updatePages() {
         binding.etReadPages.setText(curReadPages.toString())
+        binding.btnAddPage.visibility =
+            if (curReadPages < chosenBook.pages)
+                View.VISIBLE
+            else
+                View.INVISIBLE
+
+        binding.btnRemovePage.visibility =
+            if (curReadPages > 0)
+                View.VISIBLE
+            else
+                View.INVISIBLE
+
         binding.slReadPages.value = curReadPages.toFloat()
+        if (prevReadPages != curReadPages) {
+            viewModel.addReadPages(chosenBook, curReadPages - prevReadPages)
+            prevReadPages = curReadPages
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         binding.chLibrary.isChecked = viewModel.isBookInLibrary(chosenBook)
-        (binding.chLibrary.layoutParams as LayoutParams).weight =
-            if (binding.chLibrary.isChecked)
-                1F
-            else
-                0F
-
         binding.chWishlist.isChecked = viewModel.isBookInWishlist(chosenBook)
-        (binding.chWishlist.layoutParams as LayoutParams).weight =
-            if (binding.chWishlist.isChecked)
-                1F
-            else
-                0F
+
+        if (!binding.chLibrary.isChecked && !binding.chWishlist.isChecked) {
+            (binding.chLibrary.layoutParams as LayoutParams).weight = 1F
+            (binding.chWishlist.layoutParams as LayoutParams).weight = 1F
+        }
+        else {
+            (binding.chLibrary.layoutParams as LayoutParams).weight =
+                if (binding.chLibrary.isChecked)
+                    1F
+                else
+                    0F
+
+            binding.chWishlist.isChecked = viewModel.isBookInWishlist(chosenBook)
+            (binding.chWishlist.layoutParams as LayoutParams).weight =
+                if (binding.chWishlist.isChecked)
+                    1F
+                else
+                    0F
+        }
 
         binding.chLibrary.setOnClickListener {
             if (binding.chLibrary.isChecked) {
@@ -113,27 +136,35 @@ class BookDetailFragment : Fragment() {
         if (chosenBook.readPages == null)
             binding.llReadPages.visibility = View.GONE
         else {
+            prevReadPages = chosenBook.readPages!!
             curReadPages = chosenBook.readPages!!
 
-            binding.etReadPages.setText(curReadPages.toString())
             binding.tvFirstPage.text = (0).toString()
             binding.tvLastPage.text = chosenBook.pages.toString()
             binding.slReadPages.valueTo = chosenBook.pages.toFloat()
-            binding.slReadPages.value = chosenBook.readPages!!.toFloat()
+            updatePages()
 
             binding.btnAddPage.setOnClickListener {
-                if (curReadPages < chosenBook.pages) {
-                    curReadPages += 1
-                    updatePages()
-                }
+                curReadPages += 1
+                updatePages()
             }
 
             binding.btnRemovePage.setOnClickListener {
-                if (curReadPages > 0) {
-                    curReadPages -= 1
+                curReadPages -= 1
+                updatePages()
+            }
+
+            /*binding.slReadPages.addOnSliderTouchListener(object : Slider.OnSliderTouchListener {
+
+                @SuppressLint("RestrictedApi")
+                override fun onStartTrackingTouch(slider: Slider) { }
+
+                @SuppressLint("RestrictedApi")
+                override fun onStopTrackingTouch(slider: Slider) {
+                    curReadPages = slider.value.toInt()
                     updatePages()
                 }
-            }
+            })*/
 
             binding.slReadPages.addOnChangeListener { _, value, _ ->
                 curReadPages = value.toInt()
@@ -165,5 +196,10 @@ class BookDetailFragment : Fragment() {
                 }
             })
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 }

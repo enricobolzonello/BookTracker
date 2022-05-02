@@ -26,7 +26,7 @@ abstract class BookRoomDatabase : RoomDatabase() {
                 val instance = Room.databaseBuilder(
                     context.applicationContext, BookRoomDatabase::class.java, "book_database"
                 )
-                //.addCallback(updateReadPages)
+                .addCallback(updateReadPages)
                 .build()
                 INSTANCE = instance
                 // return instance

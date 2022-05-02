@@ -7,15 +7,16 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 import java.io.Serializable
-import java.util.Date
+import java.time.LocalDate
+import java.util.*
 
 enum class OrderColumns {
     title, author, year, progress
 }
 
-@Entity(tableName = "books")
+@Entity(tableName = "books", primaryKeys = ["id"])
 data class Book(
-    @PrimaryKey@ColumnInfo(name = "id") val id: String,
+    @ColumnInfo(name = "id") val id: String,
     @ColumnInfo(name = "title") val title: String,
     @ColumnInfo(name = "mainAuthor") val mainAuthor: String,
     @ColumnInfo(name = "pages") val pages: Int,
@@ -31,6 +32,7 @@ data class Book(
 
 @Entity(
     tableName = "readings",
+    primaryKeys = ["bookId", "date"],
     foreignKeys = [ForeignKey(
         entity = Book::class,
         parentColumns = arrayOf("id"),
@@ -40,7 +42,6 @@ data class Book(
     )]
 )
 data class Reading(
-    @ColumnInfo(name = "id")@PrimaryKey(autoGenerate = true) val id: Int = 0,
     @ColumnInfo(name = "bookId", index = true) val bookId: String,
     @ColumnInfo(name = "date") val date: Date,
     @ColumnInfo(name = "pageDifference") val pageDifference: Int
