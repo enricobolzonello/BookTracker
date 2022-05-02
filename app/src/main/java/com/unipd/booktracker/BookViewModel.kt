@@ -6,6 +6,7 @@ import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.os.Looper
 import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.*
@@ -38,7 +39,7 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
         return bookDao.getObservableWishlist()
     }
 
-    fun getFilteredLibrary(
+    fun getFilteredLibrary (
         query: String = "",
         notRead: Boolean = true,
         reading: Boolean = true,
@@ -111,29 +112,44 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
 
     private fun getApiKey(): String? {
         val appInfo = app.packageManager.getApplicationInfo(app.packageName, PackageManager.GET_META_DATA)
-        val bundle = appInfo.metaData
-        return bundle.getString("google.books.key")
+        return appInfo.metaData.getString("google.books.key")
     }
 
     suspend fun getBooksFromQuery(query : String) : List<Book> {
         val books : MutableList<Book> = mutableListOf()
         val key = getApiKey()
-        if (key == null) {
-            Toast.makeText(app.applicationContext, app.getString(R.string.books_api_error), Toast.LENGTH_SHORT).show()
+        if (key.isNullOrBlank()) {
+            withContext(Dispatchers.Main) {
+                Toast.makeText(
+                    app.applicationContext,
+                    app.getString(R.string.books_api_error),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
             return books
         }
         val url = "https://www.googleapis.com/books/v1/volumes?key=$key&q=$query"
-        var response = ""
+        var response: String? = ""
         try {
             viewModelScope.launch(Dispatchers.IO) {
-                // Running on IO thread because of network usage
                 response = URL(url).readText()
             }.join()
         } catch (e: Exception) {
-            Toast.makeText(app.applicationContext, app.getString(R.string.books_api_error), Toast.LENGTH_SHORT).show()
+            response = null
         }
 
-        val items = JSONObject(response).getJSONArray("items")
+        if (response.isNullOrBlank()) {
+            withContext(Dispatchers.Main) {
+                Toast.makeText(
+                    app.applicationContext,
+                    app.getString(R.string.books_api_error),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+            return books
+        }
+
+        val items = JSONObject(response!!).getJSONArray("items")
         for (i in 0 until items.length()) {
             val item = items.getJSONObject(i)
             val itemUrl = item.getString("selfLink")
@@ -145,20 +161,30 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     private suspend fun getBookInfo(url: String): Book? {
-        var response = ""
+        var response: String? = ""
         try {
             viewModelScope.launch(Dispatchers.IO) {
-                // Running on IO thread because of network usage
                 response = URL(url).readText()
             }.join()
-        } catch (e: IOException) {
-            Toast.makeText(app.applicationContext, app.getString(R.string.books_api_error), Toast.LENGTH_SHORT).show()
+        } catch (e: Exception) {
+            response = null
+        }
+
+        if (response.isNullOrBlank()) {
+            withContext(Dispatchers.Main) {
+                Toast.makeText(
+                    app.applicationContext,
+                    app.getString(R.string.books_api_error),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
             return null
         }
-        val volume = JSONObject(response)
+
+        val volume = JSONObject(response!!)
         val volumeInfo = volume.getJSONObject("volumeInfo")
 
-        // Check if minimum required parameters are present
+        // Check if the minimum required parameters are present
         if (!(volume.has("id") && volumeInfo.has("title") && volumeInfo.has("authors") && volumeInfo.has("pageCount")))
             return null
 
@@ -166,7 +192,6 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
         val title = volumeInfo.getString("title")
         val mainAuthor = volumeInfo.getJSONArray("authors").get(0).toString()
         val pages = volumeInfo.getInt("pageCount")
-
 
         val publisher =
             if (volumeInfo.has("publisher"))
@@ -211,10 +236,9 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
             val secureUrl = thumbnailUrl.replaceBefore(":","https")
             try {
                 viewModelScope.launch(Dispatchers.IO) {
-                    // Running on IO thread because of network usage
                     thumbnail = BitmapFactory.decodeStream(URL(secureUrl).openStream())
                 }.join()
-            } catch (e: IOException) {
+            } catch (e: Exception) {
                 thumbnail = null
             }
         }
