@@ -145,14 +145,6 @@ class BookDetailFragment : Fragment() {
                 override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) { }
             })
 
-            /*binding.etReadPages.setOnEditorActionListener { textView, i, keyEvent ->
-                if (i == EditorInfo.IME_ACTION_SEARCH || i == EditorInfo.IME_ACTION_DONE
-                    || keyEvent == null || keyEvent.keyCode == KeyEvent.KEYCODE_ENTER) {
-                    viewModel.addReadPages(chosenBook, textView.text.toString().toInt() - readPages)
-                }
-                false
-            }*/
-
             binding.btnAddPage.setOnClickListener {
                 updatePages(readPages + 1)
             }
