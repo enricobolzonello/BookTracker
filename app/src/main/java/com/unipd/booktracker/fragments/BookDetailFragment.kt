@@ -12,6 +12,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.LinearLayout.LayoutParams
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.slider.Slider
 import com.unipd.booktracker.BookViewModel
@@ -32,6 +33,7 @@ class BookDetailFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
 
         viewModel = ViewModelProvider(requireActivity() as MainActivity)[BookViewModel::class.java]
         chosenBook = args.chosenBook
@@ -213,6 +215,23 @@ class BookDetailFragment : Fragment() {
 
         private fun isInRange(a: Int, b: Int, c: Int): Boolean {
             return if (b > a) c in a..b else c in b..a
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.book_detail_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_delete_book -> {
+                true
+            }
+            R.id.action_share_book -> {
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
     }
 

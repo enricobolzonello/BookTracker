@@ -8,6 +8,8 @@
     <string name="title_sort">Ordina</string>
     <string name="title_search">Ricerca</string>
     <string name="title_add_book">Aggiungi libro</string>
+    <string name="title_share_book">Condividi libro</string>
+    <string name="title_delete_book">Elimina libro</string>
     <string name="search_hint">Cerca libro</string>
     <string name="title_placeholder">Titolo</string>
     <string name="author_placeholder">Autore</string>
