@@ -18,9 +18,6 @@ interface ReadingDao {
     @Query("SELECT SUM(pageDifference) FROM readings WHERE date BETWEEN :firstDate AND :lastDate")
     fun countReadPages(firstDate: Date, lastDate: Date) : Int
 
-    @Query("SELECT SUM(pageDifference) FROM readings WHERE bookId = :bookId")
-    fun countReadPages(bookId: String) : Int
-
     @Query("SELECT SUM(pageDifference) FROM readings WHERE bookId = :bookId AND date BETWEEN :firstDate AND :lastDate")
     fun countReadPages(bookId: String, firstDate: Date, lastDate: Date) : Int
 

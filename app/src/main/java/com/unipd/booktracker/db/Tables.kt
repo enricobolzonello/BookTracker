@@ -34,7 +34,6 @@ data class Book(
 
 @Entity(
     tableName = "readings",
-    primaryKeys = ["bookId", "date"],
     foreignKeys = [ForeignKey(
         entity = Book::class,
         parentColumns = arrayOf("id"),
@@ -44,7 +43,8 @@ data class Book(
     )]
 )
 data class Reading(
+    @PrimaryKey(autoGenerate = true) val id: Int = 0,
     @ColumnInfo(name = "bookId", index = true) val bookId: String,
     @ColumnInfo(name = "date") val date: Date,
     @ColumnInfo(name = "pageDifference") val pageDifference: Int
-): Serializable
+)

@@ -2,6 +2,10 @@ package com.unipd.booktracker.fragments
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.text.Editable
+import android.text.InputFilter
+import android.text.Spanned
+import android.text.TextWatcher
 import android.util.Log
 import android.view.*
 import android.view.inputmethod.EditorInfo
@@ -24,6 +28,7 @@ class BookDetailFragment : Fragment() {
 
     private val args: BookDetailFragmentArgs by navArgs()
     private lateinit var chosenBook : Book
+    private var readPages = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,6 +84,8 @@ class BookDetailFragment : Fragment() {
                 binding.chWishlist.isChecked = false
                 binding.chWishlist.isClickable = true
                 (binding.chWishlist.layoutParams as LayoutParams).weight = 0F
+
+                binding.llReadPages.visibility = View.VISIBLE
             }
         }
 
@@ -94,6 +101,8 @@ class BookDetailFragment : Fragment() {
                 binding.chLibrary.isChecked = false
                 binding.chLibrary.isClickable = true
                 (binding.chLibrary.layoutParams as LayoutParams).weight = 0F
+
+            binding.llReadPages.visibility = View.GONE
         }
 
         if (chosenBook.thumbnail == null)
@@ -113,42 +122,43 @@ class BookDetailFragment : Fragment() {
         if (chosenBook.readPages == null)
             binding.llReadPages.visibility = View.GONE
         else {
-            var readPages = -1
+            readPages = chosenBook.readPages!!
+            updatePages(chosenBook.readPages!!)
 
-            viewModel.getObservableReadPages(chosenBook).observe(requireActivity()) {
-                readPages = it
-                binding.etReadPages.setText(it.toString())
-                binding.btnAddPage.visibility =
-                    if (it < chosenBook.pages)
-                        View.VISIBLE
-                    else
-                        View.INVISIBLE
-                binding.btnRemovePage.visibility =
-                    if (it > 0)
-                        View.VISIBLE
-                    else
-                        View.INVISIBLE
-                binding.slReadPages.value = it.toFloat()
-            }
-
+            binding.etReadPages.filters = arrayOf<InputFilter>(MinMaxFilter(0, chosenBook.pages))
             binding.tvFirstPage.text = (0).toString()
             binding.tvLastPage.text = chosenBook.pages.toString()
             binding.slReadPages.valueTo = chosenBook.pages.toFloat()
 
-            binding.etReadPages.setOnEditorActionListener { textView, i, keyEvent ->
+            binding.etReadPages.addTextChangedListener(object : TextWatcher {
+
+                override fun afterTextChanged(s: Editable) {
+                    if (s.isBlank())
+                        return
+                    val newValue = s.toString().toInt()
+                    if (newValue != readPages)
+                        updatePages(newValue)
+                }
+
+                override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) { }
+
+                override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) { }
+            })
+
+            /*binding.etReadPages.setOnEditorActionListener { textView, i, keyEvent ->
                 if (i == EditorInfo.IME_ACTION_SEARCH || i == EditorInfo.IME_ACTION_DONE
                     || keyEvent == null || keyEvent.keyCode == KeyEvent.KEYCODE_ENTER) {
                     viewModel.addReadPages(chosenBook, textView.text.toString().toInt() - readPages)
                 }
                 false
-            }
+            }*/
 
             binding.btnAddPage.setOnClickListener {
-                viewModel.addReadPages(chosenBook, 1)
+                updatePages(readPages + 1)
             }
 
             binding.btnRemovePage.setOnClickListener {
-                viewModel.addReadPages(chosenBook, -1)
+                updatePages(readPages - 1)
             }
 
             binding.slReadPages.addOnSliderTouchListener(object : Slider.OnSliderTouchListener {
@@ -158,13 +168,59 @@ class BookDetailFragment : Fragment() {
 
                 @SuppressLint("RestrictedApi")
                 override fun onStopTrackingTouch(slider: Slider) {
-                    viewModel.addReadPages(chosenBook, slider.value.toInt() - readPages)
+                    updatePages(slider.value.toInt())
                 }
             })
 
             binding.slReadPages.addOnChangeListener { _, value, _ ->
                 binding.etReadPages.setText(value.toInt().toString())
             }
+        }
+    }
+
+    fun updatePages(newValue: Int) {
+        if (newValue != readPages) {
+            viewModel.addReadPages(chosenBook, newValue - readPages)
+            readPages = newValue
+        }
+
+        binding.etReadPages.setText(readPages.toString())
+        binding.btnAddPage.visibility =
+            if (readPages < chosenBook.pages)
+                View.VISIBLE
+            else
+                View.INVISIBLE
+        binding.btnRemovePage.visibility =
+            if (readPages > 0)
+                View.VISIBLE
+            else
+                View.INVISIBLE
+        binding.slReadPages.value = readPages.toFloat()
+    }
+
+    inner class MinMaxFilter() : InputFilter {
+        private var intMin: Int = 0
+        private var intMax: Int = 0
+
+        constructor(minValue: Int, maxValue: Int) : this() {
+            this.intMin = minValue
+            this.intMax = maxValue
+        }
+
+        override fun filter(source: CharSequence, start: Int, end: Int, dest: Spanned, dStart: Int, dEnd: Int): CharSequence? {
+            try {
+                val input = Integer.parseInt(dest.toString() + source.toString())
+                if (isInRange(intMin, intMax, input)) {
+                    return null
+                }
+            } catch (e: NumberFormatException) {
+                e.printStackTrace()
+            }
+            return ""
+        }
+
+        private fun isInRange(a: Int, b: Int, c: Int): Boolean {
+            return if (b > a) c in a..b else c in b..a
         }
     }
 

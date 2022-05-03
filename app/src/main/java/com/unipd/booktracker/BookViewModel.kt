@@ -40,14 +40,6 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
         return@runBlocking bookDao.getObservableWishlist()
     }
 
-    fun getObservableReadPages(book: Book): LiveData<Int> = runBlocking(Dispatchers.IO) {
-        return@runBlocking bookDao.getObservableReadPages(book.id)
-    }
-
-    fun countReadPages(book: Book): Int = runBlocking(Dispatchers.IO) {
-        return@runBlocking readingDao.countReadPages(book.id)
-    }
-
     fun getFilteredLibrary (
         query: String = "",
         notRead: Boolean = true,
@@ -80,8 +72,7 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun addReadPages(book: Book, pageDifference: Int) = viewModelScope.launch(Dispatchers.IO) {
-        Log.i("myLog",pageDifference.toString())
-        readingDao.insert(Reading(book.id, Date(), pageDifference))
+        readingDao.insert(Reading(bookId = book.id, date = Date(), pageDifference = pageDifference))
     }
 
     fun isBookInLibrary(book: Book): Boolean = runBlocking(Dispatchers.IO) {
