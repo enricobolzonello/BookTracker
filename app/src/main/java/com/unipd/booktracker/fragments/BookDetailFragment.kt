@@ -2,20 +2,20 @@ package com.unipd.booktracker.fragments
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
 import android.view.*
+import android.view.inputmethod.EditorInfo
+import android.widget.LinearLayout.LayoutParams
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
+import com.google.android.material.slider.Slider
 import com.unipd.booktracker.BookViewModel
 import com.unipd.booktracker.MainActivity
 import com.unipd.booktracker.R
 import com.unipd.booktracker.databinding.FragmentBookDetailBinding
 import com.unipd.booktracker.db.Book
-import android.widget.LinearLayout.LayoutParams
-import android.widget.Toast
+
 
 class BookDetailFragment : Fragment() {
     private lateinit var viewModel: BookViewModel
@@ -24,8 +24,6 @@ class BookDetailFragment : Fragment() {
 
     private val args: BookDetailFragmentArgs by navArgs()
     private lateinit var chosenBook : Book
-    private var prevReadPages: Int = -1
-    private var curReadPages: Int = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,27 +40,6 @@ class BookDetailFragment : Fragment() {
         // Inflate the layout for this fragment
         _binding = FragmentBookDetailBinding.inflate(inflater, container, false)
         return binding.root
-    }
-
-    private fun updatePages() {
-        binding.etReadPages.setText(curReadPages.toString())
-        binding.btnAddPage.visibility =
-            if (curReadPages < chosenBook.pages)
-                View.VISIBLE
-            else
-                View.INVISIBLE
-
-        binding.btnRemovePage.visibility =
-            if (curReadPages > 0)
-                View.VISIBLE
-            else
-                View.INVISIBLE
-
-        binding.slReadPages.value = curReadPages.toFloat()
-        if (prevReadPages != curReadPages) {
-            viewModel.addReadPages(chosenBook, curReadPages - prevReadPages)
-            prevReadPages = curReadPages
-        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -136,65 +113,58 @@ class BookDetailFragment : Fragment() {
         if (chosenBook.readPages == null)
             binding.llReadPages.visibility = View.GONE
         else {
-            prevReadPages = chosenBook.readPages!!
-            curReadPages = chosenBook.readPages!!
+            var readPages = -1
+
+            viewModel.getObservableReadPages(chosenBook).observe(requireActivity()) {
+                readPages = it
+                binding.etReadPages.setText(it.toString())
+                binding.btnAddPage.visibility =
+                    if (it < chosenBook.pages)
+                        View.VISIBLE
+                    else
+                        View.INVISIBLE
+                binding.btnRemovePage.visibility =
+                    if (it > 0)
+                        View.VISIBLE
+                    else
+                        View.INVISIBLE
+                binding.slReadPages.value = it.toFloat()
+            }
 
             binding.tvFirstPage.text = (0).toString()
             binding.tvLastPage.text = chosenBook.pages.toString()
             binding.slReadPages.valueTo = chosenBook.pages.toFloat()
-            updatePages()
+
+            binding.etReadPages.setOnEditorActionListener { textView, i, keyEvent ->
+                if (i == EditorInfo.IME_ACTION_SEARCH || i == EditorInfo.IME_ACTION_DONE
+                    || keyEvent == null || keyEvent.keyCode == KeyEvent.KEYCODE_ENTER) {
+                    viewModel.addReadPages(chosenBook, textView.text.toString().toInt() - readPages)
+                }
+                false
+            }
 
             binding.btnAddPage.setOnClickListener {
-                curReadPages += 1
-                updatePages()
+                viewModel.addReadPages(chosenBook, 1)
             }
 
             binding.btnRemovePage.setOnClickListener {
-                curReadPages -= 1
-                updatePages()
+                viewModel.addReadPages(chosenBook, -1)
             }
 
-            /*binding.slReadPages.addOnSliderTouchListener(object : Slider.OnSliderTouchListener {
+            binding.slReadPages.addOnSliderTouchListener(object : Slider.OnSliderTouchListener {
 
                 @SuppressLint("RestrictedApi")
                 override fun onStartTrackingTouch(slider: Slider) { }
 
                 @SuppressLint("RestrictedApi")
                 override fun onStopTrackingTouch(slider: Slider) {
-                    curReadPages = slider.value.toInt()
-                    updatePages()
-                }
-            })*/
-
-            binding.slReadPages.addOnChangeListener { _, value, _ ->
-                curReadPages = value.toInt()
-                updatePages()
-            }
-
-            binding.etReadPages.addTextChangedListener(object : TextWatcher {
-
-                override fun afterTextChanged(s: Editable) { }
-
-                override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-
-                override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                    if (s.isBlank())
-                        return
-                    val value = s.toString().toInt()
-                    if (value == curReadPages)
-                        return
-                    if (value in 0..chosenBook.pages) {
-                        curReadPages = value
-                        updatePages()
-                    }
-                    else
-                        Toast.makeText(
-                            requireContext(),
-                            getString(R.string.page_value_error),
-                            Toast.LENGTH_SHORT
-                        ).show()
+                    viewModel.addReadPages(chosenBook, slider.value.toInt() - readPages)
                 }
             })
+
+            binding.slReadPages.addOnChangeListener { _, value, _ ->
+                binding.etReadPages.setText(value.toInt().toString())
+            }
         }
     }
 

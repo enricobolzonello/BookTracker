@@ -1,7 +1,9 @@
 <resources>
     <style name="Theme.BookTracker" parent="Theme.Material3.DynamicColors.Dark">
+        <!--
+        Commented out for testing on android <12 physical devices
         <item name="android:windowSplashScreenBackground">@color/black</item>
-        <item name="android:windowSplashScreenAnimatedIcon">@drawable/ic_logo_dark</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/ic_logo_dark</item>-->
         <item name="colorPrimary">@color/md_theme_dark_primary</item>
         <item name="colorOnPrimary">@color/md_theme_dark_onPrimary</item>
         <item name="colorPrimaryContainer">@color/md_theme_dark_primaryContainer</item>

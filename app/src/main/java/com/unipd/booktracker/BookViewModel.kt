@@ -40,6 +40,10 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
         return@runBlocking bookDao.getObservableWishlist()
     }
 
+    fun getObservableReadPages(book: Book): LiveData<Int> = runBlocking(Dispatchers.IO) {
+        return@runBlocking bookDao.getObservableReadPages(book.id)
+    }
+
     fun countReadPages(book: Book): Int = runBlocking(Dispatchers.IO) {
         return@runBlocking readingDao.countReadPages(book.id)
     }

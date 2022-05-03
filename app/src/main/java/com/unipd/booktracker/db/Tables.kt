@@ -1,6 +1,8 @@
 package com.unipd.booktracker.db
 
 import android.graphics.Bitmap
+import android.os.Parcel
+import android.os.Parcelable
 import androidx.annotation.Nullable
 import androidx.room.ColumnInfo
 import androidx.room.Entity

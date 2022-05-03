@@ -46,6 +46,9 @@ interface BookDao {
     @Query("SELECT * FROM books WHERE readPages IS NULL")
     fun getObservableWishlist(): LiveData<List<Book>>
 
+    @Query("SELECT readPages FROM books WHERE id = :bookId AND readPages IS NOT NULL")
+    fun getObservableReadPages(bookId: String): LiveData<Int>
+
     @Query("SELECT * FROM " +
             "(SELECT * FROM books WHERE :notRead AND readPages = 0 " +
             "UNION SELECT * FROM books WHERE :reading AND (readPages > 0 AND readPages < pages) " +
