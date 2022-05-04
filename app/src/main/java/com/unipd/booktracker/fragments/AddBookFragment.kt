@@ -12,6 +12,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.unipd.booktracker.BookAdapter
 import com.unipd.booktracker.BookViewModel
 import com.unipd.booktracker.MainActivity
+import com.unipd.booktracker.R
 import com.unipd.booktracker.databinding.FragmentAddBookBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -46,6 +47,9 @@ class AddDialogFragment : BottomSheetDialogFragment() {
 
         binding.root.layoutParams.height = Resources.getSystem().displayMetrics.heightPixels
         binding.rwAddBook.adapter = bookAdapter
+        binding.rwAddBook.setPadding(0, 0, 0, (resources.getDimension(R.dimen.content_margin) * 2).toInt())
+        binding.rwAddBook.clipToPadding = false
+
         binding.swAddBook.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
 
             override fun onQueryTextChange(newText: String): Boolean {
@@ -53,12 +57,16 @@ class AddDialogFragment : BottomSheetDialogFragment() {
             }
 
             override fun onQueryTextSubmit(query: String): Boolean {
+                binding.piLoading.visibility = View.VISIBLE
+                binding.rwAddBook.visibility = View.GONE
                 lifecycleScope.launch(Dispatchers.IO) {
                     // Running suspend fun on IO thread
                     val books = viewModel.getBooksFromQuery(query)
                     withContext(Dispatchers.Main) {
                         // Updating the UI after the suspend fun has ended
                         bookAdapter.setBooks(books)
+                        binding.piLoading.visibility = View.GONE
+                        binding.rwAddBook.visibility = View.VISIBLE
                     }
                 }
                 return false
