@@ -20,6 +20,7 @@ import org.json.JSONObject
 import java.io.IOException
 import java.net.URL
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 
@@ -72,7 +73,7 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun addReadPages(book: Book, pageDifference: Int) = viewModelScope.launch(Dispatchers.IO) {
-        readingDao.insert(Reading(bookId = book.id, date = Date(), pageDifference = pageDifference))
+        readingDao.upsert(Reading(book.id, LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE), pageDifference))
     }
 
     fun isBookInLibrary(book: Book): Boolean = runBlocking(Dispatchers.IO) {

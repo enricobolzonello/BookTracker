@@ -3,11 +3,23 @@ package com.unipd.booktracker.db
 import androidx.room.*
 import java.util.*
 
+
 @Dao
 interface ReadingDao {
 
-    @Insert(onConflict = OnConflictStrategy.ABORT)
-    fun insert(reading: Reading)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    fun insert(reading: Reading): Long
+
+    @Query("UPDATE readings " +
+            "SET pageDifference = pageDifference + :pageDifference " +
+            "WHERE bookId = :bookId AND date = :date")
+    fun updatePages(bookId: String, date: String, pageDifference: Int)
+
+    @Transaction
+    fun upsert(reading: Reading) {
+        if (insert(reading) == -1L)
+            updatePages(reading.bookId, reading.date, reading.pageDifference)
+    }
 
     @Query("DELETE FROM readings")
     fun deleteAllReadings()
