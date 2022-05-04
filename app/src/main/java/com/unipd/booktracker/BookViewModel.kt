@@ -90,6 +90,7 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
 
     fun moveToWishlist(book: Book) = viewModelScope.launch(Dispatchers.IO) {
         bookDao.moveToWishlist(book.id)
+        readingDao.deleteBookReadings(book.id)
     }
 
     fun librarySize() : Int = runBlocking(Dispatchers.IO) {

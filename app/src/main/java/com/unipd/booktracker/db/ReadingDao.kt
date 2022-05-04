@@ -17,9 +17,13 @@ interface ReadingDao {
 
     @Transaction
     fun upsert(reading: Reading) {
+        // If a reading record already exists, then update the pageDifference column
         if (insert(reading) == -1L)
             updatePages(reading.bookId, reading.date, reading.pageDifference)
     }
+
+    @Query("DELETE FROM readings WHERE bookId = :bookId")
+    fun deleteBookReadings(bookId: String)
 
     @Query("DELETE FROM readings")
     fun deleteAllReadings()

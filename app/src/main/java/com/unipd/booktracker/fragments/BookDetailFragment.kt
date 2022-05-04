@@ -60,26 +60,12 @@ class BookDetailFragment : Fragment() {
             (binding.chWishlist.layoutParams as LayoutParams).weight = 1F
         }
         else {
-            (binding.chLibrary.layoutParams as LayoutParams).weight =
-                if (binding.chLibrary.isChecked)
-                    1F
-                else
-                    0F
-
-            binding.chWishlist.isChecked = viewModel.isBookInWishlist(chosenBook)
-            (binding.chWishlist.layoutParams as LayoutParams).weight =
-                if (binding.chWishlist.isChecked)
-                    1F
-                else
-                    0F
+            (binding.chLibrary.layoutParams as LayoutParams).weight = if (binding.chLibrary.isChecked) 1F else 0F
+            (binding.chWishlist.layoutParams as LayoutParams).weight = if (binding.chWishlist.isChecked) 1F else 0F
         }
 
         binding.chLibrary.setOnClickListener {
             if (binding.chLibrary.isChecked) {
-                if (!binding.chWishlist.isChecked)
-                    viewModel.addBook(chosenBook)
-                viewModel.moveToLibrary(chosenBook)
-
                 binding.chLibrary.isClickable = false
                 (binding.chLibrary.layoutParams as LayoutParams).weight = 1F
 
@@ -87,16 +73,19 @@ class BookDetailFragment : Fragment() {
                 binding.chWishlist.isClickable = true
                 (binding.chWishlist.layoutParams as LayoutParams).weight = 0F
 
+                if (!binding.chWishlist.isChecked)
+                    viewModel.addBook(chosenBook)
+                viewModel.moveToLibrary(chosenBook)
+
+                setupReadPagesModifiers()
+                readPages = 0
+                updateReadPages(readPages)
                 binding.llReadPages.visibility = View.VISIBLE
             }
         }
 
         binding.chWishlist.setOnClickListener {
-            if (binding.chWishlist.isChecked)
-                if (!binding.chLibrary.isChecked)
-                    viewModel.addBook(chosenBook)
-                viewModel.moveToWishlist(chosenBook)
-
+            if (binding.chWishlist.isChecked) {
                 binding.chWishlist.isClickable = false
                 (binding.chWishlist.layoutParams as LayoutParams).weight = 1F
 
@@ -104,7 +93,12 @@ class BookDetailFragment : Fragment() {
                 binding.chLibrary.isClickable = true
                 (binding.chLibrary.layoutParams as LayoutParams).weight = 0F
 
-            binding.llReadPages.visibility = View.GONE
+                if (!binding.chLibrary.isChecked)
+                    viewModel.addBook(chosenBook)
+                viewModel.moveToWishlist(chosenBook)
+
+                binding.llReadPages.visibility = View.GONE
+            }
         }
 
         if (chosenBook.thumbnail == null)
@@ -124,72 +118,84 @@ class BookDetailFragment : Fragment() {
         if (chosenBook.readPages == null)
             binding.llReadPages.visibility = View.GONE
         else {
+            setupReadPagesModifiers()
             readPages = chosenBook.readPages!!
-            updatePages(chosenBook.readPages!!)
-
-            binding.etReadPages.filters = arrayOf<InputFilter>(MinMaxFilter(0, chosenBook.pages))
-            binding.tvFirstPage.text = (0).toString()
-            binding.tvLastPage.text = chosenBook.pages.toString()
-            binding.slReadPages.valueTo = chosenBook.pages.toFloat()
-
-            binding.etReadPages.addTextChangedListener(object : TextWatcher {
-
-                override fun afterTextChanged(s: Editable) {
-                    if (s.isBlank())
-                        return
-                    val newValue = s.toString().toInt()
-                    if (newValue != readPages)
-                        updatePages(newValue)
-                }
-
-                override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) { }
-
-                override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) { }
-            })
-
-            binding.btnAddPage.setOnClickListener {
-                updatePages(readPages + 1)
-            }
-
-            binding.btnRemovePage.setOnClickListener {
-                updatePages(readPages - 1)
-            }
-
-            binding.slReadPages.addOnSliderTouchListener(object : Slider.OnSliderTouchListener {
-
-                @SuppressLint("RestrictedApi")
-                override fun onStartTrackingTouch(slider: Slider) { }
-
-                @SuppressLint("RestrictedApi")
-                override fun onStopTrackingTouch(slider: Slider) {
-                    updatePages(slider.value.toInt())
-                }
-            })
-
-            binding.slReadPages.addOnChangeListener { _, value, _ ->
-                binding.etReadPages.setText(value.toInt().toString())
-            }
+            updateReadPages(readPages)
         }
     }
 
-    fun updatePages(newValue: Int) {
+    private fun setupReadPagesModifiers() {
+        binding.etReadPages.filters = arrayOf<InputFilter>(MinMaxFilter(0, chosenBook.pages))
+        binding.tvFirstPage.text = (0).toString()
+        binding.tvLastPage.text = chosenBook.pages.toString()
+        binding.slReadPages.valueTo = chosenBook.pages.toFloat()
+
+        binding.etReadPages.addTextChangedListener(object : TextWatcher {
+
+            override fun afterTextChanged(s: Editable) {
+                if (s.isBlank())
+                    return
+                val newValue = s.toString().toInt()
+                if (newValue != readPages)
+                    updateReadPages(newValue)
+            }
+
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) { }
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) { }
+        })
+
+        binding.btnAddPage.setOnClickListener { updateReadPages(readPages + 1) }
+        binding.btnRemovePage.setOnClickListener { updateReadPages(readPages - 1) }
+
+        binding.slReadPages.addOnSliderTouchListener(object : Slider.OnSliderTouchListener {
+
+            @SuppressLint("RestrictedApi")
+            override fun onStartTrackingTouch(slider: Slider) {}
+
+            @SuppressLint("RestrictedApi")
+            override fun onStopTrackingTouch(slider: Slider) {
+                updateReadPages(slider.value.toInt())
+            }
+        })
+
+        binding.slReadPages.addOnChangeListener { _, value, _ ->
+            binding.etReadPages.setText(value.toInt().toString())
+        }
+    }
+
+    private fun updateReadPages(newValue: Int) {
         if (newValue != readPages) {
             viewModel.addReadPages(chosenBook, newValue - readPages)
             readPages = newValue
         }
-
         binding.etReadPages.setText(readPages.toString())
-        binding.btnAddPage.visibility =
-            if (readPages < chosenBook.pages)
-                View.VISIBLE
-            else
-                View.INVISIBLE
-        binding.btnRemovePage.visibility =
-            if (readPages > 0)
-                View.VISIBLE
-            else
-                View.INVISIBLE
         binding.slReadPages.value = readPages.toFloat()
+        binding.btnAddPage.visibility = if (readPages < chosenBook.pages) View.VISIBLE else View.INVISIBLE
+        binding.btnRemovePage.visibility = if (readPages > 0) View.VISIBLE else View.INVISIBLE
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.book_detail_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_share_book -> {
+                true
+            }
+            R.id.action_delete_book -> {
+                viewModel.removeBook(chosenBook)
+                requireActivity().onBackPressed()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 
     inner class MinMaxFilter() : InputFilter {
@@ -204,9 +210,8 @@ class BookDetailFragment : Fragment() {
         override fun filter(source: CharSequence, start: Int, end: Int, dest: Spanned, dStart: Int, dEnd: Int): CharSequence? {
             try {
                 val input = Integer.parseInt(dest.toString() + source.toString())
-                if (isInRange(intMin, intMax, input)) {
+                if (isInRange(intMin, intMax, input))
                     return null
-                }
             } catch (e: NumberFormatException) {
                 e.printStackTrace()
             }
@@ -216,27 +221,5 @@ class BookDetailFragment : Fragment() {
         private fun isInRange(a: Int, b: Int, c: Int): Boolean {
             return if (b > a) c in a..b else c in b..a
         }
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.book_detail_menu, menu)
-        super.onCreateOptionsMenu(menu, inflater)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.action_delete_book -> {
-                true
-            }
-            R.id.action_share_book -> {
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
     }
 }

@@ -37,6 +37,8 @@ abstract class BookRoomDatabase : RoomDatabase() {
         private val dbTriggers = object : RoomDatabase.Callback() {
             override fun onCreate(db: SupportSQLiteDatabase) {
                 super.onCreate(db)
+
+                // When a new reading record gets inserted, update the readPages column
                 db.execSQL("CREATE TRIGGER read_pages_insert " +
                         "AFTER INSERT ON readings " +
                         "WHEN (SELECT EXISTS (SELECT * FROM books WHERE id = NEW.bookId)) " +
@@ -46,6 +48,7 @@ abstract class BookRoomDatabase : RoomDatabase() {
                             "WHERE books.id = NEW.bookId; " +
                         "END")
 
+                // When a new reading record gets updated, update the readPages column
                 db.execSQL("CREATE TRIGGER read_pages_update " +
                         "AFTER UPDATE ON readings " +
                         "WHEN (SELECT EXISTS (SELECT * FROM books WHERE id = NEW.bookId)) " +
