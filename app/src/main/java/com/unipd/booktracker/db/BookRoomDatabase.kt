@@ -26,7 +26,7 @@ abstract class BookRoomDatabase : RoomDatabase() {
                 val instance = Room.databaseBuilder(
                     context.applicationContext, BookRoomDatabase::class.java, "book_database"
                 )
-                .addCallback(updateReadPages)
+                .addCallback(dbTriggers)
                 .build()
                 INSTANCE = instance
                 // return instance
@@ -34,15 +34,24 @@ abstract class BookRoomDatabase : RoomDatabase() {
             }
         }
 
-        private val updateReadPages = object : RoomDatabase.Callback() {
+        private val dbTriggers = object : RoomDatabase.Callback() {
             override fun onCreate(db: SupportSQLiteDatabase) {
                 super.onCreate(db)
-                db.execSQL("CREATE TRIGGER update_read_pages " +
+                db.execSQL("CREATE TRIGGER read_pages_insert " +
                         "AFTER INSERT ON readings " +
                         "WHEN (SELECT EXISTS (SELECT * FROM books WHERE id = NEW.bookId)) " +
                         "BEGIN " +
                             "UPDATE books " +
                             "SET readPages = readPages + NEW.pageDifference " +
+                            "WHERE books.id = NEW.bookId; " +
+                        "END")
+
+                db.execSQL("CREATE TRIGGER read_pages_update " +
+                        "AFTER UPDATE ON readings " +
+                        "WHEN (SELECT EXISTS (SELECT * FROM books WHERE id = NEW.bookId)) " +
+                        "BEGIN " +
+                            "UPDATE books " +
+                            "SET readPages = readPages + (NEW.pageDifference - OLD.pageDifference) " +
                             "WHERE books.id = NEW.bookId; " +
                         "END")
             }
