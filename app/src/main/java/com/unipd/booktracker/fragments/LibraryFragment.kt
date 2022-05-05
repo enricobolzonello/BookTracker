@@ -1,9 +1,9 @@
 package com.unipd.booktracker.fragments
 
 import android.app.SearchManager
+import android.content.ClipData
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.FrameLayout
 import android.widget.Toast
@@ -13,14 +13,11 @@ import androidx.core.view.marginBottom
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.unipd.booktracker.BookAdapter
-import com.unipd.booktracker.BookViewModel
-import com.unipd.booktracker.MainActivity
-import com.unipd.booktracker.R
+import com.unipd.booktracker.*
 import com.unipd.booktracker.databinding.FragmentLibraryBinding
 import com.unipd.booktracker.db.OrderColumns
-import java.time.LocalDate
 
 class LibraryFragment: Fragment() {
     private lateinit var viewModel: BookViewModel
@@ -88,6 +85,10 @@ class LibraryFragment: Fragment() {
                 dialog.show(childFragmentManager, getString(R.string.title_add_book))
             }
         }
+
+        val swipeController: RecyclerItemTouchHelper = RecyclerItemTouchHelper(viewModel)
+        val itemTouchHelper: ItemTouchHelper = ItemTouchHelper(swipeController)
+        itemTouchHelper.attachToRecyclerView(binding.rwLibrary)
     }
 
     override fun onDestroyView() {
