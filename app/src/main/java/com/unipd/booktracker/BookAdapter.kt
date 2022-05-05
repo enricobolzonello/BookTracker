@@ -63,4 +63,8 @@ class BookAdapter(val parentFragment: Fragment): RecyclerView.Adapter<BookAdapte
     override fun onBindViewHolder(holder: BookViewHolder, position: Int) {
         holder.bind(library[position])
     }
+
+    fun getBookAt(position: Int):Book{
+        return library[position]
+    }
 }

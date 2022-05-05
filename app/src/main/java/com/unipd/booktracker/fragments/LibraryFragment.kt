@@ -1,7 +1,6 @@
 package com.unipd.booktracker.fragments
 
 import android.app.SearchManager
-import android.content.ClipData
 import android.content.Context
 import android.os.Bundle
 import android.view.*
@@ -18,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.unipd.booktracker.*
 import com.unipd.booktracker.databinding.FragmentLibraryBinding
 import com.unipd.booktracker.db.OrderColumns
+
 
 class LibraryFragment: Fragment() {
     private lateinit var viewModel: BookViewModel
@@ -86,9 +86,27 @@ class LibraryFragment: Fragment() {
             }
         }
 
-        val swipeController: RecyclerItemTouchHelper = RecyclerItemTouchHelper(viewModel)
+        /*val swipeController: RecyclerItemTouchHelper = RecyclerItemTouchHelper(viewModel)
         val itemTouchHelper: ItemTouchHelper = ItemTouchHelper(swipeController)
-        itemTouchHelper.attachToRecyclerView(binding.rwLibrary)
+        itemTouchHelper.attachToRecyclerView(binding.rwLibrary)*/
+
+        ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
+            0,
+            ItemTouchHelper.LEFT
+        ) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                viewModel.removeBook(bookAdapter.getBookAt(viewHolder.adapterPosition))
+                Toast.makeText(activity, "Note deleted", Toast.LENGTH_SHORT).show()
+            }
+        }).attachToRecyclerView(binding.rwLibrary)
     }
 
     override fun onDestroyView() {
