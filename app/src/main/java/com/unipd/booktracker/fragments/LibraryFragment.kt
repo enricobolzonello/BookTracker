@@ -1,6 +1,5 @@
 package com.unipd.booktracker.fragments
 
-import android.annotation.SuppressLint
 import android.app.SearchManager
 import android.content.Context
 import android.os.Bundle
@@ -91,8 +90,10 @@ class LibraryFragment: Fragment() {
         val itemTouchHelper: ItemTouchHelper = ItemTouchHelper(swipeController)
         itemTouchHelper.attachToRecyclerView(binding.rwLibrary)*/
 
-        ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
-
+        ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
+            0,
+            ItemTouchHelper.LEFT
+        ) {
             override fun onMove(
                 recyclerView: RecyclerView,
                 viewHolder: RecyclerView.ViewHolder,
@@ -103,6 +104,7 @@ class LibraryFragment: Fragment() {
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 viewModel.removeBook(bookAdapter.getBookAt(viewHolder.adapterPosition))
+                Toast.makeText(activity, "Book Deleted", Toast.LENGTH_SHORT).show()
                 updateFilters()
             }
         }).attachToRecyclerView(binding.rwLibrary)
