@@ -43,7 +43,7 @@ android {
 }
 
 dependencies {
-    def material_version = "1.5.0"
+    def material_version = "1.6.0"
     def nav_version = "2.4.2"
     def lifecycle_version = "2.4.1"
     def room_version = "2.4.2"

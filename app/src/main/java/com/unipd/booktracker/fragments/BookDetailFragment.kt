@@ -1,6 +1,5 @@
 package com.unipd.booktracker.fragments
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.Editable
 import android.text.InputFilter
@@ -8,11 +7,9 @@ import android.text.Spanned
 import android.text.TextWatcher
 import android.util.Log
 import android.view.*
-import android.view.inputmethod.EditorInfo
 import android.widget.LinearLayout.LayoutParams
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.slider.Slider
 import com.unipd.booktracker.BookViewModel
@@ -33,7 +30,6 @@ class BookDetailFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
 
         viewModel = ViewModelProvider(requireActivity() as MainActivity)[BookViewModel::class.java]
         chosenBook = args.chosenBook
@@ -44,7 +40,6 @@ class BookDetailFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
         _binding = FragmentBookDetailBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -52,14 +47,16 @@ class BookDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // TODO: chips has to be not clickable if already selected, but it's not working at the fragment start
         binding.chLibrary.isChecked = viewModel.isBookInLibrary(chosenBook)
         binding.chWishlist.isChecked = viewModel.isBookInWishlist(chosenBook)
 
         if (!binding.chLibrary.isChecked && !binding.chWishlist.isChecked) {
+            setHasOptionsMenu(false)
             (binding.chLibrary.layoutParams as LayoutParams).weight = 1F
             (binding.chWishlist.layoutParams as LayoutParams).weight = 1F
-        }
-        else {
+        } else {
+            setHasOptionsMenu(true)
             (binding.chLibrary.layoutParams as LayoutParams).weight = if (binding.chLibrary.isChecked) 1F else 0F
             (binding.chWishlist.layoutParams as LayoutParams).weight = if (binding.chWishlist.isChecked) 1F else 0F
         }
@@ -77,6 +74,7 @@ class BookDetailFragment : Fragment() {
                     viewModel.addBook(chosenBook)
                 viewModel.moveToLibrary(chosenBook)
 
+                setHasOptionsMenu(true)
                 setupReadPagesModifiers()
                 readPages = 0
                 updateReadPages(readPages)
@@ -97,6 +95,7 @@ class BookDetailFragment : Fragment() {
                     viewModel.addBook(chosenBook)
                 viewModel.moveToWishlist(chosenBook)
 
+                setHasOptionsMenu(true)
                 binding.llReadPages.visibility = View.GONE
             }
         }
@@ -125,13 +124,13 @@ class BookDetailFragment : Fragment() {
     }
 
     private fun setupReadPagesModifiers() {
+        // The edit text only accepts valid page values
         binding.etReadPages.filters = arrayOf<InputFilter>(MinMaxFilter(0, chosenBook.pages))
         binding.tvFirstPage.text = (0).toString()
         binding.tvLastPage.text = chosenBook.pages.toString()
         binding.slReadPages.valueTo = chosenBook.pages.toFloat()
 
         binding.etReadPages.addTextChangedListener(object : TextWatcher {
-
             override fun afterTextChanged(s: Editable) {
                 if (s.isBlank())
                     return
@@ -139,7 +138,6 @@ class BookDetailFragment : Fragment() {
                 if (newValue != readPages)
                     updateReadPages(newValue)
             }
-
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) { }
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) { }
         })
@@ -147,20 +145,18 @@ class BookDetailFragment : Fragment() {
         binding.btnAddPage.setOnClickListener { updateReadPages(readPages + 1) }
         binding.btnRemovePage.setOnClickListener { updateReadPages(readPages - 1) }
 
-        binding.slReadPages.addOnSliderTouchListener(object : Slider.OnSliderTouchListener {
+        // Slider move only changes the edit text value, the readPages value is changed only when sliding has ended
+        binding.slReadPages.addOnChangeListener { _, value, _ ->
+            binding.etReadPages.setText(value.toInt().toString())
+        }
 
-            @SuppressLint("RestrictedApi")
+        binding.slReadPages.addOnSliderTouchListener(object : Slider.OnSliderTouchListener {
             override fun onStartTrackingTouch(slider: Slider) {}
 
-            @SuppressLint("RestrictedApi")
             override fun onStopTrackingTouch(slider: Slider) {
                 updateReadPages(slider.value.toInt())
             }
         })
-
-        binding.slReadPages.addOnChangeListener { _, value, _ ->
-            binding.etReadPages.setText(value.toInt().toString())
-        }
     }
 
     private fun updateReadPages(newValue: Int) {
@@ -186,6 +182,7 @@ class BookDetailFragment : Fragment() {
             }
             R.id.action_delete_book -> {
                 viewModel.removeBook(chosenBook)
+                setHasOptionsMenu(false)
                 requireActivity().onBackPressed()
                 true
             }
