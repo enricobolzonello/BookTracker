@@ -30,14 +30,20 @@ class BookAdapter(val parentFragment: Fragment): RecyclerView.Adapter<BookAdapte
         fun bind(book: Book) {
             binding.tvBookTitle.text = book.title
             binding.tvBookAuthor.text = book.mainAuthor
+
             if (book.thumbnail == null)
                 binding.ivBookThumbnail.setBackgroundResource(R.drawable.default_thumbnail)
             else
                 binding.ivBookThumbnail.setImageBitmap(book.thumbnail)
+
             if (book.readPages == null)
-                binding.pbRead.visibility = View.GONE
-            else
-                binding.pbRead.progress = (book.readPages.toDouble() / book.pages.toDouble() * 100).toInt()
+                binding.llReadProgress.visibility = View.GONE
+            else {
+                val progress = (book.readPages.toDouble() / book.pages.toDouble() * 100).toInt()
+                binding.piReadProgress.progress = progress
+                binding.tvReadProgress.text = parentFragment.getString(R.string.read_progress_placeholder, progress)
+            }
+
 
             binding.cvBook.setOnClickListener {
                 val bundle = Bundle()

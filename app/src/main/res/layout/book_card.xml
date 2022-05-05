@@ -24,10 +24,10 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
             android:layout_margin="@dimen/content_margin"
             android:layout_weight="1"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_gravity="center_vertical">
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tv_book_title"
@@ -49,15 +49,32 @@
                 android:text="@string/author_placeholder"
                 android:textAppearance="@style/TextAppearance.Material3.BodyMedium" />
 
-            <ProgressBar
-                android:id="@+id/pb_read"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="match_parent"
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_read_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="@dimen/content_margin"
+            android:orientation="vertical"
+            android:gravity="center_vertical">
+
+            <com.google.android.material.progressindicator.CircularProgressIndicator
+                android:id="@+id/pi_read_progress"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:indeterminate="false"
                 android:max="100"
-                android:min="0"
-                android:progress="10" />
+                android:min="0" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_read_progress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/read_progress_placeholder"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.Material3.BodyMedium" />
 
         </LinearLayout>
 
