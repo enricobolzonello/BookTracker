@@ -13,6 +13,7 @@ import androidx.core.view.marginBottom
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.unipd.booktracker.BookAdapter
 import com.unipd.booktracker.BookViewModel
@@ -83,6 +84,25 @@ class WishlistFragment: Fragment() {
                 dialog.show(childFragmentManager, getString(R.string.title_add_book))
             }
         }
+
+        ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
+            0,
+            ItemTouchHelper.LEFT
+        ) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                viewModel.removeBook(bookAdapter.getBookAt(viewHolder.adapterPosition))
+                Toast.makeText(activity, "Book Deleted", Toast.LENGTH_SHORT).show()
+                updateFilters()
+            }
+        }).attachToRecyclerView(binding.rwWishlist)
     }
 
     override fun onDestroyView() {

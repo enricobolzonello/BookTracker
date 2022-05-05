@@ -104,7 +104,8 @@ class LibraryFragment: Fragment() {
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 viewModel.removeBook(bookAdapter.getBookAt(viewHolder.adapterPosition))
-                Toast.makeText(activity, "Note deleted", Toast.LENGTH_SHORT).show()
+                Toast.makeText(activity, "Book Deleted", Toast.LENGTH_SHORT).show()
+                updateFilters()
             }
         }).attachToRecyclerView(binding.rwLibrary)
     }
