@@ -3,7 +3,6 @@ package com.unipd.booktracker.db
 import androidx.lifecycle.LiveData
 import androidx.room.*
 
-
 @Dao
 interface BookDao {
 
@@ -91,9 +90,4 @@ interface BookDao {
             "END DESC")
     fun getFilteredWishlist(query: String, orderColumn : OrderColumns, asc : Boolean): List<Book>
 
-    @Query("SELECT COUNT(*) FROM books WHERE readPages IS NOT NULL")
-    fun countLibraryBooks(): Int
-
-    @Query("SELECT COUNT(*) FROM books WHERE readPages IS NULL")
-    fun countWishlistBooks(): Int
 }

@@ -14,6 +14,7 @@ abstract class BookRoomDatabase : RoomDatabase() {
 
     abstract fun bookDao(): BookDao
     abstract fun readingDao(): ReadingDao
+    abstract fun statsDao(): StatsDao
 
     companion object {
         // Singleton prevents multiple instances of database opening at the same time.

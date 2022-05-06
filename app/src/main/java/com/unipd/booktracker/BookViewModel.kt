@@ -32,6 +32,7 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
     private val bookDatabase : BookRoomDatabase = BookRoomDatabase.getDatabase(application.applicationContext)
     private val bookDao : BookDao = bookDatabase.bookDao()
     private val readingDao : ReadingDao = bookDatabase.readingDao()
+    private val statsDao : StatsDao = bookDatabase.statsDao()
 
     fun getObservableLibrary(): LiveData<List<Book>> = runBlocking(Dispatchers.IO) {
         return@runBlocking bookDao.getObservableLibrary()
@@ -64,10 +65,6 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
         bookDao.insert(book)
     }
 
-    fun addBooks(books: List<Book>) = viewModelScope.launch(Dispatchers.IO) {
-        bookDao.insert(books)
-    }
-
     fun removeBook(book: Book) = viewModelScope.launch(Dispatchers.IO) {
         bookDao.delete(book)
     }
@@ -93,14 +90,6 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
         readingDao.deleteBookReadings(book.id)
     }
 
-    fun librarySize() : Int = runBlocking(Dispatchers.IO) {
-        return@runBlocking bookDao.countLibraryBooks()
-    }
-
-    fun wishlistSize() : Int = runBlocking(Dispatchers.IO) {
-        return@runBlocking bookDao.countWishlistBooks()
-    }
-
     fun clearLibrary() = viewModelScope.launch(Dispatchers.IO) {
         bookDao.deleteLibraryBooks()
     }
@@ -111,6 +100,38 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
 
     fun clearAll() = viewModelScope.launch(Dispatchers.IO) {
         bookDao.deleteBooks()
+    }
+
+    fun countReadBooks(): Int = runBlocking(Dispatchers.IO) {
+        return@runBlocking statsDao.countReadBooks()
+    }
+
+    fun countReadPages(): Int = runBlocking(Dispatchers.IO) {
+        return@runBlocking statsDao.countReadPages()
+    }
+
+    fun countReadPages(date: LocalDate): Int = runBlocking(Dispatchers.IO) {
+        return@runBlocking statsDao.countReadPages(date.format(DateTimeFormatter.ISO_LOCAL_DATE))
+    }
+
+    fun avgReadPagesByDay(): Int = runBlocking(Dispatchers.IO) {
+        return@runBlocking statsDao.avgReadPagesByDay()
+    }
+
+    fun mostReadAuthor(): String = runBlocking(Dispatchers.IO) {
+        return@runBlocking statsDao.mostReadAuthor()
+    }
+
+    fun countAuthors(): Int = runBlocking(Dispatchers.IO) {
+        return@runBlocking statsDao.countAuthors()
+    }
+
+    fun mostReadCategory(): String = runBlocking(Dispatchers.IO) {
+        return@runBlocking statsDao.mostReadCategory()
+    }
+
+    fun countCategories(): Int = runBlocking(Dispatchers.IO) {
+        return@runBlocking statsDao.countCategories()
     }
 
     private fun getApiKey(): String? {

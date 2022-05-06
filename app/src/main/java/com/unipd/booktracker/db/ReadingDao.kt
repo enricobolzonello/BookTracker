@@ -28,19 +28,4 @@ interface ReadingDao {
     @Query("DELETE FROM readings")
     fun deleteAllReadings()
 
-    @Query("SELECT SUM(pageDifference) FROM readings")
-    fun countReadPages() : Int
-
-    @Query("SELECT SUM(pageDifference) FROM readings WHERE date BETWEEN :firstDate AND :lastDate")
-    fun countReadPages(firstDate: String, lastDate: String) : Int
-
-    @Query("SELECT SUM(pageDifference) FROM readings WHERE bookId = :bookId AND date BETWEEN :firstDate AND :lastDate")
-    fun countReadPages(bookId: String, firstDate: String, lastDate: String) : Int
-
-    @Query("SELECT AVG(pageDifference) FROM readings GROUP BY strftime('%Y-%m-%d', date)")
-    fun avgReadPagesByDay() : Int
-
-    @Query("SELECT AVG(pageDifference) FROM readings GROUP BY strftime('%Y-%m', date)")
-    fun avgReadPagesByMonth() : Int
-
 }
