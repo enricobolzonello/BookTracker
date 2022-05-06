@@ -1,49 +1,60 @@
 <resources>
     <string name="app_name">BookTracker</string>
-    <string name="title_library">Libreria</string>
-    <string name="title_wishlist">Desideri</string>
-    <string name="title_stats">Statistiche</string>
-    <string name="title_settings">Impostazioni</string>
-    <string name="title_book_detail">Dettagli libro</string>
-    <string name="title_sort">Ordina</string>
-    <string name="title_search">Ricerca</string>
-    <string name="title_add_book">Aggiungi libro</string>
-    <string name="title_share_book">Condividi libro</string>
-    <string name="title_delete_book">Elimina libro</string>
+    <!-- Fragment titles -->
+    <string name="library">Libreria</string>
+    <string name="wishlist">Desideri</string>
+    <string name="stats">Statistiche</string>
+    <string name="settings">Impostazioni</string>
+    <string name="book_detail">Dettagli libro</string>
+    <string name="add_book">Aggiungi libro</string>
+    <!-- Actions -->
+    <string name="sort_books">Ordina</string>
+    <string name="search_books">Ricerca</string>
+    <string name="share_book">Condividi libro</string>
+    <string name="delete_book">Elimina libro</string>
+    <string name="sort_by">Ordina per</string>
+    <!-- Sortings -->
+    <string name="by_title_asc">Per Titolo (A-Z)</string>
+    <string name="by_title_desc">Per Titolo (Z-A)</string>
+    <string name="by_author_asc">Per Autore (A-Z)</string>
+    <string name="by_author_desc">Per Autore (Z-A)</string>
+    <string name="by_year_asc">Per Anno Crescente</string>
+    <string name="by_year_desc">Per Autore Decrescente</string>
+    <string name="by_progress_asc">Per Progresso lettura Crescente</string>
+    <string name="by_progress_desc">Per Progresso lettura Decrescente</string>
+    <!-- Filter chips -->
+    <string name="not_read">Non letti</string>
+    <string name="reading">In lettura</string>
+    <string name="read">Letti</string>
+    <!-- Book info -->
+    <string name="title">Titolo</string>
+    <string name="author">Autore</string>
+    <string name="genre">Genere</string>
+    <string name="language">Lingua</string>
+    <string name="pages">Pagine</string>
+    <string name="description">Descrizione</string>
+    <string name="publisher">Editore</string>
+    <string name="isbn">ISBN</string>
+    <!-- Stats -->
+    <string name="today">Oggi</string>
+    <string name="read_pages">Pagine lette</string>
+    <string name="read_books">Libri letti</string>
+    <string name="most_read_author">Autore più letto</string>
+    <string name="most_read_genre">Genere più letto</string>
+    <string name="total">Totali</string>
+    <!-- Search hint -->
     <string name="search_hint">Cerca libro</string>
-    <string name="title_placeholder">Titolo</string>
-    <string name="author_placeholder">Autore</string>
-    <string name="thumb_description">Copertina libro</string>
-    <string name="state_description">Stato lettura libro</string>
-    <string name="filter_not_read">Non letti</string>
-    <string name="filter_reading">In lettura</string>
-    <string name="filter_read">Letti</string>
-    <string name="filter_sort">Ordina per</string>
-    <string name="fab_action">Aggiungi libro</string>
-    <string name="sort_byTitleAsc">Per Titolo (A-Z)</string>
-    <string name="sort_byTitleDesc">Per Titolo (Z-A)</string>
-    <string name="sort_byAuthorAsc">Per Autore (A-Z)</string>
-    <string name="sort_byAuthorDesc">Per Autore (Z-A)</string>
-    <string name="sort_byYearAsc">Per Anno Crescente</string>
-    <string name="sort_byYearDesc">Per Autore Decrescente</string>
-    <string name="sort_byReadProgressAsc">Per Progresso lettura Crescente</string>
-    <string name="sort_byReadProgressDesc">Per Progresso lettura Decrescente</string>
-    <string name="genres_placeholder">Genere</string>
-    <string name="read_progress_placeholder">%d %%</string>
-    <string name="bd_language_title">Lingua</string>
-    <string name="bd_language">IT</string>
-    <string name="bd_pages_title">Pagine</string>
-    <string name="bd_pages">0</string>
-    <string name="bd_description_title">Descrizione</string>
-    <string name="bd_description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
-    <string name="bd_publisher_title">Editore</string>
-    <string name="bd_publisher">Editore placeholder</string>
-    <string name="bd_isbn_title">ISBN</string>
-    <string name="bd_isbn">000000000000000</string>
     <string name="add_book_hint">Cerca libro</string>
-    <string name="network_errror">Per favore controlla che la connessione di rete sia attiva</string>
+    <!-- Placeholders -->
+    <string name="ph_percentage">%d %%</string>
+    <string name="ph_total">Totale %d</string>
+    <string name="ph_total_pages">Pagine lette %d</string>
+    <string name="ph_total_books">Libri letti %d</string>
+    <!-- Errors -->
+    <string name="network_error">Per favore controlla che la connessione di rete sia attiva</string>
     <string name="books_api_error">Si è verificato un errore durante la connessione a Books API</string>
     <string name="page_value_error">Per favore inserire un numero di pagine valido</string>
+    <!-- Settings -->
     <string name="settings_theme">Tema dell\'app</string>
     <string name="preference">Preferenza random</string>
     <string-array name="theme_spinner_array">

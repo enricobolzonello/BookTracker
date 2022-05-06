@@ -3,7 +3,6 @@ package com.unipd.booktracker.fragments
 import android.app.SearchManager
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.FrameLayout
 import android.widget.Toast
@@ -78,10 +77,10 @@ class WishlistFragment: Fragment() {
 
         binding.fab.setOnClickListener {
             if (!(requireActivity() as MainActivity).isNetworkAvailable())
-                Toast.makeText(requireActivity(),getString(R.string.network_errror), Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireActivity(),getString(R.string.network_error), Toast.LENGTH_SHORT).show()
             else {
                 val dialog = AddDialogFragment()
-                dialog.show(childFragmentManager, getString(R.string.title_add_book))
+                dialog.show(childFragmentManager, getString(R.string.add_book))
             }
         }
 

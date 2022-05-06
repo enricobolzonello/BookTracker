@@ -3,34 +3,34 @@
 
     <item
         android:id="@+id/action_byTitleAsc"
-        android:title="@string/sort_byTitleAsc" />
+        android:title="@string/by_title_asc" />
 
     <item
         android:id="@+id/action_byTitleDesc"
-        android:title="@string/sort_byTitleDesc" />
+        android:title="@string/by_title_desc" />
 
     <item
         android:id="@+id/action_byAuthorAsc"
-        android:title="@string/sort_byAuthorAsc" />
+        android:title="@string/by_author_asc" />
 
     <item
         android:id="@+id/action_byAuthorDesc"
-        android:title="@string/sort_byAuthorDesc" />
+        android:title="@string/by_author_desc" />
 
     <item
         android:id="@+id/action_byYearAsc"
-        android:title="@string/sort_byYearAsc" />
+        android:title="@string/by_year_asc" />
 
     <item
         android:id="@+id/action_byYearDesc"
-        android:title="@string/sort_byYearDesc" />
+        android:title="@string/by_year_desc" />
 
     <item
         android:id="@+id/action_byReadProgressAsc"
-        android:title="@string/sort_byReadProgressAsc" />
+        android:title="@string/by_progress_asc" />
 
     <item
         android:id="@+id/action_byReadProgressDesc"
-        android:title="@string/sort_byReadProgressDesc" />
+        android:title="@string/by_progress_desc" />
 
 </menu>

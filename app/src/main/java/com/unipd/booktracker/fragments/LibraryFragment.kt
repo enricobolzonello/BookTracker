@@ -79,10 +79,10 @@ class LibraryFragment: Fragment() {
 
         binding.fab.setOnClickListener {
             if (!(requireActivity() as MainActivity).isNetworkAvailable())
-                Toast.makeText(requireActivity(),getString(R.string.network_errror), Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireActivity(),getString(R.string.network_error), Toast.LENGTH_SHORT).show()
             else {
                 val dialog = AddDialogFragment()
-                dialog.show(childFragmentManager, getString(R.string.title_add_book))
+                dialog.show(childFragmentManager, getString(R.string.add_book))
             }
         }
 

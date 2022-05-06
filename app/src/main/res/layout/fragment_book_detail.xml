@@ -25,7 +25,7 @@
                 android:layout_height="@dimen/thumb_height"
                 android:layout_gravity="center_horizontal"
                 android:layout_margin="@dimen/content_margin"
-                android:contentDescription="@string/thumb_description"
+                android:contentDescription="@string/description"
                 android:src="@drawable/default_thumbnail" />
 
         </com.google.android.material.card.MaterialCardView>
@@ -43,7 +43,7 @@
             android:layout_margin="@dimen/text_margin"
             android:layout_weight="1"
             app:checkedIcon="@drawable/ic_library"
-            android:text="@string/title_library"
+            android:text="@string/library"
             android:textAlignment="center" />
 
         <com.google.android.material.chip.Chip
@@ -54,7 +54,7 @@
             android:layout_margin="@dimen/text_margin"
             android:layout_weight="1"
             app:checkedIcon="@drawable/ic_wishlist"
-            android:text="@string/title_wishlist"
+            android:text="@string/wishlist"
             android:textAlignment="center" />
 
     </LinearLayout>
@@ -78,7 +78,7 @@
                 android:ellipsize="end"
                 android:maxLines="3"
                 android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"
-                android:text="@string/title_placeholder"
+                android:text="@string/title"
                 android:textAlignment="center"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="5dp" />
@@ -90,7 +90,7 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-                android:text="@string/author_placeholder"
+                android:text="@string/author"
                 android:layout_gravity="center_horizontal"
                 />
 
@@ -101,7 +101,6 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:textAppearance="@style/TextAppearance.Material3.BodySmall"
-                android:text="@string/genres_placeholder"
                 android:layout_gravity="center_horizontal"/>
 
             <LinearLayout
@@ -121,7 +120,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
-                        android:text="@string/bd_language_title"
+                        android:text="@string/language"
                         android:textAppearance="@style/TextAppearance.Material3.BodySmall" />
 
                     <com.google.android.material.textview.MaterialTextView
@@ -130,7 +129,6 @@
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
                         android:maxLength="2"
-                        android:text="@string/bd_language"
                         android:textAppearance="@style/TextAppearance.Material3.BodySmall" />
 
                 </LinearLayout>
@@ -146,7 +144,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
-                        android:text="@string/bd_pages_title"
+                        android:text="@string/pages"
                         android:textAppearance="@style/TextAppearance.Material3.BodySmall" />
 
                     <com.google.android.material.textview.MaterialTextView
@@ -155,7 +153,6 @@
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
                         android:maxLines="1"
-                        android:text="@string/bd_pages"
                         android:textAppearance="@style/TextAppearance.Material3.BodySmall" />
 
                 </LinearLayout>
@@ -268,15 +265,14 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="@string/bd_description_title"
+            android:text="@string/description"
             android:textAppearance="@style/TextAppearance.Material3.BodySmall"/>
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tv_book_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-            android:text="@string/bd_description"/>
+            android:textAppearance="@style/TextAppearance.Material3.BodyMedium" />
 
         </LinearLayout>
 
@@ -299,15 +295,15 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:text="@string/bd_publisher_title"
+                android:text="@string/publisher"
                 android:textAppearance="@style/TextAppearance.Material3.BodySmall"/>
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tv_book_publisher"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-                android:text="@string/bd_publisher"/>
+                android:textAppearance="@style/TextAppearance.Material3.BodyMedium" />
+
             </LinearLayout>
 
         </com.google.android.material.card.MaterialCardView>
@@ -329,15 +325,14 @@
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:text="@string/bd_isbn_title"
+                    android:text="@string/isbn"
                     android:textAppearance="@style/TextAppearance.Material3.BodySmall"/>
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/tv_book_isbn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-                    android:text="@string/bd_isbn"/>
+                    android:textAppearance="@style/TextAppearance.Material3.BodyMedium" />
             </LinearLayout>
 
         </com.google.android.material.card.MaterialCardView>

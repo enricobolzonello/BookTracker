@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAlignment="center"
-        android:text="@string/title_add_book"
+        android:text="@string/add_book"
         android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
         android:textStyle="bold"/>
 

@@ -18,7 +18,7 @@
             android:id="@+id/iv_book_thumbnail"
             android:layout_width="@dimen/thumb_prev_width"
             android:layout_height="@dimen/thumb_prev_height"
-            android:contentDescription="@string/thumb_description"
+            android:contentDescription="@string/description"
             android:src="@drawable/default_thumbnail" />
 
         <LinearLayout
@@ -35,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:maxLines="3"
-                android:text="@string/title_placeholder"
+                android:text="@string/title"
                 android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
                 android:textStyle="bold" />
 
@@ -46,7 +46,7 @@
                 android:layout_marginTop="@dimen/text_margin"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:text="@string/author_placeholder"
+                android:text="@string/author"
                 android:textAppearance="@style/TextAppearance.Material3.BodyMedium" />
 
         </LinearLayout>
@@ -73,7 +73,7 @@
                 android:id="@+id/tv_read_progress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/read_progress_placeholder"
+                android:text="@string/ph_percentage"
                 android:textAlignment="center"
                 android:textAppearance="@style/TextAppearance.Material3.BodyMedium" />
 

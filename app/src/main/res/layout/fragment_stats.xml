@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".fragments.StatsFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,11 +15,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:weightSum="2"
-            tools:context=".fragments.StatsFragment">
+            android:weightSum="2">
 
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/s_pages_read_day"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/content_margin"
@@ -37,31 +36,34 @@
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
                         android:maxLines="1"
-                        android:text="Oggi" />
+                        android:text="@string/today" />
 
                     <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tv_pages_read_today"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
-                        android:maxLines="1" />
+                        android:maxLines="1"
+                        android:textStyle="bold"/>
 
                     <com.google.android.material.textview.MaterialTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
                         android:maxLines="1"
-                        android:text="Pagine Lette" />
+                        android:text="@string/read_pages" />
 
                     <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tv_pages_read_today_increment"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="%d %%" />
+                        android:text="@string/ph_percentage"
+                        android:textStyle="bold"/>
                 </LinearLayout>
 
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/s_books_read_year"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/content_margin"
@@ -76,34 +78,40 @@
                     android:orientation="vertical">
 
                     <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tv_year"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:text="2022" />
-
-                    <com.google.android.material.textview.MaterialTextView
-                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
                         android:maxLines="1" />
 
                     <com.google.android.material.textview.MaterialTextView
-                        android:layout_width="wrap_content"
+                        android:id="@+id/tv_books_read_year"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
                         android:maxLines="1"
-                        android:text="Libri Letti" />
+                        android:textStyle="bold" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
                         android:maxLines="1"
-                        android:text="Obiettivo: %d" />
+                        android:text="@string/read_books" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tv_books_read_year_increment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:text="@string/ph_percentage"
+                        android:textStyle="bold"/>
+
                 </LinearLayout>
 
             </com.google.android.material.card.MaterialCardView>
+
         </LinearLayout>
 
         <com.google.android.material.card.MaterialCardView
@@ -119,60 +127,25 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-            <com.google.android.material.textview.MaterialTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Autore più letto"
-                android:ellipsize="end"
-                android:maxLines="1"/>
-
-            <com.google.android.material.textview.MaterialTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:maxLines="1"/>
-
-            <com.google.android.material.textview.MaterialTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Totale: %d"
-                android:ellipsize="end"
-                android:maxLines="1"/>
-
-            </LinearLayout>
-
-        </com.google.android.material.card.MaterialCardView>
-
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/content_margin"
-            android:clickable="false"
-            app:cardElevation="@dimen/card_elevation"
-            app:contentPadding="@dimen/content_margin">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
                 <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Genere più letto"
+                    android:text="@string/most_read_author"
                     android:ellipsize="end"
                     android:maxLines="1"/>
 
                 <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tv_most_read_author"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:maxLines="1"/>
 
                 <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tv_total_authors"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Totale: %d"
+                    android:text="@string/ph_total"
                     android:ellipsize="end"
                     android:maxLines="1"/>
 
@@ -194,35 +167,71 @@
                 android:orientation="vertical">
 
                 <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tv_most_read_genre"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Totale"
+                    android:text="@string/most_read_genre"
                     android:ellipsize="end"
                     android:maxLines="1"/>
 
                 <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Libri Letti: %d"
                     android:ellipsize="end"
                     android:maxLines="1"/>
 
                 <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tv_total_genres"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Pagine Lette: %d"
-                    android:ellipsize="end"
-                    android:maxLines="1"/>
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Autori: %d"
+                    android:text="@string/ph_total"
                     android:ellipsize="end"
                     android:maxLines="1"/>
 
             </LinearLayout>
 
         </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/content_margin"
+            android:clickable="false"
+            app:cardElevation="@dimen/card_elevation"
+            app:contentPadding="@dimen/content_margin">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/total"
+                    android:ellipsize="end"
+                    android:maxLines="1"/>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tv_total_read_pages"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/ph_total_pages"
+                    android:ellipsize="end"
+                    android:maxLines="1"/>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tv_total_read_books"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/ph_total_pages"
+                    android:ellipsize="end"
+                    android:maxLines="1"/>
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
     </LinearLayout>
+
 </ScrollView>

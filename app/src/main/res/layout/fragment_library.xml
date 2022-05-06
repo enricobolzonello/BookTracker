@@ -26,7 +26,7 @@
                 android:layout_marginHorizontal="@dimen/text_margin"
                 android:layout_weight="1"
                 android:checked="true"
-                android:text="@string/filter_not_read"
+                android:text="@string/not_read"
                 android:textAlignment="center" />
 
             <com.google.android.material.chip.Chip
@@ -37,7 +37,7 @@
                 android:layout_marginHorizontal="@dimen/text_margin"
                 android:layout_weight="1"
                 android:checked="true"
-                android:text="@string/filter_reading"
+                android:text="@string/reading"
                 android:textAlignment="center" />
 
             <com.google.android.material.chip.Chip
@@ -48,7 +48,7 @@
                 android:layout_marginHorizontal="@dimen/text_margin"
                 android:layout_weight="1"
                 android:checked="true"
-                android:text="@string/filter_read"
+                android:text="@string/read"
                 android:textAlignment="center"/>
 
         </LinearLayout>
@@ -72,7 +72,7 @@
         android:layout_marginBottom="@dimen/content_margin"
         android:contentDescription="@string/app_name"
         android:elevation="@dimen/elevation"
-        android:text="@string/fab_action"
+        android:text="@string/add_book"
         style="?attr/extendedFloatingActionButtonStyle"
         app:icon="@drawable/ic_add" />
 

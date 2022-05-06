@@ -1,19 +1,14 @@
 package com.unipd.booktracker
 
 import android.content.Context
-import android.content.pm.PackageManager
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
-import com.google.android.material.color.DynamicColors
 import com.unipd.booktracker.databinding.ActivityMainBinding
 
 
@@ -34,12 +29,12 @@ class MainActivity : AppCompatActivity() {
             when(destination.id) {
                 R.id.navigation_settings -> {
                     supportActionBar?.setDisplayHomeAsUpEnabled(true)
-                    supportActionBar?.setTitle(R.string.title_settings)
+                    supportActionBar?.setTitle(R.string.settings)
                     binding.navView.visibility = View.GONE
                 }
                 R.id.navigation_book_detail -> {
                     supportActionBar?.setDisplayHomeAsUpEnabled(true)
-                    supportActionBar?.setTitle(R.string.title_book_detail)
+                    supportActionBar?.setTitle(R.string.book_detail)
                     binding.navView.visibility = View.GONE
                 }
                 else -> {

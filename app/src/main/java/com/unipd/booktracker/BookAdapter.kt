@@ -41,7 +41,7 @@ class BookAdapter(val parentFragment: Fragment): RecyclerView.Adapter<BookAdapte
             else {
                 val progress = (book.readPages.toDouble() / book.pages.toDouble() * 100).toInt()
                 binding.piReadProgress.progress = progress
-                binding.tvReadProgress.text = parentFragment.getString(R.string.read_progress_placeholder, progress)
+                binding.tvReadProgress.text = parentFragment.getString(R.string.ph_percentage, progress)
             }
 
 

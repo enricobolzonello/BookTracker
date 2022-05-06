@@ -22,7 +22,7 @@
         android:layout_marginBottom="@dimen/content_margin"
         android:contentDescription="@string/app_name"
         android:elevation="@dimen/elevation"
-        android:text="@string/fab_action"
+        android:text="@string/add_book"
         app:icon="@drawable/ic_add" />
 
 </FrameLayout>
