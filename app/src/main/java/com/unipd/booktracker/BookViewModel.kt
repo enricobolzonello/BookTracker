@@ -102,20 +102,28 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
         bookDao.deleteBooks()
     }
 
-    fun countReadBooks(): Int = runBlocking(Dispatchers.IO) {
-        return@runBlocking statsDao.countReadBooks()
-    }
-
     fun countReadPages(): Int = runBlocking(Dispatchers.IO) {
         return@runBlocking statsDao.countReadPages()
     }
 
-    fun countReadPages(date: LocalDate): Int = runBlocking(Dispatchers.IO) {
-        return@runBlocking statsDao.countReadPages(date.format(DateTimeFormatter.ISO_LOCAL_DATE))
+    fun countReadPagesToday(): Int = runBlocking(Dispatchers.IO) {
+        return@runBlocking statsDao.countReadPages(LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE))
     }
 
     fun avgReadPagesByDay(): Int = runBlocking(Dispatchers.IO) {
-        return@runBlocking statsDao.avgReadPagesByDay()
+        return@runBlocking statsDao.avgReadPagesByDay(LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE))
+    }
+
+    fun countReadBooks(): Int = runBlocking(Dispatchers.IO) {
+        return@runBlocking statsDao.countReadBooks()
+    }
+
+    fun countReadBooksThisYear(): Int = runBlocking(Dispatchers.IO) {
+        return@runBlocking statsDao.countReadBooks(LocalDate.now().year.toString())
+    }
+
+    fun avgReadBooksByYear(): Int = runBlocking(Dispatchers.IO) {
+        return@runBlocking statsDao.avgReadBooksByYear(LocalDate.now().year.toString())
     }
 
     fun mostReadAuthor(): String = runBlocking(Dispatchers.IO) {
