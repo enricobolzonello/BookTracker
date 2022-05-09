@@ -29,13 +29,13 @@ interface StatsDao {
     fun avgReadBooksByYear(year: String): Int
 
     @Query("SELECT mainAuthor FROM books GROUP BY mainAuthor ORDER BY COUNT(*) DESC LIMIT 1")
-    fun mostReadAuthor(): String
+    fun mostReadAuthor(): String?
 
     @Query("SELECT COUNT(DISTINCT mainAuthor) FROM books")
     fun countAuthors(): Int
 
     @Query("SELECT mainCategory FROM books GROUP BY mainCategory ORDER BY COUNT(*) DESC LIMIT 1")
-    fun mostReadCategory(): String
+    fun mostReadCategory(): String?
 
     @Query("SELECT COUNT(DISTINCT mainCategory) FROM books")
     fun countCategories(): Int

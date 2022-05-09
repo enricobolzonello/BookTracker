@@ -126,7 +126,7 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
         return@runBlocking statsDao.avgReadBooksByYear(LocalDate.now().year.toString())
     }
 
-    fun mostReadAuthor(): String = runBlocking(Dispatchers.IO) {
+    fun mostReadAuthor(): String? = runBlocking(Dispatchers.IO) {
         return@runBlocking statsDao.mostReadAuthor()
     }
 
@@ -134,7 +134,7 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
         return@runBlocking statsDao.countAuthors()
     }
 
-    fun mostReadCategory(): String = runBlocking(Dispatchers.IO) {
+    fun mostReadCategory(): String? = runBlocking(Dispatchers.IO) {
         return@runBlocking statsDao.mostReadCategory()
     }
 

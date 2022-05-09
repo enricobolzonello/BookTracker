@@ -41,7 +41,11 @@ class StatsFragment : Fragment() {
         binding.tvPagesReadToday.text = viewModel.countReadPagesToday().toString()
 
         var pagesIncrement: Int = (viewModel.countReadPagesToday().toDouble() / viewModel.avgReadPagesByDay().toDouble() * 100).toInt()
-        val pagesIncrementSign = if (sign(pagesIncrement.toDouble()) == -1.0) '-' else '+'
+        var pagesIncrementSign = '+'
+        if (sign(pagesIncrement.toDouble()) == -1.0) {
+            pagesIncrementSign = '-'
+            binding.tvPagesReadTodayIncrement.setTextColor(resources.getColor(R.color.red, requireActivity().theme))
+        }
         pagesIncrement = abs(pagesIncrement)
         if (pagesIncrement > 999)
             pagesIncrement = 999
@@ -51,16 +55,24 @@ class StatsFragment : Fragment() {
         binding.tvBooksReadYear.text = viewModel.countReadBooksThisYear().toString()
 
         var bookIncrement: Int = (viewModel.countReadBooksThisYear().toDouble() / viewModel.avgReadBooksByYear().toDouble() * 100).toInt()
-        val bookIncrementSign = if (sign(bookIncrement.toDouble()) == -1.0) '-' else '+'
+        var bookIncrementSign = '+'
+        if (sign(bookIncrement.toDouble()) == -1.0) {
+            bookIncrementSign = '-'
+            binding.tvBooksReadYearIncrement.setTextColor(resources.getColor(R.color.red, requireActivity().theme))
+        }
         bookIncrement = abs(bookIncrement)
         if (bookIncrement > 999)
             bookIncrement = 999
         binding.tvBooksReadYearIncrement.text = getString(R.string.ph_signed_percentage, bookIncrementSign, bookIncrement)
 
-        binding.tvMostReadAuthor.text = viewModel.mostReadAuthor()
-        binding.tvTotalAuthors.text = viewModel.countAuthors().toString()
-        binding.tvMostReadGenre.text = viewModel.mostReadCategory()
-        binding.tvTotalGenres.text = viewModel.countCategories().toString()
+        val mostReadAuthor = viewModel.mostReadAuthor()
+        binding.tvMostReadAuthor.text = mostReadAuthor ?: " "
+        binding.tvTotalAuthors.text = getString(R.string.ph_total,viewModel.countAuthors())
+
+        val mostReadGenre = viewModel.mostReadCategory()
+        binding.tvMostReadGenre.text = mostReadGenre ?: "-"
+        binding.tvTotalGenres.text = getString(R.string.ph_total,viewModel.countCategories())
+
         binding.tvTotalReadPages.text = getString(R.string.ph_total_pages, viewModel.countReadPages())
         binding.tvTotalReadBooks.text = getString(R.string.ph_total_books, viewModel.countReadBooks())
     }
