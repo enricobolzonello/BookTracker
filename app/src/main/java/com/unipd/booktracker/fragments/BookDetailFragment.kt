@@ -47,18 +47,26 @@ class BookDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // TODO: chips has to be not clickable if already selected, but it's not working at the fragment start
-        binding.chLibrary.isChecked = viewModel.isBookInLibrary(chosenBook)
-        binding.chWishlist.isChecked = viewModel.isBookInWishlist(chosenBook)
+        if (chosenBook.thumbnail == null)
+            binding.ivBookThumbnail.setBackgroundResource(R.drawable.default_thumbnail)
+        else
+            binding.ivBookThumbnail.setImageBitmap(chosenBook.thumbnail)
 
-        if (!binding.chLibrary.isChecked && !binding.chWishlist.isChecked) {
-            setHasOptionsMenu(false)
-            (binding.chLibrary.layoutParams as LayoutParams).weight = 1F
-            (binding.chWishlist.layoutParams as LayoutParams).weight = 1F
-        } else {
-            setHasOptionsMenu(true)
-            (binding.chLibrary.layoutParams as LayoutParams).weight = if (binding.chLibrary.isChecked) 1F else 0F
-            (binding.chWishlist.layoutParams as LayoutParams).weight = if (binding.chWishlist.isChecked) 1F else 0F
+        binding.tvBookTitle.text = chosenBook.title
+        binding.tvBookAuthor.text = chosenBook.mainAuthor
+        binding.tvBookPages.text = chosenBook.pages.toString()
+        binding.tvBookGenre.text = chosenBook.mainCategory ?: "-"
+        binding.tvBookLanguage.text = chosenBook.language ?: "-"
+        binding.tvBookDescription.text = chosenBook.description ?: "-"
+        binding.tvBookPublisher.text = chosenBook.publisher ?: "-"
+        binding.tvBookIsbn.text = chosenBook.isbn ?: "-"
+
+        if (chosenBook.readPages == null)
+            binding.llReadPages.visibility = View.GONE
+        else {
+            setupReadPagesModifiers()
+            readPages = chosenBook.readPages!!
+            updateReadPages(readPages)
         }
 
         binding.chLibrary.setOnClickListener {
@@ -100,26 +108,20 @@ class BookDetailFragment : Fragment() {
             }
         }
 
-        if (chosenBook.thumbnail == null)
-            binding.ivBookThumbnail.setBackgroundResource(R.drawable.default_thumbnail)
-        else
-            binding.ivBookThumbnail.setImageBitmap(chosenBook.thumbnail)
+        binding.chLibrary.isChecked = viewModel.isBookInLibrary(chosenBook)
+        binding.chLibrary.isClickable = !binding.chLibrary.isChecked
 
-        binding.tvBookTitle.text = chosenBook.title
-        binding.tvBookAuthor.text = chosenBook.mainAuthor
-        binding.tvBookPages.text = chosenBook.pages.toString()
-        binding.tvBookGenre.text = chosenBook.mainCategory ?: "-"
-        binding.tvBookLanguage.text = chosenBook.language ?: "-"
-        binding.tvBookDescription.text = chosenBook.description ?: "-"
-        binding.tvBookPublisher.text = chosenBook.publisher ?: "-"
-        binding.tvBookIsbn.text = chosenBook.isbn ?: "-"
+        binding.chWishlist.isChecked = viewModel.isBookInWishlist(chosenBook)
+        binding.chWishlist.isClickable = !binding.chWishlist.isChecked
 
-        if (chosenBook.readPages == null)
-            binding.llReadPages.visibility = View.GONE
-        else {
-            setupReadPagesModifiers()
-            readPages = chosenBook.readPages!!
-            updateReadPages(readPages)
+        if (!binding.chLibrary.isChecked && !binding.chWishlist.isChecked) {
+            setHasOptionsMenu(false)
+            (binding.chLibrary.layoutParams as LayoutParams).weight = 1F
+            (binding.chWishlist.layoutParams as LayoutParams).weight = 1F
+        } else {
+            setHasOptionsMenu(true)
+            (binding.chLibrary.layoutParams as LayoutParams).weight = if (binding.chLibrary.isChecked) 1F else 0F
+            (binding.chWishlist.layoutParams as LayoutParams).weight = if (binding.chWishlist.isChecked) 1F else 0F
         }
     }
 

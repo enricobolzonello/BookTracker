@@ -37,25 +37,25 @@
 
         <com.google.android.material.chip.Chip
             android:id="@+id/ch_library"
-            style="@style/Widget.Material3.Chip.Filter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/text_margin"
             android:layout_weight="1"
-            app:checkedIcon="@drawable/ic_library"
+            style="@style/Widget.Material3.Chip.Filter"
             android:text="@string/library"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            app:checkedIcon="@drawable/ic_library" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/ch_wishlist"
-            style="@style/Widget.Material3.Chip.Filter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/text_margin"
             android:layout_weight="1"
-            app:checkedIcon="@drawable/ic_wishlist"
+            style="@style/Widget.Material3.Chip.Filter"
             android:text="@string/wishlist"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            app:checkedIcon="@drawable/ic_wishlist" />
 
     </LinearLayout>
 
