@@ -37,7 +37,10 @@ class StatsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.tvPagesReadToday.text = viewModel.countReadPagesToday().toString()
-        val pagesReadTodayIncrement: Int = (viewModel.countReadPagesToday().toDouble() / viewModel.avgReadPagesByDay().toDouble() * 100).toInt()
+        var pagesReadTodayIncrement: Int = (viewModel.countReadPagesToday().toDouble() / viewModel.avgReadPagesByDay().toDouble() * 100).toInt()
+        if(pagesReadTodayIncrement > 999){
+            pagesReadTodayIncrement = 999
+        }
         binding.tvPagesReadTodayIncrement.text = getString(R.string.ph_percentage, pagesReadTodayIncrement)
         binding.tvYear.text = LocalDate.now().year.toString()
         binding.tvBooksReadYear.text = viewModel.countReadBooksThisYear().toString()
