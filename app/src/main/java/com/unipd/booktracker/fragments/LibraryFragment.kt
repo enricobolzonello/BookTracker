@@ -36,8 +36,8 @@ class LibraryFragment: Fragment() {
         viewModel = ViewModelProvider(requireActivity() as MainActivity)[BookViewModel::class.java]
         bookAdapter = BookAdapter(this)
 
-        viewModel.getObservableLibrary().observe(requireActivity()) {
-            bookAdapter.notifyDataSetChanged()
+        viewModel.getObservableLibrary().observe(this) {
+            updateFilters()
         }
     }
 

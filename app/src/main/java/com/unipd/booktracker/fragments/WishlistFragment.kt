@@ -38,8 +38,8 @@ class WishlistFragment: Fragment() {
         viewModel = ViewModelProvider(requireActivity() as MainActivity)[BookViewModel::class.java]
         bookAdapter = BookAdapter(this)
 
-        viewModel.getObservableWishlist().observe(requireActivity()) {
-            bookAdapter.notifyDataSetChanged()
+        viewModel.getObservableWishlist().observe(this) {
+            updateFilters()
         }
     }
 
@@ -141,12 +141,10 @@ class WishlistFragment: Fragment() {
             }
         })
 
-        searchView.setOnCloseListener(object : SearchView.OnCloseListener {
-            override fun onClose(): Boolean {
-                query = ""
-                return false
-            }
-        })
+        searchView.setOnCloseListener {
+            query = ""
+            false
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
