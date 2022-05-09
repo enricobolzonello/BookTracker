@@ -224,7 +224,7 @@
                     android:id="@+id/tv_total_read_books"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/ph_total_pages"
+                    android:text="@string/ph_total_books"
                     android:ellipsize="end"
                     android:maxLines="1"/>
 

@@ -47,6 +47,7 @@
     <string name="add_book_hint">Cerca libro</string>
     <!-- Placeholders -->
     <string name="ph_percentage">%d %%</string>
+    <string name="ph_signed_percentage">%c%d %%</string>
     <string name="ph_total">Totale %d</string>
     <string name="ph_total_pages">Pagine lette %d</string>
     <string name="ph_total_books">Libri letti %d</string>

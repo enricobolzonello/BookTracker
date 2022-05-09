@@ -10,6 +10,8 @@ import com.unipd.booktracker.MainActivity
 import com.unipd.booktracker.R
 import com.unipd.booktracker.databinding.FragmentStatsBinding
 import java.time.LocalDate
+import kotlin.math.abs
+import kotlin.math.sign
 
 class StatsFragment : Fragment() {
     private lateinit var viewModel: BookViewModel
@@ -37,21 +39,30 @@ class StatsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.tvPagesReadToday.text = viewModel.countReadPagesToday().toString()
-        var pagesReadTodayIncrement: Int = (viewModel.countReadPagesToday().toDouble() / viewModel.avgReadPagesByDay().toDouble() * 100).toInt()
-        if(pagesReadTodayIncrement > 999){
-            pagesReadTodayIncrement = 999
-        }
-        binding.tvPagesReadTodayIncrement.text = getString(R.string.ph_percentage, pagesReadTodayIncrement)
+
+        var pagesIncrement: Int = (viewModel.countReadPagesToday().toDouble() / viewModel.avgReadPagesByDay().toDouble() * 100).toInt()
+        val pagesIncrementSign = if (sign(pagesIncrement.toDouble()) == -1.0) '-' else '+'
+        pagesIncrement = abs(pagesIncrement)
+        if (pagesIncrement > 999)
+            pagesIncrement = 999
+        binding.tvPagesReadTodayIncrement.text = getString(R.string.ph_signed_percentage, pagesIncrementSign, pagesIncrement)
+
         binding.tvYear.text = LocalDate.now().year.toString()
         binding.tvBooksReadYear.text = viewModel.countReadBooksThisYear().toString()
-        val booksReadYearIncrement: Int = (viewModel.countReadBooksThisYear().toDouble() / viewModel.avgReadBooksByYear().toDouble() * 100).toInt()
-        binding.tvBooksReadYearIncrement.text = getString(R.string.ph_percentage, booksReadYearIncrement)
+
+        var bookIncrement: Int = (viewModel.countReadBooksThisYear().toDouble() / viewModel.avgReadBooksByYear().toDouble() * 100).toInt()
+        val bookIncrementSign = if (sign(bookIncrement.toDouble()) == -1.0) '-' else '+'
+        bookIncrement = abs(bookIncrement)
+        if (bookIncrement > 999)
+            bookIncrement = 999
+        binding.tvBooksReadYearIncrement.text = getString(R.string.ph_signed_percentage, bookIncrementSign, bookIncrement)
+
         binding.tvMostReadAuthor.text = viewModel.mostReadAuthor()
         binding.tvTotalAuthors.text = viewModel.countAuthors().toString()
         binding.tvMostReadGenre.text = viewModel.mostReadCategory()
         binding.tvTotalGenres.text = viewModel.countCategories().toString()
-        binding.tvTotalReadPages.text = viewModel.countReadPages().toString()
-        binding.tvTotalReadBooks.text = viewModel.countReadBooks().toString()
+        binding.tvTotalReadPages.text = getString(R.string.ph_total_pages, viewModel.countReadPages())
+        binding.tvTotalReadBooks.text = getString(R.string.ph_total_books, viewModel.countReadBooks())
     }
 
     override fun onDestroyView() {
