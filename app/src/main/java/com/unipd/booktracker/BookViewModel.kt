@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.os.Environment
 import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.*
@@ -14,10 +15,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
-import java.io.FileInputStream
-import java.io.FileOutputStream
-import java.io.ObjectInputStream
-import java.io.ObjectOutputStream
+import java.io.*
 import java.net.URL
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -161,11 +159,7 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
         val key = getApiKey()
         if (key.isNullOrBlank()) {
             withContext(Dispatchers.Main) {
-                Toast.makeText(
-                    app.applicationContext,
-                    app.getString(R.string.books_api_error),
-                    Toast.LENGTH_SHORT
-                ).show()
+                Toast.makeText(app.applicationContext, app.getString(R.string.books_api_error), Toast.LENGTH_SHORT).show()
             }
             return books
         }
@@ -181,11 +175,7 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
 
         if (response.isNullOrBlank()) {
             withContext(Dispatchers.Main) {
-                Toast.makeText(
-                    app.applicationContext,
-                    app.getString(R.string.books_api_error),
-                    Toast.LENGTH_SHORT
-                ).show()
+                Toast.makeText(app.applicationContext, app.getString(R.string.books_api_error), Toast.LENGTH_SHORT).show()
             }
             return books
         }
@@ -213,11 +203,7 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
 
         if (response.isNullOrBlank()) {
             withContext(Dispatchers.Main) {
-                Toast.makeText(
-                    app.applicationContext,
-                    app.getString(R.string.books_api_error),
-                    Toast.LENGTH_SHORT
-                ).show()
+                Toast.makeText(app.applicationContext, app.getString(R.string.books_api_error), Toast.LENGTH_SHORT).show()
             }
             return null
         }
@@ -286,38 +272,61 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
         return Book(id, title, mainAuthor, pages, publisher, isbn, mainCategory, description, year, language, BookUtils.fromBitmap(thumbnail))
     }
 
-    fun exportDbToFile() {
+    fun exportDbToFile(): String? {
         val books = getBooks()
         val readings = getReadings()
-        val fos: FileOutputStream = app.openFileOutput(app.getString(R.string.app_name) + ".dat", Context.MODE_PRIVATE)
-        val oos = ObjectOutputStream(fos)
-        books.forEach { oos.writeObject(it) }
-        readings.forEach { oos.writeObject(it) }
-        oos.close()
-        fos.close()
+
+        var exportFile: File? = null
+        var fos: FileOutputStream? = null
+        var oos: ObjectOutputStream? = null
+        try {
+            exportFile = File(
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
+                app.getString(R.string.app_name) + ".dat")
+            fos = FileOutputStream(exportFile)
+            oos = ObjectOutputStream(fos)
+
+            books.forEach { oos.writeObject(it) }
+            readings.forEach { oos.writeObject(it) }
+            return exportFile.absolutePath
+        } catch (e: Exception) {
+            Toast.makeText(app, app.getString(R.string.file_exported_error), Toast.LENGTH_SHORT).show()
+            return null
+        } finally {
+            fos?.close()
+            oos?.close()
+        }
     }
 
-    fun importDbFromFile(): Boolean {
+    fun importDbFromFile(filePath: String): Boolean {
         val books = mutableListOf<Book>()
         val readings = mutableListOf<Reading>()
-        val fis: FileInputStream = app.openFileInput(app.getString(R.string.app_name) + ".dat")
-        val ois = ObjectInputStream(fis)
-        while(fis.available() > 0)  {
-            val obj = ois.readObject()
-            if (obj !is Book && obj !is Reading) {
-                ois.close()
-                fis.close()
-                return false
+
+        var fis: FileInputStream? = null
+        var ois: ObjectInputStream? = null
+        try {
+            fis = FileInputStream(filePath)
+            ois = ObjectInputStream(fis)
+
+            while(fis.available() > 0)  {
+                val obj = ois.readObject()
+                if (obj !is Book && obj !is Reading)
+                    throw Exception()
+                if (obj is Book)
+                    books.add(obj)
+                if (obj is Reading)
+                    readings.add(obj)
             }
-            if (obj is Book)
-                books.add(obj)
-            if (obj is Reading)
-                readings.add(obj)
+
+            books.forEach { addBook(it) }
+            readings.forEach { addReading(it) }
+            return true
+        } catch (e: Exception) {
+            Toast.makeText(app, app.getString(R.string.file_imported_error), Toast.LENGTH_SHORT).show()
+            return false
+        } finally {
+            fis?.close()
+            ois?.close()
         }
-        books.forEach { addBook(it) }
-        readings.forEach { addReading(it) }
-        ois.close()
-        fis.close()
-        return true
     }
 }

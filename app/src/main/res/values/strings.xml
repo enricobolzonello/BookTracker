@@ -51,7 +51,11 @@
     <string name="ph_total">Totale %d</string>
     <string name="ph_total_pages">Pagine lette %d</string>
     <string name="ph_total_books">Libri letti %d</string>
-    <!-- Errors -->
+    <!-- Toasts -->
+    <string name="file_exported">File esportato %s</string>
+    <string name="file_exported_error">Errore nell\'esportazione del file</string>
+    <string name="file_imported">File importato corretamente</string>
+    <string name="file_imported_error">Errore nell\'importazione del file</string>
     <string name="network_error">Per favore controlla che la connessione di rete sia attiva</string>
     <string name="books_api_error">Si è verificato un errore durante la connessione a Books API</string>
     <string name="page_value_error">Per favore inserire un numero di pagine valido</string>
