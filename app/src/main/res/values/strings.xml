@@ -52,6 +52,7 @@
     <string name="ph_total_pages">Pagine lette %d</string>
     <string name="ph_total_books">Libri letti %d</string>
     <!-- Toasts -->
+    <string name="book_deleted">Libro eliminato</string>
     <string name="file_exported">File esportato %s</string>
     <string name="file_exported_error">Errore nell\'esportazione del file</string>
     <string name="file_imported">File importato corretamente</string>
@@ -62,7 +63,6 @@
     <!-- Settings -->
     <string name="settings_theme">Tema dell\'app</string>
     <string name="preference">Preferenza random</string>
-    <string name="deleted_book">Libro Eliminato</string>
     <string-array name="theme_spinner_array">
         <item>Sistema</item>
         <item>Chiaro</item>

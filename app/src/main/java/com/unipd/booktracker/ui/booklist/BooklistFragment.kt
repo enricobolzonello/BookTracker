@@ -1,4 +1,4 @@
-package com.unipd.booktracker.ui.wishlist
+package com.unipd.booktracker.ui.booklist
 
 import android.app.SearchManager
 import android.content.Context
@@ -10,77 +10,67 @@ import android.os.Bundle
 import android.view.*
 import android.widget.FrameLayout
 import android.widget.Toast
-import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.core.view.marginBottom
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewbinding.ViewBinding
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.unipd.booktracker.BookAdapter
 import com.unipd.booktracker.MainActivity
 import com.unipd.booktracker.R
-import com.unipd.booktracker.databinding.FragmentWishlistBinding
 import com.unipd.booktracker.db.OrderColumns
 import com.unipd.booktracker.fragments.AddDialogFragment
 
-class WishlistFragment: Fragment() {
-    private lateinit var viewModel: WishlistViewModel
-    private lateinit var bookAdapter : BookAdapter
-    private var _binding: FragmentWishlistBinding? = null
-    private val binding get() = _binding!!
+abstract class BooklistFragment : Fragment() {
 
-    private var query = ""
-    private var orderColumn = OrderColumns.title
-    private var asc = true
+    abstract var bookAdapter : BookAdapter
+    abstract var rw: RecyclerView
+    abstract var fab: ExtendedFloatingActionButton
+
+    abstract override fun onCreateView(inflater: LayoutInflater,container: ViewGroup?,savedInstanceState: Bundle?): View
+    abstract fun updateFilters()
+
+    protected lateinit var viewModel: BooklistViewModel
+    protected var _binding: ViewBinding? = null
+    protected val binding get() = _binding!!
+    protected var query = ""
+    protected var orderColumn = OrderColumns.title
+    protected var asc = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setHasOptionsMenu(true)
-
-        viewModel = ViewModelProvider(requireActivity() as MainActivity)[WishlistViewModel::class.java]
-        bookAdapter = BookAdapter(this)
-
-        viewModel.getObservableWishlist().observe(this) {
-            updateFilters()
-        }
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        // Inflate the layout for this fragment
-        _binding = FragmentWishlistBinding.inflate(inflater, container, false)
-        return binding.root
+        viewModel = ViewModelProvider(requireActivity() as MainActivity)[BooklistViewModel::class.java]
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.rwWishlist.adapter = bookAdapter
+        rw.adapter = bookAdapter
         updateFilters()
 
         // Set appropriate padding to recycler view's bottom, otherwise fab will cover the last item
-        binding.fab.measure(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT)
-        binding.rwWishlist.setPadding(0,0,0,binding.fab.measuredHeight + binding.fab.marginBottom)
-        binding.rwWishlist.clipToPadding = false
+        fab.measure(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT)
+        rw.setPadding(0,0,0,fab.measuredHeight + fab.marginBottom)
+        rw.clipToPadding = false
 
         // Extend and reduce FAB on scroll
-        binding.rwWishlist.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        rw.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 if (!recyclerView.canScrollVertically(-1))
-                    binding.fab.extend()
+                    fab.extend()
                 else
-                    binding.fab.shrink()
+                    fab.shrink()
                 super.onScrollStateChanged(recyclerView, newState)
             }
         })
 
-        binding.fab.setOnClickListener {
+        fab.setOnClickListener {
             if (!(requireActivity() as MainActivity).isNetworkAvailable())
                 Toast.makeText(requireActivity(),getString(R.string.network_error), Toast.LENGTH_SHORT).show()
             else {
@@ -109,7 +99,7 @@ class WishlistFragment: Fragment() {
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 viewModel.removeBook(bookAdapter.getBookAt(viewHolder.adapterPosition))
-                Toast.makeText(activity, R.string.deleted_book, Toast.LENGTH_SHORT).show()
+                Toast.makeText(activity, R.string.book_deleted, Toast.LENGTH_SHORT).show()
                 updateFilters()
             }
 
@@ -159,17 +149,12 @@ class WishlistFragment: Fragment() {
                     isCurrentlyActive
                 )
             }
-        }).attachToRecyclerView(binding.rwWishlist)
+        }).attachToRecyclerView(rw)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    private fun updateFilters() {
-        val books = viewModel.getFilteredWishlist(query, orderColumn, asc)
-        bookAdapter.setBooks(books)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -206,65 +191,6 @@ class WishlistFragment: Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.action_search -> {
-                true
-            }
-            R.id.action_sort -> {
-                // Initializing the popup menu and giving the reference as current context
-                val popupMenu = PopupMenu(requireActivity(), requireActivity().findViewById(item.itemId))
-                // Inflating popup menu from popup_menu.xml file
-                popupMenu.menuInflater.inflate(R.menu.sorting_menu, popupMenu.menu)
-                popupMenu.setOnMenuItemClickListener {
-                    when (it.itemId) {
-                        R.id.action_byTitleAsc -> {
-                            orderColumn = OrderColumns.title
-                            asc = true
-                            updateFilters()
-                            true
-                        }
-                        R.id.action_byTitleDesc -> {
-                            orderColumn = OrderColumns.title
-                            asc = false
-                            updateFilters()
-                            true
-                        }
-                        R.id.action_byAuthorAsc -> {
-                            orderColumn = OrderColumns.author
-                            asc = true
-                            updateFilters()
-                            true
-                        }
-                        R.id.action_byAuthorDesc -> {
-                            orderColumn = OrderColumns.author
-                            asc = false
-                            updateFilters()
-                            true
-                        }
-                        R.id.action_byYearAsc -> {
-                            orderColumn = OrderColumns.year
-                            asc = true
-                            updateFilters()
-                            true
-                        }
-                        R.id.action_byYearDesc -> {
-                            orderColumn = OrderColumns.year
-                            asc = false
-                            updateFilters()
-                            true
-                        }
-                        else -> super.onOptionsItemSelected(item)
-                    }
-                }
-                // Showing the popup menu
-                popupMenu.show()
-                true
-            }
-            R.id.action_settings -> {
-                findNavController().navigate(R.id.navigation_settings)
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
+        return super.onOptionsItemSelected(item)
     }
 }
