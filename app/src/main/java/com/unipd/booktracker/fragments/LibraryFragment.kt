@@ -2,21 +2,30 @@ package com.unipd.booktracker.fragments
 
 import android.app.SearchManager
 import android.content.Context
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.*
 import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.SearchView
+import androidx.core.content.ContextCompat
 import androidx.core.view.marginBottom
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.unipd.booktracker.*
+import com.unipd.booktracker.BookAdapter
+import com.unipd.booktracker.BookViewModel
+import com.unipd.booktracker.MainActivity
+import com.unipd.booktracker.R
 import com.unipd.booktracker.databinding.FragmentLibraryBinding
 import com.unipd.booktracker.db.OrderColumns
+
 
 class LibraryFragment: Fragment() {
     private lateinit var viewModel: BookViewModel
@@ -85,14 +94,16 @@ class LibraryFragment: Fragment() {
             }
         }
 
-        /*val swipeController: RecyclerItemTouchHelper = RecyclerItemTouchHelper(viewModel)
-        val itemTouchHelper: ItemTouchHelper = ItemTouchHelper(swipeController)
-        itemTouchHelper.attachToRecyclerView(binding.rwLibrary)*/
-
+        //  swipe to delete
         ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
             0,
             ItemTouchHelper.LEFT
         ) {
+            var background: Drawable? = ColorDrawable(Color.RED)
+            var xMark: Drawable? = context?.let { ContextCompat.getDrawable(it, R.drawable.ic_baseline_delete_24) }
+            var xMarkMargin = resources.getDimension(R.dimen.content_margin)
+            var initiated = true
+
             override fun onMove(
                 recyclerView: RecyclerView,
                 viewHolder: RecyclerView.ViewHolder,
@@ -103,8 +114,55 @@ class LibraryFragment: Fragment() {
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 viewModel.removeBook(bookAdapter.getBookAt(viewHolder.adapterPosition))
-                Toast.makeText(activity, "Book Deleted", Toast.LENGTH_SHORT).show()
+                Toast.makeText(activity, R.string.deleted_book, Toast.LENGTH_SHORT).show()
                 updateFilters()
+            }
+
+            override fun onChildDraw(
+                c: Canvas,
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                dX: Float,
+                dY: Float,
+                actionState: Int,
+                isCurrentlyActive: Boolean
+            ) {
+                val itemView: View = viewHolder.itemView
+                if(viewHolder.adapterPosition == -1){
+                    return
+                }
+
+                // draw red background
+                background!!.setBounds(
+                    itemView.right + dX.toInt(),
+                    itemView.top,
+                    itemView.right,
+                    itemView.bottom
+                )
+                background!!.draw(c)
+
+                // draw x mark
+                val itemHeight = itemView.bottom - itemView.top
+                val intrinsicWidth = xMark!!.intrinsicWidth
+                val intrinsicHeight = xMark!!.intrinsicWidth
+
+                val xMarkLeft = (itemView.right - xMarkMargin - intrinsicWidth).toInt()
+                val xMarkRight = (itemView.right - xMarkMargin).toInt()
+                val xMarkTop = itemView.top + (itemHeight - intrinsicHeight) / 2
+                val xMarkBottom = xMarkTop + intrinsicHeight
+                xMark!!.setBounds(xMarkLeft, xMarkTop, xMarkRight, xMarkBottom)
+
+                xMark!!.draw(c)
+
+                super.onChildDraw(
+                    c,
+                    recyclerView,
+                    viewHolder,
+                    dX,
+                    dY,
+                    actionState,
+                    isCurrentlyActive
+                )
             }
         }).attachToRecyclerView(binding.rwLibrary)
     }
