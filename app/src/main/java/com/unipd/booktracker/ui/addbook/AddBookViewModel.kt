@@ -16,7 +16,7 @@ import org.json.JSONObject
 import java.net.URL
 
 class AddBookViewModel(application: Application) : AndroidViewModel(application) {
-    // The application context is only used to save file in the app-specific directory and show toasts
+    // The application context is only used to save get resources and show toasts
     private val app = application
 
     private fun getApiKey(): String? {

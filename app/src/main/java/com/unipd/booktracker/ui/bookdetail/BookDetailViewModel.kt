@@ -19,10 +19,6 @@ class BookDetailViewModel(application: Application) : AndroidViewModel(applicati
         bookDao.insert(book)
     }
 
-    fun removeBook(book: Book) = viewModelScope.launch(Dispatchers.IO) {
-        bookDao.delete(book)
-    }
-
     fun addReadPages(book: Book, pageDifference: Int) = viewModelScope.launch(Dispatchers.IO) {
         readingDao.upsert(Reading(book.id, LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE), pageDifference))
     }
@@ -42,6 +38,10 @@ class BookDetailViewModel(application: Application) : AndroidViewModel(applicati
     fun moveToWishlist(book: Book) = viewModelScope.launch(Dispatchers.IO) {
         bookDao.moveToWishlist(book.id)
         readingDao.deleteBookReadings(book.id)
+    }
+
+    fun removeBook(book: Book) = viewModelScope.launch(Dispatchers.IO) {
+        bookDao.delete(book)
     }
 
 }

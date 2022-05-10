@@ -6,15 +6,6 @@ import androidx.room.*
 @Dao
 interface BookDao {
 
-    @Query("SELECT * FROM books WHERE readPages IS NOT NULL")
-    fun getObservableLibrary(): LiveData<List<Book>>
-
-    @Query("SELECT * FROM books WHERE readPages IS NULL")
-    fun getObservableWishlist(): LiveData<List<Book>>
-
-    @Query("SELECT * FROM books")
-    fun getBooks(): List<Book>
-
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(book: Book)
 
@@ -32,6 +23,15 @@ interface BookDao {
 
     @Query("SELECT * FROM books WHERE id = :bookId")
     fun getBook(bookId: String): Book
+
+    @Query("SELECT * FROM books")
+    fun getBooks(): List<Book>
+
+    @Query("SELECT * FROM books WHERE readPages IS NOT NULL")
+    fun getObservableLibrary(): LiveData<List<Book>>
+
+    @Query("SELECT * FROM books WHERE readPages IS NULL")
+    fun getObservableWishlist(): LiveData<List<Book>>
 
     @Query ("SELECT EXISTS (SELECT * FROM books WHERE id = :bookId AND readPages IS NOT NULL)")
     fun isBookInLibrary(bookId: String): Boolean

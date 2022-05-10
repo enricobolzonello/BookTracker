@@ -6,7 +6,6 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 
-// Annotates class to be a Room Database with a table (entity) of the Word class
 @Database(entities = [Book::class, Reading::class], version = 1, exportSchema = false)
 abstract class BookRoomDatabase : RoomDatabase() {
 
@@ -14,8 +13,8 @@ abstract class BookRoomDatabase : RoomDatabase() {
     abstract fun readingDao(): ReadingDao
     abstract fun statsDao(): StatsDao
 
+    // Singleton prevents multiple instances of database opening at the same time.
     companion object {
-        // Singleton prevents multiple instances of database opening at the same time.
         @Volatile
         private var INSTANCE: BookRoomDatabase? = null
 
@@ -28,7 +27,6 @@ abstract class BookRoomDatabase : RoomDatabase() {
                 .addCallback(dbTriggers)
                 .build()
                 INSTANCE = instance
-                // return instance
                 instance
             }
         }

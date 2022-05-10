@@ -2,7 +2,6 @@ package com.unipd.booktracker.ui.booklist
 
 import android.os.Bundle
 import android.view.*
-import androidx.appcompat.widget.PopupMenu
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.unipd.booktracker.BookAdapter
@@ -55,8 +54,7 @@ class LibraryFragment: BooklistFragment() {
         bookAdapter.setBooks(books)
     }
 
-    override fun inflateMenu(popupMenu: PopupMenu) {
-        super.inflateMenu(popupMenu)
-        popupMenu.menuInflater.inflate(R.menu.library_sorting_menu, popupMenu.menu)
+    override fun setMenuGroupVisibility(menu: Menu) {
+        menu.setGroupVisible(R.id.library_sorting_group, true)
     }
 }

@@ -52,7 +52,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         val books = getBooks()
         val readings = getReadings()
 
-        var exportFile: File?
+        val exportFile: File?
         var fos: FileOutputStream? = null
         var oos: ObjectOutputStream? = null
         try {

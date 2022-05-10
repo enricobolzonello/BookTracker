@@ -1,11 +1,13 @@
 package com.unipd.booktracker
 
 import android.content.Context
+import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -58,5 +60,20 @@ class MainActivity : AppCompatActivity() {
                 activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
                 activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)
         )
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.action_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_settings -> {
+                navController.navigate(R.id.navigation_settings)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 }

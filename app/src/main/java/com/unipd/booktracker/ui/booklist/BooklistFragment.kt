@@ -16,7 +16,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.marginBottom
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
@@ -154,23 +153,15 @@ abstract class BooklistFragment : Fragment() {
         }).attachToRecyclerView(rw)
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
 
-        inflater.inflate(R.menu.list_action_menu, menu)
-        inflater.inflate(R.menu.default_action_menu, menu)
+        menu.setGroupVisible(R.id.list_action_group, true)
 
         // Associate searchable configuration with the SearchView
         val searchManager = requireActivity().getSystemService(Context.SEARCH_SERVICE) as SearchManager
         val searchView = menu.findItem(R.id.action_search).actionView as SearchView
-        searchView.apply {
-            setSearchableInfo(searchManager.getSearchableInfo(requireActivity().componentName))
-        }
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(requireActivity().componentName))
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(submittedText: String): Boolean {
@@ -192,18 +183,14 @@ abstract class BooklistFragment : Fragment() {
         }
     }
 
-    protected open fun inflateMenu(popupMenu: PopupMenu) {
-        popupMenu.menuInflater.inflate(R.menu.default_sorting_menu, popupMenu.menu)
-    }
+    protected open fun setMenuGroupVisibility(menu: Menu) { }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.action_search -> {
-                true
-            }
             R.id.action_sort -> {
                 val popupMenu = PopupMenu(requireActivity(), requireActivity().findViewById(item.itemId))
-                inflateMenu(popupMenu)
+                popupMenu.menuInflater.inflate(R.menu.sorting_menu, popupMenu.menu)
+                setMenuGroupVisibility(popupMenu.menu)
                 popupMenu.setOnMenuItemClickListener {
                     when (it.itemId) {
                         R.id.action_byTitleAsc -> {
@@ -260,11 +247,12 @@ abstract class BooklistFragment : Fragment() {
                 popupMenu.show()
                 true
             }
-            R.id.action_settings -> {
-                findNavController().navigate(R.id.navigation_settings)
-                true
-            }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

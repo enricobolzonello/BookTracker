@@ -1,23 +1,17 @@
 package com.unipd.booktracker.db
 
-import android.graphics.Bitmap
-import android.os.Parcel
-import android.os.Parcelable
 import androidx.annotation.Nullable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
-import androidx.room.PrimaryKey
 import java.io.Serializable
-import java.time.LocalDate
-import java.util.*
 
 enum class OrderColumns {
     title, author, year, progress
 }
 
 @Entity(tableName = "books", primaryKeys = ["id"])
-data class Book(
+class Book(
     @ColumnInfo(name = "id") val id: String,
     @ColumnInfo(name = "title") val title: String,
     @ColumnInfo(name = "mainAuthor") val mainAuthor: String,
@@ -43,7 +37,7 @@ data class Book(
         onDelete = ForeignKey.CASCADE
     )]
 )
-data class Reading(
+class Reading(
     @ColumnInfo(name = "bookId", index = true) val bookId: String,
     @ColumnInfo(name = "date") val date: String,
     @ColumnInfo(name = "pageDifference") val pageDifference: Int
