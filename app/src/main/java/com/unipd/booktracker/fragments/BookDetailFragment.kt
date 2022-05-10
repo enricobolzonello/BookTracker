@@ -70,16 +70,16 @@ class BookDetailFragment : Fragment() {
 
         binding.chLibrary.setOnClickListener {
             if (binding.chLibrary.isChecked) {
+                if (!binding.chWishlist.isChecked)
+                    viewModel.addBook(chosenBook)
+                viewModel.moveToLibrary(chosenBook)
+
                 binding.chLibrary.isClickable = false
                 (binding.chLibrary.layoutParams as LayoutParams).weight = 1F
 
                 binding.chWishlist.isChecked = false
                 binding.chWishlist.isClickable = true
                 (binding.chWishlist.layoutParams as LayoutParams).weight = 0F
-
-                if (!binding.chWishlist.isChecked)
-                    viewModel.addBook(chosenBook)
-                viewModel.moveToLibrary(chosenBook)
 
                 setHasOptionsMenu(true)
                 setupReadPagesModifiers()
@@ -91,16 +91,16 @@ class BookDetailFragment : Fragment() {
 
         binding.chWishlist.setOnClickListener {
             if (binding.chWishlist.isChecked) {
+                if (!binding.chLibrary.isChecked)
+                    viewModel.addBook(chosenBook)
+                viewModel.moveToWishlist(chosenBook)
+
                 binding.chWishlist.isClickable = false
                 (binding.chWishlist.layoutParams as LayoutParams).weight = 1F
 
                 binding.chLibrary.isChecked = false
                 binding.chLibrary.isClickable = true
                 (binding.chLibrary.layoutParams as LayoutParams).weight = 0F
-
-                if (!binding.chLibrary.isChecked)
-                    viewModel.addBook(chosenBook)
-                viewModel.moveToWishlist(chosenBook)
 
                 setHasOptionsMenu(true)
                 binding.llReadPages.visibility = View.GONE
