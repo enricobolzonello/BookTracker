@@ -13,7 +13,6 @@ import androidx.navigation.ui.NavigationUI
 import com.unipd.booktracker.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
-    private val viewModel: BookViewModel by viewModels()
     private lateinit var navController : NavController
     private lateinit var binding : ActivityMainBinding
 

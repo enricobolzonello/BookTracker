@@ -1,11 +1,8 @@
 package com.unipd.booktracker
 
-import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import java.io.ByteArrayOutputStream
-import java.io.FileOutputStream
-import java.io.ObjectOutputStream
 
 class BookUtils {
     companion object {

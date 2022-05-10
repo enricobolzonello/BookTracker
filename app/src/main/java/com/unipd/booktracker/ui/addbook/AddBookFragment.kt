@@ -10,16 +10,16 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.unipd.booktracker.BookAdapter
-import com.unipd.booktracker.BookViewModel
 import com.unipd.booktracker.MainActivity
 import com.unipd.booktracker.R
 import com.unipd.booktracker.databinding.FragmentAddBookBinding
+import com.unipd.booktracker.ui.addbook.AddBookViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class AddDialogFragment : BottomSheetDialogFragment() {
-    private lateinit var viewModel: BookViewModel
+    private lateinit var viewModel: AddBookViewModel
     private lateinit var bookAdapter : BookAdapter
     private var _binding: FragmentAddBookBinding? = null
     private val binding get() = _binding!!
@@ -27,7 +27,7 @@ class AddDialogFragment : BottomSheetDialogFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel = ViewModelProvider(requireActivity() as MainActivity)[BookViewModel::class.java]
+        viewModel = ViewModelProvider(requireActivity() as MainActivity)[AddBookViewModel::class.java]
         bookAdapter = BookAdapter(this)
     }
 

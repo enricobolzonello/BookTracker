@@ -1,27 +1,25 @@
-package com.unipd.booktracker.fragments
+package com.unipd.booktracker.ui.settings
 
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
-import com.unipd.booktracker.BookViewModel
 import com.unipd.booktracker.MainActivity
 import com.unipd.booktracker.R
 
 class SettingsFragment : PreferenceFragmentCompat() {
-    private lateinit var viewModel: BookViewModel
+    private lateinit var viewModel: SettingsViewModel
     private lateinit var resultLauncher: ActivityResultLauncher<Intent>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel = ViewModelProvider(requireActivity() as MainActivity)[BookViewModel::class.java]
+        viewModel = ViewModelProvider(requireActivity() as MainActivity)[SettingsViewModel::class.java]
 
         resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {

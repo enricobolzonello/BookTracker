@@ -1,11 +1,10 @@
-package com.unipd.booktracker.fragments
+package com.unipd.booktracker.ui.stats
 
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.unipd.booktracker.BookViewModel
 import com.unipd.booktracker.MainActivity
 import com.unipd.booktracker.R
 import com.unipd.booktracker.databinding.FragmentStatsBinding
@@ -14,7 +13,7 @@ import kotlin.math.abs
 import kotlin.math.sign
 
 class StatsFragment : Fragment() {
-    private lateinit var viewModel: BookViewModel
+    private lateinit var viewModel: StatsViewModel
     private var _binding: FragmentStatsBinding? = null
     private val binding get() = _binding!!
 
@@ -22,7 +21,7 @@ class StatsFragment : Fragment() {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
 
-        viewModel = ViewModelProvider(requireActivity() as MainActivity)[BookViewModel::class.java]
+        viewModel = ViewModelProvider(requireActivity() as MainActivity)[StatsViewModel::class.java]
     }
 
     override fun onCreateView(

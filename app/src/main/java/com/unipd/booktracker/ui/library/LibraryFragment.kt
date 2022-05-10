@@ -1,4 +1,4 @@
-package com.unipd.booktracker.fragments
+package com.unipd.booktracker.ui.library
 
 import android.app.SearchManager
 import android.content.Context
@@ -20,15 +20,15 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.unipd.booktracker.BookAdapter
-import com.unipd.booktracker.BookViewModel
 import com.unipd.booktracker.MainActivity
 import com.unipd.booktracker.R
 import com.unipd.booktracker.databinding.FragmentLibraryBinding
 import com.unipd.booktracker.db.OrderColumns
+import com.unipd.booktracker.fragments.AddDialogFragment
 
 
 class LibraryFragment: Fragment() {
-    private lateinit var viewModel: BookViewModel
+    private lateinit var viewModel: LibraryViewModel
     private lateinit var bookAdapter : BookAdapter
     private var _binding: FragmentLibraryBinding? = null
     private val binding get() = _binding!!
@@ -41,7 +41,7 @@ class LibraryFragment: Fragment() {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
 
-        viewModel = ViewModelProvider(requireActivity() as MainActivity)[BookViewModel::class.java]
+        viewModel = ViewModelProvider(requireActivity() as MainActivity)[LibraryViewModel::class.java]
         bookAdapter = BookAdapter(this)
 
         viewModel.getObservableLibrary().observe(this) {

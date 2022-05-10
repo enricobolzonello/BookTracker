@@ -1,6 +1,5 @@
-package com.unipd.booktracker.fragments
+package com.unipd.booktracker.ui.bookdetail
 
-import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.InputFilter
@@ -15,11 +14,9 @@ import com.google.android.material.slider.Slider
 import com.unipd.booktracker.*
 import com.unipd.booktracker.databinding.FragmentBookDetailBinding
 import com.unipd.booktracker.db.Book
-import java.io.FileOutputStream
-import java.io.ObjectOutputStream
 
 class BookDetailFragment : Fragment() {
-    private lateinit var viewModel: BookViewModel
+    private lateinit var viewModel: BookDetailViewModel
     private var _binding: FragmentBookDetailBinding? = null
     private val binding get() = _binding!!
 
@@ -30,7 +27,7 @@ class BookDetailFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel = ViewModelProvider(requireActivity() as MainActivity)[BookViewModel::class.java]
+        viewModel = ViewModelProvider(requireActivity() as MainActivity)[BookDetailViewModel::class.java]
         chosenBook = args.chosenBook
     }
 
