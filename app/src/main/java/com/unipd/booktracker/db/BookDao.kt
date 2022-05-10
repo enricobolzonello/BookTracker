@@ -12,11 +12,11 @@ interface BookDao {
     @Query("SELECT * FROM books WHERE readPages IS NULL")
     fun getObservableWishlist(): LiveData<List<Book>>
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insert(book: Book)
+    @Query("SELECT * FROM books")
+    fun getBooks(): List<Book>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insert(books: List<Book>)
+    fun insert(book: Book)
 
     @Delete
     fun delete(book: Book)
@@ -89,5 +89,4 @@ interface BookDao {
                 "END " +
             "END DESC")
     fun getFilteredWishlist(query: String, orderColumn : OrderColumns, asc : Boolean): List<Book>
-
 }

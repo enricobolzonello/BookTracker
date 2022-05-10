@@ -43,7 +43,7 @@ abstract class BookRoomDatabase : RoomDatabase() {
                         "WHEN (SELECT EXISTS (SELECT * FROM books WHERE id = NEW.bookId)) " +
                         "BEGIN " +
                             "UPDATE books " +
-                            "SET readPages = readPages + NEW.pageDifference " +
+                            "SET readPages = (SELECT SUM(pageDifference) FROM readings WHERE bookId = NEW.bookId) " +
                             "WHERE books.id = NEW.bookId; " +
                         "END")
 
@@ -53,7 +53,7 @@ abstract class BookRoomDatabase : RoomDatabase() {
                         "WHEN (SELECT EXISTS (SELECT * FROM books WHERE id = NEW.bookId)) " +
                         "BEGIN " +
                             "UPDATE books " +
-                            "SET readPages = readPages + (NEW.pageDifference - OLD.pageDifference) " +
+                            "SET readPages = (SELECT SUM(pageDifference) FROM readings WHERE bookId = NEW.bookId) " +
                             "WHERE books.id = NEW.bookId; " +
                         "END")
             }

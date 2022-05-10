@@ -38,7 +38,6 @@ class BookAdapter(val parentFragment: Fragment): RecyclerView.Adapter<BookAdapte
                 binding.tvReadProgress.text = parentFragment.getString(R.string.ph_percentage, progress)
             }
 
-
             binding.cvBook.setOnClickListener {
                 val bundle = Bundle()
                 bundle.putSerializable("chosenBook", book)

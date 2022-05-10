@@ -28,4 +28,6 @@ interface ReadingDao {
     @Query("DELETE FROM readings")
     fun deleteAllReadings()
 
+    @Query("SELECT * FROM readings")
+    fun getReadings(): List<Reading>
 }

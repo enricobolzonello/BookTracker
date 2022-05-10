@@ -18,7 +18,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-
 class AddDialogFragment : BottomSheetDialogFragment() {
     private lateinit var viewModel: BookViewModel
     private lateinit var bookAdapter : BookAdapter

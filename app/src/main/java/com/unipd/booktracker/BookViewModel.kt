@@ -1,9 +1,11 @@
 package com.unipd.booktracker
 
 import android.app.Application
+import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.*
 import com.unipd.booktracker.db.*
@@ -12,10 +14,13 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
+import java.io.FileInputStream
+import java.io.FileOutputStream
+import java.io.ObjectInputStream
+import java.io.ObjectOutputStream
 import java.net.URL
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-
 
 class BookViewModel(application: Application) : AndroidViewModel(application) {
     // The application context is only used to save file in the app-specific directory and show toasts
@@ -26,13 +31,20 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
     private val readingDao : ReadingDao = bookDatabase.readingDao()
     private val statsDao : StatsDao = bookDatabase.statsDao()
 
-
     fun getObservableLibrary(): LiveData<List<Book>> = runBlocking(Dispatchers.IO) {
         return@runBlocking bookDao.getObservableLibrary()
     }
 
     fun getObservableWishlist(): LiveData<List<Book>> = runBlocking(Dispatchers.IO) {
         return@runBlocking bookDao.getObservableWishlist()
+    }
+
+    fun getBooks(): List<Book> = runBlocking(Dispatchers.IO) {
+        return@runBlocking bookDao.getBooks()
+    }
+
+    fun getReadings(): List<Reading> = runBlocking(Dispatchers.IO) {
+        return@runBlocking readingDao.getReadings()
     }
 
     fun getFilteredLibrary (
@@ -60,6 +72,10 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
 
     fun removeBook(book: Book) = viewModelScope.launch(Dispatchers.IO) {
         bookDao.delete(book)
+    }
+
+    fun addReading(reading: Reading) = viewModelScope.launch(Dispatchers.IO) {
+        readingDao.insert(reading)
     }
 
     fun addReadPages(book: Book, pageDifference: Int) = viewModelScope.launch(Dispatchers.IO) {
@@ -91,7 +107,7 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
         bookDao.deleteWishlistBooks()
     }
 
-    fun clearAll() = viewModelScope.launch(Dispatchers.IO) {
+    fun clearBooks() = viewModelScope.launch(Dispatchers.IO) {
         bookDao.deleteBooks()
     }
 
@@ -268,5 +284,40 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
             }
         }
         return Book(id, title, mainAuthor, pages, publisher, isbn, mainCategory, description, year, language, BookUtils.fromBitmap(thumbnail))
+    }
+
+    fun exportDbToFile() {
+        val books = getBooks()
+        val readings = getReadings()
+        val fos: FileOutputStream = app.openFileOutput(app.getString(R.string.app_name) + ".dat", Context.MODE_PRIVATE)
+        val oos = ObjectOutputStream(fos)
+        books.forEach { oos.writeObject(it) }
+        readings.forEach { oos.writeObject(it) }
+        oos.close()
+        fos.close()
+    }
+
+    fun importDbFromFile(): Boolean {
+        val books = mutableListOf<Book>()
+        val readings = mutableListOf<Reading>()
+        val fis: FileInputStream = app.openFileInput(app.getString(R.string.app_name) + ".dat")
+        val ois = ObjectInputStream(fis)
+        while(fis.available() > 0)  {
+            val obj = ois.readObject()
+            if (obj !is Book && obj !is Reading) {
+                ois.close()
+                fis.close()
+                return false
+            }
+            if (obj is Book)
+                books.add(obj)
+            if (obj is Reading)
+                readings.add(obj)
+        }
+        books.forEach { addBook(it) }
+        readings.forEach { addReading(it) }
+        ois.close()
+        fis.close()
+        return true
     }
 }

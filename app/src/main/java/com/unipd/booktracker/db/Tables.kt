@@ -28,7 +28,7 @@ data class Book(
     @Nullable@ColumnInfo(name = "description") val description: String?,
     @Nullable@ColumnInfo(name = "year") val year: Int?,
     @Nullable@ColumnInfo(name = "language") val language: String?,
-    @Nullable@ColumnInfo(name = "thumbnail", typeAffinity = ColumnInfo.BLOB) val thumbnail: ByteArray? = null,
+    @Nullable@ColumnInfo(name = "thumbnail", typeAffinity = ColumnInfo.BLOB) val thumbnail: ByteArray?,
     @Nullable@ColumnInfo(name = "readPages") val readPages: Int? = null
 ): Serializable
 
@@ -47,4 +47,4 @@ data class Reading(
     @ColumnInfo(name = "bookId", index = true) val bookId: String,
     @ColumnInfo(name = "date") val date: String,
     @ColumnInfo(name = "pageDifference") val pageDifference: Int
-)
+): Serializable

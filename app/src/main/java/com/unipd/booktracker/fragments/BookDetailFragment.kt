@@ -1,11 +1,11 @@
 package com.unipd.booktracker.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.InputFilter
 import android.text.Spanned
 import android.text.TextWatcher
-import android.util.Log
 import android.view.*
 import android.widget.LinearLayout.LayoutParams
 import androidx.fragment.app.Fragment
@@ -15,7 +15,8 @@ import com.google.android.material.slider.Slider
 import com.unipd.booktracker.*
 import com.unipd.booktracker.databinding.FragmentBookDetailBinding
 import com.unipd.booktracker.db.Book
-
+import java.io.FileOutputStream
+import java.io.ObjectOutputStream
 
 class BookDetailFragment : Fragment() {
     private lateinit var viewModel: BookViewModel

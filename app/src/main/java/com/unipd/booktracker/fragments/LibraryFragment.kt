@@ -18,7 +18,6 @@ import com.unipd.booktracker.*
 import com.unipd.booktracker.databinding.FragmentLibraryBinding
 import com.unipd.booktracker.db.OrderColumns
 
-
 class LibraryFragment: Fragment() {
     private lateinit var viewModel: BookViewModel
     private lateinit var bookAdapter : BookAdapter

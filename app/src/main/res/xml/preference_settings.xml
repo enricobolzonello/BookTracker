@@ -4,9 +4,19 @@
     <!-- https://medium.com/google-developer-experts/exploring-android-jetpack-preferences-8bcb0b7bdd14 -->
 
     <Preference
-        android:key="preference_key"
+        android:key="export"
         android:title="@string/preference"
-        android:summary="Questa è una preferenza random" />
+        android:summary="Esporta i dati del database" />
+
+    <Preference
+        android:key="import"
+        android:title="@string/preference"
+        android:summary="Importa i dati del database" />
+
+    <Preference
+        android:key="clear"
+        android:title="@string/preference"
+        android:summary="Elimina i dati del database" />
 
     <CheckBoxPreference
         android:key="checkbox_preference_key"
