@@ -9,12 +9,14 @@ import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.*
 import android.widget.FrameLayout
+import androidx.appcompat.widget.PopupMenu
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.core.view.marginBottom
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
@@ -190,7 +192,79 @@ abstract class BooklistFragment : Fragment() {
         }
     }
 
+    protected open fun inflateMenu(popupMenu: PopupMenu) {
+        popupMenu.menuInflater.inflate(R.menu.default_sorting_menu, popupMenu.menu)
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return super.onOptionsItemSelected(item)
+        return when (item.itemId) {
+            R.id.action_search -> {
+                true
+            }
+            R.id.action_sort -> {
+                val popupMenu = PopupMenu(requireActivity(), requireActivity().findViewById(item.itemId))
+                inflateMenu(popupMenu)
+                popupMenu.setOnMenuItemClickListener {
+                    when (it.itemId) {
+                        R.id.action_byTitleAsc -> {
+                            orderColumn = OrderColumns.title
+                            asc = true
+                            updateFilters()
+                            true
+                        }
+                        R.id.action_byTitleDesc -> {
+                            orderColumn = OrderColumns.title
+                            asc = false
+                            updateFilters()
+                            true
+                        }
+                        R.id.action_byAuthorAsc -> {
+                            orderColumn = OrderColumns.author
+                            asc = true
+                            updateFilters()
+                            true
+                        }
+                        R.id.action_byAuthorDesc -> {
+                            orderColumn = OrderColumns.author
+                            asc = false
+                            updateFilters()
+                            true
+                        }
+                        R.id.action_byYearAsc -> {
+                            orderColumn = OrderColumns.year
+                            asc = true
+                            updateFilters()
+                            true
+                        }
+                        R.id.action_byYearDesc -> {
+                            orderColumn = OrderColumns.year
+                            asc = false
+                            updateFilters()
+                            true
+                        }
+                        R.id.action_byReadProgressAsc -> {
+                            orderColumn = OrderColumns.progress
+                            asc = true
+                            updateFilters()
+                            true
+                        }
+                        R.id.action_byReadProgressDesc -> {
+                            orderColumn = OrderColumns.progress
+                            asc = false
+                            updateFilters()
+                            true
+                        }
+                        else -> super.onOptionsItemSelected(item)
+                    }
+                }
+                popupMenu.show()
+                true
+            }
+            R.id.action_settings -> {
+                findNavController().navigate(R.id.navigation_settings)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 }

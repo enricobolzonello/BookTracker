@@ -25,12 +25,4 @@
         android:id="@+id/action_byYearDesc"
         android:title="@string/by_year_desc" />
 
-    <item
-        android:id="@+id/action_byReadProgressAsc"
-        android:title="@string/by_progress_asc" />
-
-    <item
-        android:id="@+id/action_byReadProgressDesc"
-        android:title="@string/by_progress_desc" />
-
 </menu>
