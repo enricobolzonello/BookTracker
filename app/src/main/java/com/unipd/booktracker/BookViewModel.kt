@@ -1,31 +1,23 @@
 package com.unipd.booktracker
 
 import android.app.Application
-import android.content.ComponentName
-import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.os.Looper
-import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.*
-import androidx.room.*
 import com.unipd.booktracker.db.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
-import java.io.IOException
 import java.net.URL
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import java.util.*
 
 
 class BookViewModel(application: Application) : AndroidViewModel(application) {
-
     // The application context is only used to save file in the app-specific directory and show toasts
     private val app = application
 
@@ -33,6 +25,7 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
     private val bookDao : BookDao = bookDatabase.bookDao()
     private val readingDao : ReadingDao = bookDatabase.readingDao()
     private val statsDao : StatsDao = bookDatabase.statsDao()
+
 
     fun getObservableLibrary(): LiveData<List<Book>> = runBlocking(Dispatchers.IO) {
         return@runBlocking bookDao.getObservableLibrary()
@@ -274,6 +267,6 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
                 thumbnail = null
             }
         }
-        return Book(id, title, mainAuthor, pages, publisher, isbn, mainCategory, description, year, language, thumbnail)
+        return Book(id, title, mainAuthor, pages, publisher, isbn, mainCategory, description, year, language, BookUtils.fromBitmap(thumbnail))
     }
 }

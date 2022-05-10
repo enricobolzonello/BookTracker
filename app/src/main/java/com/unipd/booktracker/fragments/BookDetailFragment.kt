@@ -12,9 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.slider.Slider
-import com.unipd.booktracker.BookViewModel
-import com.unipd.booktracker.MainActivity
-import com.unipd.booktracker.R
+import com.unipd.booktracker.*
 import com.unipd.booktracker.databinding.FragmentBookDetailBinding
 import com.unipd.booktracker.db.Book
 
@@ -50,7 +48,7 @@ class BookDetailFragment : Fragment() {
         if (chosenBook.thumbnail == null)
             binding.ivBookThumbnail.setBackgroundResource(R.drawable.default_thumbnail)
         else
-            binding.ivBookThumbnail.setImageBitmap(chosenBook.thumbnail)
+            binding.ivBookThumbnail.setImageBitmap(BookUtils.toBitmap(chosenBook.thumbnail))
 
         binding.tvBookTitle.text = chosenBook.title
         binding.tvBookAuthor.text = chosenBook.mainAuthor

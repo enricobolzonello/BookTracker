@@ -28,19 +28,19 @@ class MainActivity : AppCompatActivity() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when(destination.id) {
                 R.id.navigation_settings -> {
+                    binding.navView.visibility = View.GONE
                     supportActionBar?.setDisplayHomeAsUpEnabled(true)
                     supportActionBar?.setTitle(R.string.settings)
-                    binding.navView.visibility = View.GONE
                 }
                 R.id.navigation_book_detail -> {
+                    binding.navView.visibility = View.GONE
                     supportActionBar?.setDisplayHomeAsUpEnabled(true)
                     supportActionBar?.setTitle(R.string.book_detail)
-                    binding.navView.visibility = View.GONE
                 }
                 else -> {
+                    binding.navView.visibility = View.VISIBLE
                     supportActionBar?.setDisplayHomeAsUpEnabled(false)
                     supportActionBar?.setTitle(R.string.app_name)
-                    binding.navView.visibility = View.VISIBLE
                 }
             }
         }

@@ -28,7 +28,7 @@ class BookAdapter(val parentFragment: Fragment): RecyclerView.Adapter<BookAdapte
             if (book.thumbnail == null)
                 binding.ivBookThumbnail.setBackgroundResource(R.drawable.default_thumbnail)
             else
-                binding.ivBookThumbnail.setImageBitmap(book.thumbnail)
+                binding.ivBookThumbnail.setImageBitmap(BookUtils.toBitmap(book.thumbnail))
 
             if (book.readPages == null)
                 binding.llReadProgress.visibility = View.GONE

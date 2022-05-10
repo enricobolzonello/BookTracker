@@ -4,12 +4,10 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
 
 // Annotates class to be a Room Database with a table (entity) of the Word class
 @Database(entities = [Book::class, Reading::class], version = 1, exportSchema = false)
-@TypeConverters(Converters::class)
 abstract class BookRoomDatabase : RoomDatabase() {
 
     abstract fun bookDao(): BookDao
