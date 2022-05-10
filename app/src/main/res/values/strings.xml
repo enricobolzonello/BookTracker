@@ -62,6 +62,7 @@
     <!-- Settings -->
     <string name="settings_theme">Tema dell\'app</string>
     <string name="preference">Preferenza random</string>
+    <string name="deleted_book">Libro Eliminato</string>
     <string-array name="theme_spinner_array">
         <item>Sistema</item>
         <item>Chiaro</item>
