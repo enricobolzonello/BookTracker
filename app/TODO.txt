@@ -1,0 +1,5 @@
+todo: layout statistiche
+todo: layout impostazioni
+todo: logica statistiche e shared preferences (cambio tema, colori, ecc)
+todo: animazioni fragment
+todo: migliorare splashscreen
