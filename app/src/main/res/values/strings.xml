@@ -43,7 +43,7 @@
     <string name="most_read_genre">Genere più letto</string>
     <string name="total">Totali</string>
     <!-- Search hint -->
-    <string name="search_hint">Cerca libro</string>
+    <string name="search_hint">Cerca titolo o autore</string>
     <string name="add_book_hint">Cerca libro</string>
     <!-- Placeholders -->
     <string name="ph_percentage">%d %%</string>
