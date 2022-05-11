@@ -1,7 +1,5 @@
 package com.unipd.booktracker.ui.booklist
 
-import android.app.SearchManager
-import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -157,12 +155,8 @@ abstract class BooklistFragment: Fragment() {
         super.onCreateOptionsMenu(menu, inflater)
 
         menu.setGroupVisible(R.id.list_action_group, true)
-
-        // Associate searchable configuration with the SearchView
-        val searchManager = requireActivity().getSystemService(Context.SEARCH_SERVICE) as SearchManager
-        val searchView = menu.findItem(R.id.action_search).actionView as SearchView
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(requireActivity().componentName))
-
+        val searchView = (menu.findItem(R.id.action_search)?.actionView as SearchView)
+        searchView.queryHint = getString(R.string.search_hint)
         searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(submittedText: String): Boolean {
                 query = submittedText

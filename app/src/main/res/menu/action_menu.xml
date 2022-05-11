@@ -10,8 +10,7 @@
             android:icon="@drawable/ic_search"
             android:title="@string/search_books"
             app:showAsAction="ifRoom|collapseActionView"
-            app:actionViewClass="androidx.appcompat.widget.SearchView"/>
-
+            app:actionViewClass="androidx.appcompat.widget.SearchView" />
         <item
             android:id="@+id/action_sort"
             android:icon="@drawable/ic_sort"
