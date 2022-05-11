@@ -7,6 +7,7 @@ import android.text.Spanned
 import android.text.TextWatcher
 import android.view.*
 import android.widget.LinearLayout.LayoutParams
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
@@ -15,18 +16,19 @@ import com.unipd.booktracker.*
 import com.unipd.booktracker.databinding.FragmentBookDetailBinding
 import com.unipd.booktracker.db.Book
 
-class BookDetailFragment : Fragment() {
+class BookDetailFragment: Fragment() {
     private lateinit var viewModel: BookDetailViewModel
     private var _binding: FragmentBookDetailBinding? = null
     private val binding get() = _binding!!
 
     private val args: BookDetailFragmentArgs by navArgs()
-    private lateinit var chosenBook : Book
+    private lateinit var chosenBook: Book
     private var readPages = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        (requireActivity() as MainActivity).setBarInterfaces(true, getString(R.string.book_detail), View.GONE)
         viewModel = ViewModelProvider(requireActivity() as MainActivity)[BookDetailViewModel::class.java]
         chosenBook = args.chosenBook
     }
@@ -128,7 +130,7 @@ class BookDetailFragment : Fragment() {
         binding.tvLastPage.text = chosenBook.pages.toString()
         binding.slReadPages.valueTo = chosenBook.pages.toFloat()
 
-        binding.etReadPages.addTextChangedListener(object : TextWatcher {
+        binding.etReadPages.addTextChangedListener(object: TextWatcher {
             override fun afterTextChanged(s: Editable) {
                 if (s.isBlank())
                     return
@@ -148,7 +150,7 @@ class BookDetailFragment : Fragment() {
             binding.etReadPages.setText(value.toInt().toString())
         }
 
-        binding.slReadPages.addOnSliderTouchListener(object : Slider.OnSliderTouchListener {
+        binding.slReadPages.addOnSliderTouchListener(object: Slider.OnSliderTouchListener {
             override fun onStartTrackingTouch(slider: Slider) {}
 
             override fun onStopTrackingTouch(slider: Slider) {
@@ -169,8 +171,9 @@ class BookDetailFragment : Fragment() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.book_detail_menu, menu)
         super.onCreateOptionsMenu(menu, inflater)
+        menu.setGroupVisible(R.id.default_action_group, false)
+        inflater.inflate(R.menu.book_detail_menu, menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -189,15 +192,17 @@ class BookDetailFragment : Fragment() {
     }
 
     override fun onDestroy() {
+        (requireActivity() as MainActivity).setBarInterfaces()
+
         super.onDestroy()
         _binding = null
     }
 
-    inner class MinMaxFilter() : InputFilter {
+    inner class MinMaxFilter(): InputFilter {
         private var intMin: Int = 0
         private var intMax: Int = 0
 
-        constructor(minValue: Int, maxValue: Int) : this() {
+        constructor(minValue: Int, maxValue: Int): this() {
             this.intMin = minValue
             this.intMax = maxValue
         }

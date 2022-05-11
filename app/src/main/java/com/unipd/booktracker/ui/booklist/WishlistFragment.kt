@@ -7,7 +7,7 @@ import com.google.android.material.floatingactionbutton.ExtendedFloatingActionBu
 import com.unipd.booktracker.BookAdapter
 import com.unipd.booktracker.databinding.FragmentWishlistBinding
 
-class WishlistFragment : BooklistFragment() {
+class WishlistFragment: BooklistFragment() {
 
     override lateinit var bookAdapter: BookAdapter
     override lateinit var rw: RecyclerView

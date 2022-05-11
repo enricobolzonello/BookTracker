@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -14,9 +15,9 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.unipd.booktracker.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity() {
-    private lateinit var navController : NavController
-    private lateinit var binding : ActivityMainBinding
+class MainActivity: AppCompatActivity() {
+    private lateinit var navController: NavController
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,31 +27,6 @@ class MainActivity : AppCompatActivity() {
 
         navController = (binding.navHostFragment.getFragment() as NavHostFragment).navController
         NavigationUI.setupWithNavController(binding.navView, navController)
-
-        navController.addOnDestinationChangedListener { _, destination, _ ->
-            when(destination.id) {
-                R.id.navigation_settings -> {
-                    binding.navView.visibility = View.GONE
-                    supportActionBar?.setDisplayHomeAsUpEnabled(true)
-                    supportActionBar?.setTitle(R.string.settings)
-                }
-                R.id.navigation_book_detail -> {
-                    binding.navView.visibility = View.GONE
-                    supportActionBar?.setDisplayHomeAsUpEnabled(true)
-                    supportActionBar?.setTitle(R.string.book_detail)
-                }
-                else -> {
-                    binding.navView.visibility = View.VISIBLE
-                    supportActionBar?.setDisplayHomeAsUpEnabled(false)
-                    supportActionBar?.setTitle(R.string.app_name)
-                }
-            }
-        }
-    }
-
-    override fun onSupportNavigateUp() : Boolean {
-        onBackPressed()
-        return true
     }
 
     fun isNetworkAvailable(): Boolean {
@@ -70,10 +46,29 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_settings -> {
-                navController.navigate(R.id.navigation_settings)
+                val intent = Intent(this, SettingsActivity::class.java)
+                startActivity(intent)
+                //navController.navigate(R.id.navigation_settings)
                 true
             }
             else -> super.onOptionsItemSelected(item)
+
         }
+    }
+
+    fun setBarInterfaces(
+        displayHomeAsUpEnabled: Boolean = false,
+        actionBarTitle: String = getString(R.string.app_name),
+        navViewVisibility: Int = View.VISIBLE
+    ) {
+        supportActionBar?.setDisplayHomeAsUpEnabled(displayHomeAsUpEnabled)
+        supportActionBar?.title = actionBarTitle
+        if (navViewVisibility == View.VISIBLE || navViewVisibility == View.GONE)
+            binding.navView.visibility = navViewVisibility
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
     }
 }

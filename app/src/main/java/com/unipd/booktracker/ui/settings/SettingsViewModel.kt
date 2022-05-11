@@ -12,13 +12,13 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import java.io.*
 
-class SettingsViewModel(application: Application) : AndroidViewModel(application) {
+class SettingsViewModel(application: Application): AndroidViewModel(application) {
     // The application context is only used to get resources and show toasts
     private val app = application
 
-    private val bookDatabase : BookRoomDatabase = BookRoomDatabase.getDatabase(application.applicationContext)
-    private val bookDao : BookDao = bookDatabase.bookDao()
-    private val readingDao : ReadingDao = bookDatabase.readingDao()
+    private val bookDatabase: BookRoomDatabase = BookRoomDatabase.getDatabase(application.applicationContext)
+    private val bookDao: BookDao = bookDatabase.bookDao()
+    private val readingDao: ReadingDao = bookDatabase.readingDao()
 
     fun getBooks(): List<Book> = runBlocking(Dispatchers.IO) {
         return@runBlocking bookDao.getBooks()

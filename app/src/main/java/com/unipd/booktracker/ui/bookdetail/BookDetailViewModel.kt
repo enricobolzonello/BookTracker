@@ -9,11 +9,11 @@ import kotlinx.coroutines.runBlocking
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-class BookDetailViewModel(application: Application) : AndroidViewModel(application) {
+class BookDetailViewModel(application: Application): AndroidViewModel(application) {
 
-    private val bookDatabase : BookRoomDatabase = BookRoomDatabase.getDatabase(application.applicationContext)
-    private val bookDao : BookDao = bookDatabase.bookDao()
-    private val readingDao : ReadingDao = bookDatabase.readingDao()
+    private val bookDatabase: BookRoomDatabase = BookRoomDatabase.getDatabase(application.applicationContext)
+    private val bookDao: BookDao = bookDatabase.bookDao()
+    private val readingDao: ReadingDao = bookDatabase.readingDao()
 
     fun addBook(book: Book) = viewModelScope.launch(Dispatchers.IO) {
         bookDao.insert(book)

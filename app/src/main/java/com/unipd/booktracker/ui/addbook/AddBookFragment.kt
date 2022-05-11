@@ -18,9 +18,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class AddDialogFragment : BottomSheetDialogFragment() {
+class AddDialogFragment: BottomSheetDialogFragment() {
     private lateinit var viewModel: AddBookViewModel
-    private lateinit var bookAdapter : BookAdapter
+    private lateinit var bookAdapter: BookAdapter
     private var _binding: FragmentAddBookBinding? = null
     private val binding get() = _binding!!
 
@@ -49,7 +49,7 @@ class AddDialogFragment : BottomSheetDialogFragment() {
         binding.rwAddBook.setPadding(0, 0, 0, (resources.getDimension(R.dimen.content_margin) * 2).toInt())
         binding.rwAddBook.clipToPadding = false
 
-        binding.swAddBook.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+        binding.swAddBook.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
 
             override fun onQueryTextChange(newText: String): Boolean {
                 return false

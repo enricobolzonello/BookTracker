@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 
 @Database(entities = [Book::class, Reading::class], version = 1, exportSchema = false)
-abstract class BookRoomDatabase : RoomDatabase() {
+abstract class BookRoomDatabase: RoomDatabase() {
 
     abstract fun bookDao(): BookDao
     abstract fun readingDao(): ReadingDao
@@ -31,7 +31,7 @@ abstract class BookRoomDatabase : RoomDatabase() {
             }
         }
 
-        private val dbTriggers = object : RoomDatabase.Callback() {
+        private val dbTriggers = object: RoomDatabase.Callback() {
             override fun onCreate(db: SupportSQLiteDatabase) {
                 super.onCreate(db)
 

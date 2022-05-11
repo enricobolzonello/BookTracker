@@ -8,10 +8,10 @@ import kotlinx.coroutines.runBlocking
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-class StatsViewModel(application: Application) : AndroidViewModel(application) {
+class StatsViewModel(application: Application): AndroidViewModel(application) {
 
-    private val bookDatabase : BookRoomDatabase = BookRoomDatabase.getDatabase(application.applicationContext)
-    private val statsDao : StatsDao = bookDatabase.statsDao()
+    private val bookDatabase: BookRoomDatabase = BookRoomDatabase.getDatabase(application.applicationContext)
+    private val statsDao: StatsDao = bookDatabase.statsDao()
 
     fun countReadPages(): Int = runBlocking(Dispatchers.IO) {
         return@runBlocking statsDao.countReadPages()

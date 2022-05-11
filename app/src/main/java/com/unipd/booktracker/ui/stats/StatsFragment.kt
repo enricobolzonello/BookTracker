@@ -11,7 +11,7 @@ import java.time.LocalDate
 import kotlin.math.abs
 import kotlin.math.sign
 
-class StatsFragment : Fragment() {
+class StatsFragment: Fragment() {
     private lateinit var viewModel: StatsViewModel
     private var _binding: FragmentStatsBinding? = null
     private val binding get() = _binding!!

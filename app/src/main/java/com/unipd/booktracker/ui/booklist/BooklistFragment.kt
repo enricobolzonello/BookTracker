@@ -26,9 +26,9 @@ import com.unipd.booktracker.R
 import com.unipd.booktracker.db.OrderColumns
 import com.unipd.booktracker.fragments.AddDialogFragment
 
-abstract class BooklistFragment : Fragment() {
+abstract class BooklistFragment: Fragment() {
 
-    abstract var bookAdapter : BookAdapter
+    abstract var bookAdapter: BookAdapter
     abstract var rw: RecyclerView
     abstract var fab: ExtendedFloatingActionButton
 
@@ -61,7 +61,7 @@ abstract class BooklistFragment : Fragment() {
         rw.clipToPadding = false
 
         // Extend and reduce FAB on scroll
-        rw.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        rw.addOnScrollListener(object: RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 if (!recyclerView.canScrollVertically(-1))
                     fab.extend()
@@ -81,7 +81,7 @@ abstract class BooklistFragment : Fragment() {
         }
 
         //  swipe to delete
-        ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
+        ItemTouchHelper(object: ItemTouchHelper.SimpleCallback(
             0,
             ItemTouchHelper.LEFT
         ) {
@@ -163,7 +163,7 @@ abstract class BooklistFragment : Fragment() {
         val searchView = menu.findItem(R.id.action_search).actionView as SearchView
         searchView.setSearchableInfo(searchManager.getSearchableInfo(requireActivity().componentName))
 
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+        searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(submittedText: String): Boolean {
                 query = submittedText
                 updateFilters()

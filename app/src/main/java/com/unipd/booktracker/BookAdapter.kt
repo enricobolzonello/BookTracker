@@ -20,7 +20,7 @@ class BookAdapter(val parentFragment: Fragment): RecyclerView.Adapter<BookAdapte
     }
 
     // Describes an item view and its place within the RecyclerView
-    inner class BookViewHolder(private val binding: BookCardBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class BookViewHolder(private val binding: BookCardBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(book: Book) {
             binding.tvBookTitle.text = book.title
             binding.tvBookAuthor.text = book.mainAuthor

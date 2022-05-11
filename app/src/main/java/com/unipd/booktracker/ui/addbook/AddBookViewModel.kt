@@ -15,7 +15,7 @@ import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import java.net.URL
 
-class AddBookViewModel(application: Application) : AndroidViewModel(application) {
+class AddBookViewModel(application: Application): AndroidViewModel(application) {
     // The application context is only used to save get resources and show toasts
     private val app = application
 
@@ -24,8 +24,8 @@ class AddBookViewModel(application: Application) : AndroidViewModel(application)
         return appInfo.metaData.getString("google.books.key")
     }
 
-    suspend fun getBooksFromQuery(query : String) : List<Book> {
-        val books : MutableList<Book> = mutableListOf()
+    suspend fun getBooksFromQuery(query: String): List<Book> {
+        val books: MutableList<Book> = mutableListOf()
         val key = getApiKey()
         if (key.isNullOrBlank()) {
             withContext(Dispatchers.Main) {

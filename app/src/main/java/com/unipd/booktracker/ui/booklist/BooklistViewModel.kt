@@ -7,10 +7,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
-class BooklistViewModel(application: Application) : AndroidViewModel(application) {
+class BooklistViewModel(application: Application): AndroidViewModel(application) {
 
-    private val bookDatabase : BookRoomDatabase = BookRoomDatabase.getDatabase(application.applicationContext)
-    private val bookDao : BookDao = bookDatabase.bookDao()
+    private val bookDatabase: BookRoomDatabase = BookRoomDatabase.getDatabase(application.applicationContext)
+    private val bookDao: BookDao = bookDatabase.bookDao()
 
     fun getObservableLibrary(): LiveData<List<Book>> = runBlocking(Dispatchers.IO) {
         return@runBlocking bookDao.getObservableLibrary()

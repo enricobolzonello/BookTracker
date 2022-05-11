@@ -11,16 +11,20 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.unipd.booktracker.MainActivity
 import com.unipd.booktracker.R
+import com.unipd.booktracker.SettingsActivity
 
-class SettingsFragment : PreferenceFragmentCompat() {
+class SettingsFragment: PreferenceFragmentCompat() {
     private lateinit var viewModel: SettingsViewModel
     private lateinit var resultLauncher: ActivityResultLauncher<Intent>
+
+    override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+        setPreferencesFromResource(R.xml.preferences, rootKey)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel = ViewModelProvider(requireActivity() as MainActivity)[SettingsViewModel::class.java]
-
+        viewModel = ViewModelProvider(requireActivity() as SettingsActivity)[SettingsViewModel::class.java]
         resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 val intent = result.data as Intent
@@ -30,10 +34,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
                         Toast.makeText(this.context, getString(R.string.file_imported), Toast.LENGTH_SHORT).show()
             }
         }
-    }
-
-    override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-        setPreferencesFromResource(R.xml.preference_settings, rootKey)
     }
 
     override fun onPreferenceTreeClick(preference: Preference): Boolean {

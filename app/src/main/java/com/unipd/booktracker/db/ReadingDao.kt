@@ -11,8 +11,8 @@ interface ReadingDao {
     fun insert(reading: Reading): Long
 
     @Query("UPDATE readings " +
-            "SET pageDifference = pageDifference + :pageDifference " +
-            "WHERE bookId = :bookId AND date = :date")
+            "SET pageDifference = pageDifference +:pageDifference " +
+            "WHERE bookId =:bookId AND date =:date")
     fun updatePages(bookId: String, date: String, pageDifference: Int)
 
     @Transaction
@@ -22,7 +22,7 @@ interface ReadingDao {
             updatePages(reading.bookId, reading.date, reading.pageDifference)
     }
 
-    @Query("DELETE FROM readings WHERE bookId = :bookId")
+    @Query("DELETE FROM readings WHERE bookId =:bookId")
     fun deleteBookReadings(bookId: String)
 
     @Query("DELETE FROM readings")
