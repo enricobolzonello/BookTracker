@@ -5,6 +5,7 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.widget.Toast
+import androidx.core.text.HtmlCompat
 import androidx.lifecycle.*
 import com.unipd.booktracker.BookUtils
 import com.unipd.booktracker.R
@@ -110,7 +111,8 @@ class AddBookViewModel(application: Application): AndroidViewModel(application) 
 
         val description =
             if (volumeInfo.has("description"))
-                volumeInfo.getString("description")
+                // Description string may contain html tags
+                HtmlCompat.fromHtml(volumeInfo.getString("description"), HtmlCompat.FROM_HTML_MODE_LEGACY).toString()
             else
                 null
 
@@ -141,5 +143,7 @@ class AddBookViewModel(application: Application): AndroidViewModel(application) 
         }
         return Book(id, title, mainAuthor, pages, publisher, isbn, mainCategory, description, year, language, BookUtils.fromBitmap(thumbnail))
     }
+
+
 
 }
