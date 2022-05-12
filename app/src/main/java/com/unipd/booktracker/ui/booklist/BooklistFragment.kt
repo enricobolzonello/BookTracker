@@ -84,7 +84,7 @@ abstract class BooklistFragment: Fragment() {
             ItemTouchHelper.LEFT
         ) {
             var background: Drawable? = ColorDrawable(Color.RED)
-            var xMark: Drawable? = context?.let { ContextCompat.getDrawable(it, R.drawable.ic_baseline_delete_24) }
+            var xMark: Drawable? = context?.let { ContextCompat.getDrawable(it, R.drawable.ic_delete_fill) }
             var xMarkMargin = resources.getDimension(R.dimen.content_margin)
             var initiated = true
 
