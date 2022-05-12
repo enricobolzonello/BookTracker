@@ -1,5 +1,8 @@
 package com.unipd.booktracker.ui.bookdetail
 
+import android.annotation.SuppressLint
+import android.content.res.ColorStateList
+import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.text.Editable
 import android.text.InputFilter
@@ -8,6 +11,7 @@ import android.text.TextWatcher
 import android.view.*
 import android.widget.LinearLayout.LayoutParams
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.graphics.alpha
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
@@ -45,15 +49,19 @@ class BookDetailFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.layout.backgroundTintList = ColorStateList.valueOf(resources.getColor(R.color.md_theme_light_primary)).withAlpha(240)
+
         if (chosenBook.thumbnail == null)
             binding.ivBookThumbnail.setBackgroundResource(R.drawable.default_thumbnail)
-        else
+        else{
             binding.ivBookThumbnail.setImageBitmap(BookUtils.toBitmap(chosenBook.thumbnail))
+            binding.layout.background = BitmapDrawable(BookUtils.toBitmap(chosenBook.thumbnail))
+        }
 
         binding.tvBookTitle.text = chosenBook.title
         binding.tvBookAuthor.text = chosenBook.mainAuthor
         binding.tvBookPages.text = chosenBook.pages.toString()
-        binding.tvBookGenre.text = chosenBook.mainCategory ?: "-"
+        // binding.tvBookGenre.text = chosenBook.mainCategory ?: "-"
         binding.tvBookLanguage.text = chosenBook.language ?: "-"
         binding.tvBookDescription.text = chosenBook.description ?: "-"
         binding.tvBookPublisher.text = chosenBook.publisher ?: "-"
@@ -151,8 +159,10 @@ class BookDetailFragment: Fragment() {
         }
 
         binding.slReadPages.addOnSliderTouchListener(object: Slider.OnSliderTouchListener {
+            @SuppressLint("RestrictedApi")
             override fun onStartTrackingTouch(slider: Slider) {}
 
+            @SuppressLint("RestrictedApi")
             override fun onStopTrackingTouch(slider: Slider) {
                 updateReadPages(slider.value.toInt())
             }

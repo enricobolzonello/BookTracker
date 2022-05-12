@@ -19,6 +19,7 @@
             android:layout_width="@dimen/thumb_prev_width"
             android:layout_height="@dimen/thumb_prev_height"
             android:contentDescription="@string/description"
+            android:fadeScrollbars="false"
             android:src="@drawable/default_thumbnail" />
 
         <LinearLayout
