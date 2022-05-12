@@ -49,7 +49,7 @@ class BookDetailFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.layout.backgroundTintList = ColorStateList.valueOf(resources.getColor(R.color.md_theme_light_primary)).withAlpha(240)
+        binding.layout.backgroundTintList = ColorStateList.valueOf(resources.getColor(com.google.android.material.R.color.m3_ref_palette_dynamic_primary10)).withAlpha(220)
 
         if (chosenBook.thumbnail == null)
             binding.ivBookThumbnail.setBackgroundResource(R.drawable.default_thumbnail)

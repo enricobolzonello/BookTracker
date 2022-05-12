@@ -73,7 +73,8 @@
                     android:maxLines="3"
                     android:text="@string/title"
                     android:textAlignment="center"
-                    android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium" />
+                    android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"
+                    android:textColor="#FFFFFF" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/tv_book_author"
@@ -83,7 +84,8 @@
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:text="@string/author"
-                    android:textAppearance="@style/TextAppearance.Material3.BodyMedium" />
+                    android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                    android:textColor="#FFFFFF" />
             </LinearLayout>
 
             <com.google.android.material.card.MaterialCardView
