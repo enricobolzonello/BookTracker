@@ -1,7 +1,5 @@
-todo: layout statistiche
-todo: layout impostazioni
-todo: logica statistiche e shared preferences (cambio tema, colori, ecc)
-todo: animazioni fragment
-todo: migliorare splashscreen
-todo: decidere se le impostazioni sono acitivity o fragment
+IN ORDINE DI IMPORTANZA
+todo: impostazioni layout e shared preferences (cambio tema, colori, ecc)
+todo: animazioni fragment (dalla consegna https://codelabs.developers.google.com/codelabs/material-motion-android#4)
+todo: splashscreen
 todo: material icons and fonts (https://fonts.google.com/icons)
