@@ -5,7 +5,7 @@
     <dimen name="card_elevation">10dp</dimen>
     <dimen name="elevation">1dp</dimen>
     <dimen name="thumb_prev_height">100dp</dimen>
-    <dimen name="thumb_prev_width">64dp</dimen>
-    <dimen name="thumb_height">199dp</dimen>
-    <dimen name="thumb_width">128dp</dimen>
+    <dimen name="thumb_prev_width">60dp</dimen>
+    <dimen name="thumb_height">200dp</dimen>
+    <dimen name="thumb_width">120dp</dimen>
 </resources>

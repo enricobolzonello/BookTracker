@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.util.Log
 import android.widget.Toast
 import androidx.core.text.HtmlCompat
 import androidx.lifecycle.*
@@ -131,11 +132,11 @@ class AddBookViewModel(application: Application): AndroidViewModel(application) 
         var thumbnail: Bitmap? = null
         if (volumeInfo.has("imageLinks") && volumeInfo.getJSONObject("imageLinks").has("thumbnail")) {
             val thumbnailUrl = volumeInfo.getJSONObject("imageLinks").getString("thumbnail")
-            // Cleartext HTTP traffic is not permitted, so secure url (https) is needed
-            val secureUrl = thumbnailUrl.replaceBefore(":","https")
+                .replace("http","https") // Cleartext HTTP traffic is not permitted, so secure url (https) is needed
+            Log.i("my",thumbnailUrl)
             try {
                 viewModelScope.launch(Dispatchers.IO) {
-                    thumbnail = BitmapFactory.decodeStream(URL(secureUrl).openStream())
+                    thumbnail = BitmapFactory.decodeStream(URL(thumbnailUrl).openStream())
                 }.join()
             } catch (e: Exception) {
                 thumbnail = null
@@ -143,7 +144,4 @@ class AddBookViewModel(application: Application): AndroidViewModel(application) 
         }
         return Book(id, title, mainAuthor, pages, publisher, isbn, mainCategory, description, year, language, BookUtils.fromBitmap(thumbnail))
     }
-
-
-
 }

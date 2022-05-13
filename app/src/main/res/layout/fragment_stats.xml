@@ -35,24 +35,28 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/today"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:textAppearance="@style/TextAppearance.Material3.TitleMedium"/>
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/tv_pages_read_today"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="@style/TextAppearance.Material3.BodyLarge"/>
 
                     <com.google.android.material.textview.MaterialTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/read_pages" />
+                        android:text="@string/read_pages"
+                        android:textAppearance="@style/TextAppearance.Material3.BodyMedium"/>
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/tv_pages_read_today_increment"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/ph_signed_percentage"
-                        android:textColor="@color/green"/>
+                        android:textColor="@color/green"
+                        android:textAppearance="@style/TextAppearance.Material3.BodyLarge" />
 
                 </LinearLayout>
 
@@ -76,17 +80,20 @@
                         android:id="@+id/tv_year"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textStyle="bold"/>
+                        android:textStyle="bold"
+                        android:textAppearance="@style/TextAppearance.Material3.TitleMedium"/>
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/tv_books_read_year"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:textAppearance="@style/TextAppearance.Material3.BodyLarge"/>
 
                     <com.google.android.material.textview.MaterialTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/read_books" />
+                        android:text="@string/read_books"
+                        android:textAppearance="@style/TextAppearance.Material3.BodyMedium"/>
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/tv_books_read_year_increment"
@@ -95,7 +102,8 @@
                         android:ellipsize="end"
                         android:maxLines="1"
                         android:text="@string/ph_signed_percentage"
-                        android:textColor="@color/green"/>
+                        android:textColor="@color/green"
+                        android:textAppearance="@style/TextAppearance.Material3.BodyLarge"/>
 
                 </LinearLayout>
 
@@ -120,20 +128,23 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/most_read_author"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold"
+                    android:textAppearance="@style/TextAppearance.Material3.TitleMedium"/>
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/tv_most_read_author"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
-                    android:maxLines="1"/>
+                    android:maxLines="1"
+                    android:textAppearance="@style/TextAppearance.Material3.BodyLarge"/>
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/tv_total_authors"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/ph_total" />
+                    android:text="@string/ph_total"
+                    android:textAppearance="@style/TextAppearance.Material3.BodyMedium"/>
 
             </LinearLayout>
 
@@ -156,20 +167,23 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/most_read_genre"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold"
+                    android:textAppearance="@style/TextAppearance.Material3.TitleMedium"/>
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/tv_most_read_genre"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
-                    android:maxLines="1"/>
+                    android:maxLines="1"
+                    android:textAppearance="@style/TextAppearance.Material3.BodyLarge"/>
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/tv_total_genres"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/ph_total" />
+                    android:text="@string/ph_total"
+                    android:textAppearance="@style/TextAppearance.Material3.BodyMedium"/>
 
             </LinearLayout>
 
@@ -192,19 +206,22 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/total"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold"
+                    android:textAppearance="@style/TextAppearance.Material3.TitleMedium"/>
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/tv_total_read_pages"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/ph_total_pages" />
+                    android:text="@string/ph_total_pages"
+                    android:textAppearance="@style/TextAppearance.Material3.BodyMedium"/>
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/tv_total_read_books"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/ph_total_books" />
+                    android:text="@string/ph_total_books"
+                    android:textAppearance="@style/TextAppearance.Material3.BodyMedium"/>
 
             </LinearLayout>
 

@@ -61,16 +61,33 @@
     <string name="books_api_error">Si è verificato un errore durante la connessione a Books API</string>
     <string name="page_value_error">Per favore inserire un numero di pagine valido</string>
     <!-- Settings -->
-    <string name="settings_theme">Tema dell\'app</string>
-    <string name="preference">Preferenza random</string>
-    <string-array name="theme_spinner_array">
+    <string name="book_settings_category">Libri</string>
+    <string name="export_books_key">export_books</string>
+    <string name="export_books_title">Esporta libri</string>
+    <string name="export_books_summary">Esporta il database dei libri nella cartella Download</string>
+    <string name="import_books_key">import_books</string>
+    <string name="import_books_title">Import libri</string>
+    <string name="import_books_summary">Seleziona un file da cui importare il database dei libri</string>
+    <string name="clear_books_key">clear_books</string>
+    <string name="clear_books_title">Elimina tutti i libri</string>
+    <string name="clear_books_summary">Elimina i libri da Libreria e Desideri</string>
+    <string name="look_settings_category">Aspetto dell\'app</string>
+    <string name="app_theme_key">app_theme</string>
+    <string name="app_theme_title">Scegli il tema dell\'app</string>
+    <string-array name="app_theme_entries">
         <item>Sistema</item>
         <item>Chiaro</item>
         <item>Scuro</item>
     </string-array>
-    <string-array name="entries_preference_array">
-        <item>Opzione 1</item>
-        <item>Opzione 2</item>
-        <item>Opzione 3</item>
+    <string name="system">system</string>
+    <string name="light">light</string>
+    <string name="dark">dark</string>
+    <string-array name="app_theme_values">
+        <item>@string/system</item>
+        <item>@string/light</item>
+        <item>@string/dark</item>
     </string-array>
+    <string name="dynamic_colors_key">dynamic_colors</string>
+    <string name="dynamic_colors_title">Colori dinamici</string>
+    <string name="dynamic_colors_summary">La scelta verrà applicata al prossimo riavvio dell\'applicazione</string>
 </resources>

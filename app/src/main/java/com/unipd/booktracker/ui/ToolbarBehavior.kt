@@ -1,6 +1,6 @@
 package com.unipd.booktracker.ui
 
-import android.view.View
+/*import android.view.View
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.ViewCompat
 import com.google.android.material.appbar.AppBarLayout
@@ -53,4 +53,4 @@ class ToolbarBehavior : CoordinatorLayout.Behavior<AppBarLayout>(){
             // So use the dyUnconsumed variable to bring back the toolbar to resting position
         }
     }
-}
+}*/

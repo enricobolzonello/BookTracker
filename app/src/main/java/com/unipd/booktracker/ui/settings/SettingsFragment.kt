@@ -3,13 +3,17 @@ package com.unipd.booktracker.ui.settings
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.ViewModelProvider
+import androidx.preference.DropDownPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
-import com.unipd.booktracker.MainActivity
+import androidx.preference.PreferenceManager
+import com.unipd.booktracker.BookUtils
 import com.unipd.booktracker.R
 import com.unipd.booktracker.SettingsActivity
 
@@ -34,30 +38,34 @@ class SettingsFragment: PreferenceFragmentCompat() {
                         Toast.makeText(this.context, getString(R.string.file_imported), Toast.LENGTH_SHORT).show()
             }
         }
+
+        val appThemeList = findPreference<DropDownPreference>(getString(R.string.app_theme_key))
+        appThemeList?.setOnPreferenceChangeListener { _, newValue ->
+            BookUtils.setModeNight(requireContext(), newValue as String)
+            true
+        }
     }
 
     override fun onPreferenceTreeClick(preference: Preference): Boolean {
-        when(preference.key) {
-            "export" -> {
+        return when(preference.key) {
+            getString(R.string.export_books_key) -> {
                 val path = (viewModel.exportDbToFile())
                 path?.let {
                     Toast.makeText(this.context, getString(R.string.file_exported, it), Toast.LENGTH_SHORT).show()
                 }
-                return true
+                true
             }
-            "import" -> {
+            getString(R.string.import_books_key) -> {
                 val intent = Intent(Intent.ACTION_GET_CONTENT)
                 intent.type = "application/octet-stream"
                 resultLauncher.launch(intent)
-                return true
+                true
             }
-            "clear" -> {
+            getString(R.string.clear_books_key) -> {
                 viewModel.clearBooks()
-                return true
+                true
             }
-            else -> {
-                return  super.onPreferenceTreeClick(preference)
-            }
+            else -> super.onPreferenceTreeClick(preference)
         }
     }
 }

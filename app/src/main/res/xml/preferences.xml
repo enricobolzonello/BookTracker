@@ -1,65 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <!-- https://medium.com/google-developer-experts/exploring-android-jetpack-preferences-8bcb0b7bdd14 -->
 
-    <Preference
-        android:key="export"
-        android:title="@string/preference"
-        android:summary="Esporta i dati del database" />
+    <PreferenceCategory
+        android:title="@string/book_settings_category">
 
-    <Preference
-        android:key="import"
-        android:title="@string/preference"
-        android:summary="Importa i dati del database" />
+        <Preference
+            android:key="@string/export_books_key"
+            android:title="@string/export_books_title"
+            android:summary="@string/export_books_summary" />
 
-    <Preference
-        android:key="clear"
-        android:title="@string/preference"
-        android:summary="Elimina i dati del database" />
+        <Preference
+            android:key="@string/import_books_key"
+            android:title="@string/import_books_title"
+            android:summary="@string/import_books_summary" />
 
-    <CheckBoxPreference
-        android:key="checkbox_preference_key"
-        android:title="@string/preference"
-        android:summary="Questa è una preference random con checkbox"/>
+        <Preference
+            android:key="@string/clear_books_key"
+            android:title="@string/clear_books_title"
+            android:summary="@string/clear_books_summary" />
 
-    <SwitchPreferenceCompat
-        android:key="switch_preference_key"
-        android:title="@string/preference"
-        android:summary="Questa è una preference random con switch"/>
-
-    <DropDownPreference
-        android:key="theme_preference_key"
-        android:title="@string/settings_theme"
-        android:entries="@array/theme_spinner_array"
-        android:entryValues="@array/theme_spinner_array"/>
-
-    <SeekBarPreference
-        android:key="seekbar_preference_key"
-        android:title="@string/preference"
-        android:max="10"
-        android:defaultValue="5" />
-
-    <EditTextPreference
-        android:key="edittext_preference_key"
-        android:title="Some input"
-        android:dialogTitle="This is the title"/>
+    </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="Preference con liste">
+        android:title="@string/look_settings_category">
 
-        <ListPreference
-            android:key="list_preference_key"
-            android:title="Some list"
-            android:entries="@array/entries_preference_array"
-            android:entryValues="@array/entries_preference_array" />
+        <DropDownPreference
+            android:key="@string/app_theme_key"
+            android:title="@string/app_theme_title"
+            android:entries="@array/app_theme_entries"
+            android:entryValues="@array/app_theme_values"
+            app:useSimpleSummaryProvider="true"/>
 
-        <MultiSelectListPreference
-            android:key="multi_select_list_preference_key"
-            android:title="Some multi select list"
-            android:summary="This is a summary"
-            android:entries="@array/entries_preference_array"
-            android:entryValues="@array/entries_preference_array"/>
+        <SwitchPreferenceCompat
+            android:key="@string/dynamic_colors_key"
+            android:title="@string/dynamic_colors_title"
+            android:summary="@string/dynamic_colors_summary"/>
 
     </PreferenceCategory>
 

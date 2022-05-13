@@ -1,7 +1,10 @@
 package com.unipd.booktracker.ui.booklist
 
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.View
+import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.unipd.booktracker.BookAdapter
@@ -38,9 +41,11 @@ class LibraryFragment: BooklistFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        (binding as FragmentLibraryBinding).chNotRead.setOnClickListener { updateFilters() }
-        (binding as FragmentLibraryBinding).chReading.setOnClickListener { updateFilters() }
-        (binding as FragmentLibraryBinding).chRead.setOnClickListener { updateFilters() }
+        (binding as FragmentLibraryBinding).apply {
+            chNotRead.setOnClickListener { updateFilters() }
+            chReading.setOnClickListener { updateFilters() }
+            chRead.setOnClickListener { updateFilters() }
+        }
     }
 
     override fun updateFilters() {
