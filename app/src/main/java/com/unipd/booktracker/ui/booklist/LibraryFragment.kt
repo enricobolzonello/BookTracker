@@ -1,15 +1,15 @@
 package com.unipd.booktracker.ui.booklist
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.Menu
-import android.view.View
-import android.view.ViewGroup
+import android.util.Log
+import android.view.*
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.chip.Chip
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.unipd.booktracker.BookAdapter
 import com.unipd.booktracker.R
 import com.unipd.booktracker.databinding.FragmentLibraryBinding
+import com.unipd.booktracker.db.OrderColumn
 
 class LibraryFragment: BooklistFragment() {
 
@@ -42,24 +42,36 @@ class LibraryFragment: BooklistFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         (binding as FragmentLibraryBinding).apply {
-            chNotRead.setOnClickListener { updateFilters() }
-            chReading.setOnClickListener { updateFilters() }
-            chRead.setOnClickListener { updateFilters() }
+            chNotRead.setOnClickListener {
+                prefs.edit().putBoolean(getString(R.string.not_read_books_key), (it as Chip).isChecked).apply()
+                updateFilters()
+            }
+            chReading.setOnClickListener {
+                prefs.edit().putBoolean(getString(R.string.reading_books_key), (it as Chip).isChecked).apply()
+                updateFilters()
+            }
+            chRead.setOnClickListener {
+                prefs.edit().putBoolean(getString(R.string.read_books_key), (it as Chip).isChecked).apply()
+                updateFilters()
+            }
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+
+        menu.findItem(R.id.action_by_progress).isVisible = true
     }
 
     override fun updateFilters() {
         val books = viewModel.getFilteredLibrary(
             query,
-            (binding as FragmentLibraryBinding).chNotRead.isChecked,
-            (binding as FragmentLibraryBinding).chReading.isChecked,
-            (binding as FragmentLibraryBinding).chRead.isChecked, orderColumn,
-            asc
+            prefs.getBoolean(getString(R.string.not_read_books_key), true),
+            prefs.getBoolean(getString(R.string.reading_books_key), true),
+            prefs.getBoolean(getString(R.string.read_books_key), true),
+            prefs.getString(getString(R.string.sorting_column_key), OrderColumn.title.name)!!,
+            prefs.getBoolean(getString(R.string.sorting_asc_key), true)
         )
         bookAdapter.setBooks(books)
-    }
-
-    override fun setMenuGroupVisibility(menu: Menu) {
-        menu.setGroupVisible(R.id.library_sorting_group, true)
     }
 }

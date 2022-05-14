@@ -6,10 +6,6 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import java.io.Serializable
 
-enum class OrderColumns {
-    title, author, year, progress
-}
-
 @Entity(tableName = "books", primaryKeys = ["id"])
 class Book(
     @ColumnInfo(name = "id") val id: String,

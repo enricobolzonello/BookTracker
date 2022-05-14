@@ -4,7 +4,8 @@
 
     <group
         android:id="@+id/list_action_group"
-        android:visible="false">
+        android:visible="false"
+        android:checkableBehavior="all">
         <item
             android:id="@+id/action_search"
             android:icon="@drawable/ic_search"
@@ -15,7 +16,45 @@
             android:id="@+id/action_sort"
             android:icon="@drawable/ic_sort"
             android:title="@string/sort_books"
-            app:showAsAction="ifRoom" />
+            app:showAsAction="ifRoom">
+            <menu>
+                <group
+                    android:id="@+id/column_action_group"
+                    android:checkableBehavior="single">
+                    <item
+                        android:title="@string/sorting_column"
+                        android:enabled="false"
+                        android:checkable="false" />
+                    <item
+                        android:id="@+id/action_by_title"
+                        android:title="@string/title" />
+                    <item
+                        android:id="@+id/action_by_author"
+                        android:title="@string/author" />
+                    <item
+                        android:id="@+id/action_by_year"
+                        android:title="@string/year" />
+                    <item
+                        android:id="@+id/action_by_progress"
+                        android:title="@string/read_progress"
+                        android:visible="false" />
+                </group>
+                <group
+                    android:id="@+id/order_action_group"
+                    android:checkableBehavior="single">
+                    <item
+                        android:title="@string/sorting_order"
+                        android:enabled="false"
+                        android:checkable="false" />
+                    <item
+                        android:id="@+id/action_asc"
+                        android:title="@string/asc" />
+                    <item
+                        android:id="@+id/action_desc"
+                        android:title="@string/desc" />
+                </group>
+            </menu>
+        </item>
     </group>
 
     <group

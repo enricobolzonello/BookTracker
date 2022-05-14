@@ -1,6 +1,7 @@
 package com.unipd.booktracker.ui.booklist
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.*
 import com.unipd.booktracker.db.*
 import kotlinx.coroutines.Dispatchers
@@ -22,21 +23,21 @@ class BooklistViewModel(application: Application): AndroidViewModel(application)
 
     fun getFilteredLibrary (
         query: String = "",
-        notRead: Boolean = true,
-        reading: Boolean = true,
-        read: Boolean = true,
-        orderColumn: OrderColumns = OrderColumns.title,
-        asc: Boolean = true
+        notRead: Boolean,
+        reading: Boolean,
+        read: Boolean,
+        orderColumn: String,
+        asc: Boolean
     ): List<Book> = runBlocking(Dispatchers.IO) {
-        return@runBlocking bookDao.getFilteredLibrary(query, notRead, reading, read, orderColumn, asc)
+        return@runBlocking bookDao.getFilteredLibrary(query, notRead, reading, read, OrderColumn.valueOf(orderColumn), asc)
     }
 
     fun getFilteredWishlist(
-        query: String = "",
-        orderColumn: OrderColumns = OrderColumns.title,
-        asc: Boolean = true
+        query: String,
+        orderColumn: String,
+        asc: Boolean
     ): List<Book> = runBlocking(Dispatchers.IO) {
-        return@runBlocking bookDao.getFilteredWishlist(query, orderColumn, asc)
+        return@runBlocking bookDao.getFilteredWishlist(query, OrderColumn.valueOf(orderColumn), asc)
     }
 
     fun removeBook(book: Book) = viewModelScope.launch(Dispatchers.IO) {

@@ -14,14 +14,11 @@
     <string name="delete_book">Elimina libro</string>
     <string name="sort_by">Ordina per</string>
     <!-- Sortings -->
-    <string name="by_title_asc">Per Titolo (A-Z)</string>
-    <string name="by_title_desc">Per Titolo (Z-A)</string>
-    <string name="by_author_asc">Per Autore (A-Z)</string>
-    <string name="by_author_desc">Per Autore (Z-A)</string>
-    <string name="by_year_asc">Per Anno Crescente</string>
-    <string name="by_year_desc">Per Autore Decrescente</string>
-    <string name="by_progress_asc">Per Progresso lettura Crescente</string>
-    <string name="by_progress_desc">Per Progresso lettura Decrescente</string>
+    <string name="sorting_column">Campo</string>
+    <string name="sorting_order">Ordine</string>
+    <string name="read_progress">Progresso lettura</string>
+    <string name="asc">Crescente</string>
+    <string name="desc">Decrescente</string>
     <!-- Filter chips -->
     <string name="not_read">Non letti</string>
     <string name="reading">In lettura</string>
@@ -31,6 +28,7 @@
     <string name="author">Autore</string>
     <string name="genre">Genere</string>
     <string name="language">Lingua</string>
+    <string name="year">Anno</string>
     <string name="pages">Pagine</string>
     <string name="description">Descrizione</string>
     <string name="publisher">Editore</string>
@@ -60,19 +58,26 @@
     <string name="network_error">Per favore controlla che la connessione di rete sia attiva</string>
     <string name="books_api_error">Si è verificato un errore durante la connessione a Books API</string>
     <string name="page_value_error">Per favore inserire un numero di pagine valido</string>
+    <!-- Preferences -->
+    <string name="read_books_key">read_books</string>
+    <string name="not_read_books_key">not_read_books</string>
+    <string name="reading_books_key">reading_books</string>
+    <string name="sorting_asc_key">sorting_asc</string>
+    <string name="sorting_column_key">sorting_column</string>
+    <string name="export_books_key">export_books</string>
+    <string name="import_books_key">import_books</string>
+    <string name="clear_books_key">clear_books</string>
+    <string name="app_theme_key">app_theme</string>
+    <string name="dynamic_colors_key">dynamic_colors</string>
     <!-- Settings -->
     <string name="book_settings_category">Libri</string>
-    <string name="export_books_key">export_books</string>
     <string name="export_books_title">Esporta libri</string>
     <string name="export_books_summary">Esporta il database dei libri nella cartella Download</string>
-    <string name="import_books_key">import_books</string>
-    <string name="import_books_title">Import libri</string>
+    <string name="import_books_title">Importa libri</string>
     <string name="import_books_summary">Seleziona un file da cui importare il database dei libri</string>
-    <string name="clear_books_key">clear_books</string>
     <string name="clear_books_title">Elimina tutti i libri</string>
     <string name="clear_books_summary">Elimina i libri da Libreria e Desideri</string>
     <string name="look_settings_category">Aspetto dell\'app</string>
-    <string name="app_theme_key">app_theme</string>
     <string name="app_theme_title">Scegli il tema dell\'app</string>
     <string-array name="app_theme_entries">
         <item>Sistema</item>
@@ -87,7 +92,6 @@
         <item>@string/light</item>
         <item>@string/dark</item>
     </string-array>
-    <string name="dynamic_colors_key">dynamic_colors</string>
     <string name="dynamic_colors_title">Colori dinamici</string>
     <string name="dynamic_colors_summary">La scelta verrà applicata al prossimo riavvio dell\'applicazione</string>
 </resources>

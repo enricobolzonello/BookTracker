@@ -68,7 +68,7 @@ interface BookDao {
                     "WHEN:orderColumn = 'progress' THEN (CAST(readPages AS float) / CAST(pages AS FLOAT)) " +
                 "END " +
             "END DESC")
-    fun getFilteredLibrary(query: String, notRead: Boolean, reading: Boolean, read: Boolean, orderColumn: OrderColumns, asc: Boolean): List<Book>
+    fun getFilteredLibrary(query: String, notRead: Boolean, reading: Boolean, read: Boolean, orderColumn: OrderColumn, asc: Boolean): List<Book>
 
     @Query("SELECT * FROM books " +
             "WHERE readPages IS NULL " +
@@ -88,5 +88,5 @@ interface BookDao {
                     "WHEN:orderColumn = 'year' THEN year " +
                 "END " +
             "END DESC")
-    fun getFilteredWishlist(query: String, orderColumn: OrderColumns, asc: Boolean): List<Book>
+    fun getFilteredWishlist(query: String, orderColumn: OrderColumn, asc: Boolean): List<Book>
 }

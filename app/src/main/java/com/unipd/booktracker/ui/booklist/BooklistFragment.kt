@@ -1,19 +1,23 @@
 package com.unipd.booktracker.ui.booklist
 
+import android.content.SharedPreferences
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.FrameLayout
-import androidx.appcompat.widget.PopupMenu
 import android.widget.Toast
+import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.core.view.marginBottom
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
@@ -21,7 +25,7 @@ import com.google.android.material.floatingactionbutton.ExtendedFloatingActionBu
 import com.unipd.booktracker.BookAdapter
 import com.unipd.booktracker.MainActivity
 import com.unipd.booktracker.R
-import com.unipd.booktracker.db.OrderColumns
+import com.unipd.booktracker.db.OrderColumn
 import com.unipd.booktracker.fragments.AddDialogFragment
 
 abstract class BooklistFragment: Fragment() {
@@ -34,17 +38,17 @@ abstract class BooklistFragment: Fragment() {
     abstract fun updateFilters()
 
     protected lateinit var viewModel: BooklistViewModel
+    protected lateinit var prefs: SharedPreferences
     protected var _binding: ViewBinding? = null
     protected val binding get() = _binding!!
     protected var query = ""
-    protected var orderColumn = OrderColumns.title
-    protected var asc = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setHasOptionsMenu(true)
         viewModel = ViewModelProvider(requireActivity() as MainActivity)[BooklistViewModel::class.java]
+        prefs = PreferenceManager.getDefaultSharedPreferences(requireContext().applicationContext)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -155,6 +159,7 @@ abstract class BooklistFragment: Fragment() {
         super.onCreateOptionsMenu(menu, inflater)
 
         menu.setGroupVisible(R.id.list_action_group, true)
+
         val searchView = (menu.findItem(R.id.action_search)?.actionView as SearchView)
         searchView.queryHint = getString(R.string.search_hint)
         searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
@@ -175,74 +180,39 @@ abstract class BooklistFragment: Fragment() {
             query = ""
             false
         }
+
+        val orderColumn = prefs.getString(getString(R.string.sorting_column_key), OrderColumn.title.name)
+        when (orderColumn) {
+            OrderColumn.title.name -> menu.findItem(R.id.action_by_title).isChecked = true
+            OrderColumn.author.name -> menu.findItem(R.id.action_by_author).isChecked = true
+            OrderColumn.year.name -> menu.findItem(R.id.action_by_year).isChecked = true
+            OrderColumn.progress.name -> menu.findItem(R.id.action_by_progress).isChecked = true
+        }
+
+        val asc = prefs.getBoolean(getString(R.string.sorting_asc_key), true)
+        when (asc) {
+            true -> menu.findItem(R.id.action_asc).isChecked = true
+            false -> menu.findItem(R.id.action_desc).isChecked = true
+        }
     }
 
-    protected open fun setMenuGroupVisibility(menu: Menu) { }
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.action_sort -> {
-                val popupMenu = PopupMenu(requireActivity(), requireActivity().findViewById(item.itemId))
-                popupMenu.menuInflater.inflate(R.menu.sorting_menu, popupMenu.menu)
-                setMenuGroupVisibility(popupMenu.menu)
-                popupMenu.setOnMenuItemClickListener {
-                    when (it.itemId) {
-                        R.id.action_byTitleAsc -> {
-                            orderColumn = OrderColumns.title
-                            asc = true
-                            updateFilters()
-                            true
-                        }
-                        R.id.action_byTitleDesc -> {
-                            orderColumn = OrderColumns.title
-                            asc = false
-                            updateFilters()
-                            true
-                        }
-                        R.id.action_byAuthorAsc -> {
-                            orderColumn = OrderColumns.author
-                            asc = true
-                            updateFilters()
-                            true
-                        }
-                        R.id.action_byAuthorDesc -> {
-                            orderColumn = OrderColumns.author
-                            asc = false
-                            updateFilters()
-                            true
-                        }
-                        R.id.action_byYearAsc -> {
-                            orderColumn = OrderColumns.year
-                            asc = true
-                            updateFilters()
-                            true
-                        }
-                        R.id.action_byYearDesc -> {
-                            orderColumn = OrderColumns.year
-                            asc = false
-                            updateFilters()
-                            true
-                        }
-                        R.id.action_byReadProgressAsc -> {
-                            orderColumn = OrderColumns.progress
-                            asc = true
-                            updateFilters()
-                            true
-                        }
-                        R.id.action_byReadProgressDesc -> {
-                            orderColumn = OrderColumns.progress
-                            asc = false
-                            updateFilters()
-                            true
-                        }
-                        else -> super.onOptionsItemSelected(item)
-                    }
-                }
-                popupMenu.show()
-                true
-            }
+        item.isChecked = true
+        var orderColumn = prefs.getString(getString(R.string.sorting_column_key), OrderColumn.title.name)
+        var asc = prefs.getBoolean(getString(R.string.sorting_asc_key), true)
+        when (item.itemId) {
+            R.id.action_by_title -> orderColumn = OrderColumn.title.name
+            R.id.action_by_author -> orderColumn = OrderColumn.author.name
+            R.id.action_by_year -> orderColumn = OrderColumn.year.name
+            R.id.action_by_progress -> orderColumn = OrderColumn.progress.name
+            R.id.action_asc -> asc = true
+            R.id.action_desc -> asc = false
             else -> super.onOptionsItemSelected(item)
         }
+        prefs.edit().putString(getString(R.string.sorting_column_key), orderColumn).apply()
+        prefs.edit().putBoolean(getString(R.string.sorting_asc_key), asc).apply()
+        updateFilters()
+        return true
     }
 
     override fun onDestroyView() {

@@ -11,9 +11,16 @@
         <entry key="..\:/Users/Daniele/AndroidStudioProjects/BookTracker/app/src/main/res/drawable/ic_sort.xml" value="0.193" />
         <entry key="..\:/Users/Daniele/AndroidStudioProjects/BookTracker/app/src/main/res/drawable/ic_stats.xml" value="0.193" />
         <entry key="..\:/Users/Daniele/AndroidStudioProjects/BookTracker/app/src/main/res/font/lobster.xml" value="0.2675925925925926" />
+        <entry key="..\:/Users/Daniele/AndroidStudioProjects/BookTracker/app/src/main/res/layout/activity_main.xml" value="0.2078125" />
+        <entry key="..\:/Users/Daniele/AndroidStudioProjects/BookTracker/app/src/main/res/layout/activity_settings.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Daniele/AndroidStudioProjects/BookTracker/app/src/main/res/layout/book_card.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Daniele/AndroidStudioProjects/BookTracker/app/src/main/res/layout/fragment_book_detail.xml" value="0.1" />
+        <entry key="..\:/Users/Daniele/AndroidStudioProjects/BookTracker/app/src/main/res/layout/fragment_library.xml" value="0.1962962962962963" />
+        <entry key="..\:/Users/Daniele/AndroidStudioProjects/BookTracker/app/src/main/res/layout/fragment_settings.xml" value="0.1962962962962963" />
+        <entry key="..\:/Users/Daniele/AndroidStudioProjects/BookTracker/app/src/main/res/layout/fragment_stats.xml" value="0.264" />
         <entry key="..\:/Users/Daniele/AndroidStudioProjects/BookTracker/app/src/main/res/menu/action_menu.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Daniele/AndroidStudioProjects/BookTracker/app/src/main/res/menu/bottom_nav_menu.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Daniele/AndroidStudioProjects/BookTracker/app/src/main/res/menu/sorting_menu.xml" value="0.18802083333333333" />
         <entry key="..\:/Users/Daniele/CodeProjects/AndroidStudioProjects/BookTracker/app/src/main/res/drawable/bt_logo.xml" value="0.1315" />
         <entry key="..\:/Users/Daniele/CodeProjects/AndroidStudioProjects/BookTracker/app/src/main/res/drawable/circular_button.xml" value="0.1" />
         <entry key="..\:/Users/Daniele/CodeProjects/AndroidStudioProjects/BookTracker/app/src/main/res/drawable/ic_add.xml" value="0.1" />
