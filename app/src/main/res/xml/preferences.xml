@@ -10,17 +10,20 @@
         <Preference
             android:key="@string/export_books_key"
             android:title="@string/export_books_title"
-            android:summary="@string/export_books_summary" />
+            android:summary="@string/export_books_summary"
+            app:icon="@drawable/ic_import"/>
 
         <Preference
             android:key="@string/import_books_key"
             android:title="@string/import_books_title"
-            android:summary="@string/import_books_summary" />
+            android:summary="@string/import_books_summary"
+            app:icon="@drawable/ic_export"/>
 
         <Preference
             android:key="@string/clear_books_key"
             android:title="@string/clear_books_title"
-            android:summary="@string/clear_books_summary" />
+            android:summary="@string/clear_books_summary"
+            app:icon="@drawable/ic_clear"/>
 
     </PreferenceCategory>
 
@@ -32,12 +35,14 @@
             android:title="@string/app_theme_title"
             android:entries="@array/app_theme_entries"
             android:entryValues="@array/app_theme_values"
-            app:useSimpleSummaryProvider="true"/>
+            app:useSimpleSummaryProvider="true"
+            app:icon="@drawable/ic_app_theme"/>
 
         <SwitchPreferenceCompat
             android:key="@string/dynamic_colors_key"
             android:title="@string/dynamic_colors_title"
-            android:summary="@string/dynamic_colors_summary"/>
+            android:summary="@string/dynamic_colors_summary"
+            app:icon="@drawable/ic_dynamic_colors"/>
 
     </PreferenceCategory>
 
