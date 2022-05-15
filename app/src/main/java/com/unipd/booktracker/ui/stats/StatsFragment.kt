@@ -18,8 +18,8 @@ class StatsFragment: Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
 
+        setHasOptionsMenu(true)
         viewModel = ViewModelProvider(requireActivity() as MainActivity)[StatsViewModel::class.java]
     }
 
@@ -35,43 +35,56 @@ class StatsFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Daily stats
         binding.tvPagesReadToday.text = viewModel.countReadPagesToday().toString()
-
-        var pagesIncrement: Int = (viewModel.countReadPagesToday().toDouble() / viewModel.avgReadPagesByDay().toDouble() * 100).toInt()
-        var pagesIncrementSign = '+'
-        if (sign(pagesIncrement.toDouble()) == -1.0) {
-            pagesIncrementSign = '-'
+        val pagesIncrement = viewModel.countReadPagesToday() - viewModel.avgReadPagesByDay()
+        val pagesPercentageIncrement: Int = (pagesIncrement.toDouble() / viewModel.avgReadPagesByDay().toDouble() * 100).toInt()
+        binding.tvPagesReadTodayIncrement.text = getFormattedIncrement(pagesPercentageIncrement)
+        if (pagesIncrement < 0)
             binding.tvPagesReadTodayIncrement.setTextColor(resources.getColor(R.color.red, requireActivity().theme))
-        }
-        pagesIncrement = abs(pagesIncrement)
-        if (pagesIncrement > 999)
-            pagesIncrement = 999
-        binding.tvPagesReadTodayIncrement.text = getString(R.string.ph_signed_percentage, pagesIncrementSign, pagesIncrement)
 
+        // Yearly stats
         binding.tvYear.text = LocalDate.now().year.toString()
         binding.tvBooksReadYear.text = viewModel.countReadBooksThisYear().toString()
-
-        var bookIncrement: Int = (viewModel.countReadBooksThisYear().toDouble() / viewModel.avgReadBooksByYear().toDouble() * 100).toInt()
-        var bookIncrementSign = '+'
-        if (sign(bookIncrement.toDouble()) == -1.0) {
-            bookIncrementSign = '-'
+        val bookIncrement = viewModel.countReadBooksThisYear() - viewModel.avgReadBooksByYear()
+        val bookPercentageIncrement: Int = (bookIncrement.toDouble() / viewModel.avgReadBooksByYear().toDouble() * 100).toInt()
+        binding.tvBooksReadYearIncrement.text = getFormattedIncrement(bookPercentageIncrement)
+        if (bookIncrement < 0)
             binding.tvBooksReadYearIncrement.setTextColor(resources.getColor(R.color.red, requireActivity().theme))
-        }
-        bookIncrement = abs(bookIncrement)
-        if (bookIncrement > 999)
-            bookIncrement = 999
-        binding.tvBooksReadYearIncrement.text = getString(R.string.ph_signed_percentage, bookIncrementSign, bookIncrement)
 
+        // Author stats
         val mostReadAuthor = viewModel.mostReadAuthor()
         binding.tvMostReadAuthor.text = mostReadAuthor ?: " "
-        binding.tvTotalAuthors.text = getString(R.string.ph_total,viewModel.countAuthors())
+        binding.tvTotalAuthors.text = getString(R.string.ph_total, viewModel.countAuthors())
 
+        // Genre stats
         val mostReadGenre = viewModel.mostReadCategory()
         binding.tvMostReadGenre.text = mostReadGenre ?: "-"
-        binding.tvTotalGenres.text = getString(R.string.ph_total,viewModel.countCategories())
+        binding.tvTotalGenres.text = getString(R.string.ph_total, viewModel.countCategories())
 
+        // Total stats
         binding.tvTotalReadPages.text = getString(R.string.ph_total_pages, viewModel.countReadPages())
         binding.tvTotalReadBooks.text = getString(R.string.ph_total_books, viewModel.countReadBooks())
+    }
+
+    private fun getFormattedIncrement(value: Int): String {
+        val incrementSign =
+            if (sign(value.toDouble()) == 1.0)
+                '+'
+            else
+                '-'
+        var increment = abs(value)
+        if (increment > 999)
+            increment = 999
+        return getString(R.string.ph_signed_percentage, incrementSign, increment)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+
+        menu.setGroupVisible(R.id.list_action_group, false)
+        menu.setGroupVisible(R.id.default_action_group, true)
+        menu.setGroupVisible(R.id.book_detail_action_group, false)
     }
 
     override fun onDestroyView() {
