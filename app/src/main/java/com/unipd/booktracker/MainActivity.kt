@@ -58,13 +58,7 @@ class MainActivity: AppCompatActivity() {
         }
     }
 
-    fun setBarInterfaces(
-        displayHomeAsUpEnabled: Boolean = false,
-        actionBarTitle: String = getString(R.string.app_name),
-        navViewVisibility: Int = View.VISIBLE
-    ) {
-        supportActionBar?.setDisplayHomeAsUpEnabled(displayHomeAsUpEnabled)
-        supportActionBar?.title = actionBarTitle
+    fun setBottomNavVisibility(navViewVisibility: Int) {
         if (navViewVisibility == View.VISIBLE || navViewVisibility == View.GONE)
             binding.navView.visibility = navViewVisibility
     }

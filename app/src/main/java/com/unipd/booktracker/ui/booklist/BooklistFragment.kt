@@ -1,7 +1,6 @@
 package com.unipd.booktracker.ui.booklist
 
 import android.content.SharedPreferences
-import android.content.SharedPreferences.OnSharedPreferenceChangeListener
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -11,7 +10,6 @@ import android.util.Log
 import android.view.*
 import android.widget.FrameLayout
 import android.widget.Toast
-import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.core.view.marginBottom
@@ -82,18 +80,14 @@ abstract class BooklistFragment: Fragment() {
             }
         }
 
-        //  swipe to delete
-        ItemTouchHelper(object: ItemTouchHelper.SimpleCallback(
-            0,
-            ItemTouchHelper.LEFT
-        ) {
+        //  Swipe to delete item
+        val swipeTouchHelper = ItemTouchHelper(object: ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
             var background: Drawable? = ColorDrawable(Color.RED)
             var xMark: Drawable? = context?.let { ContextCompat.getDrawable(it, R.drawable.ic_delete_fill) }
             var xMarkMargin = resources.getDimension(R.dimen.content_margin)
             var initiated = true
 
-            override fun onMove(
-                recyclerView: RecyclerView,
+            override fun onMove(recyclerView: RecyclerView,
                 viewHolder: RecyclerView.ViewHolder,
                 target: RecyclerView.ViewHolder
             ): Boolean {
@@ -116,49 +110,36 @@ abstract class BooklistFragment: Fragment() {
                 isCurrentlyActive: Boolean
             ) {
                 val itemView: View = viewHolder.itemView
-                if(viewHolder.adapterPosition == -1){
+                if(viewHolder.adapterPosition == -1)
                     return
-                }
 
-                // draw red background
-                background!!.setBounds(
-                    itemView.right + dX.toInt(),
-                    itemView.top,
-                    itemView.right,
-                    itemView.bottom
-                )
+                // Draw red background
+                background!!.setBounds(itemView.right + dX.toInt(), itemView.top, itemView.right, itemView.bottom)
                 background!!.draw(c)
 
-                // draw x mark
+                // Draw x mark
                 val itemHeight = itemView.bottom - itemView.top
                 val intrinsicWidth = xMark!!.intrinsicWidth
                 val intrinsicHeight = xMark!!.intrinsicWidth
-
                 val xMarkLeft = (itemView.right - xMarkMargin - intrinsicWidth).toInt()
                 val xMarkRight = (itemView.right - xMarkMargin).toInt()
                 val xMarkTop = itemView.top + (itemHeight - intrinsicHeight) / 2
                 val xMarkBottom = xMarkTop + intrinsicHeight
                 xMark!!.setBounds(xMarkLeft, xMarkTop, xMarkRight, xMarkBottom)
-
                 xMark!!.draw(c)
 
-                super.onChildDraw(
-                    c,
-                    recyclerView,
-                    viewHolder,
-                    dX,
-                    dY,
-                    actionState,
-                    isCurrentlyActive
-                )
+                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
             }
-        }).attachToRecyclerView(rw)
+        })
+        swipeTouchHelper.attachToRecyclerView(rw)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
 
         menu.setGroupVisible(R.id.list_action_group, true)
+        menu.setGroupVisible(R.id.default_action_group, true)
+        menu.setGroupVisible(R.id.book_detail_action_group, false)
 
         val searchView = (menu.findItem(R.id.action_search)?.actionView as SearchView)
         searchView.queryHint = getString(R.string.search_hint)

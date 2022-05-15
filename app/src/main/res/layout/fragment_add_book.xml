@@ -3,9 +3,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:gravity="center_horizontal"
     app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
@@ -15,14 +15,15 @@
         android:textAlignment="center"
         android:text="@string/add_book"
         android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        android:layout_margin="@dimen/text_margin"/>
 
     <SearchView
         android:id="@+id/sw_add_book"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:iconifiedByDefault="false"
-        android:queryHint="@string/add_book_hint"/>
+        android:queryHint="@string/add_book_hint" />
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/pi_loading"

@@ -1,6 +1,5 @@
 package com.unipd.booktracker.ui.bookdetail
 
-import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
@@ -11,7 +10,6 @@ import android.text.TextWatcher
 import android.view.*
 import android.widget.LinearLayout.LayoutParams
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.graphics.alpha
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
@@ -32,7 +30,12 @@ class BookDetailFragment: Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        (requireActivity() as MainActivity).setBarInterfaces(true, getString(R.string.book_detail), View.GONE)
+        (requireActivity() as AppCompatActivity).supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+            title = getString(R.string.book_detail)
+        }
+        (requireActivity() as MainActivity).setBottomNavVisibility(View.GONE)
+
         viewModel = ViewModelProvider(requireActivity() as MainActivity)[BookDetailViewModel::class.java]
         chosenBook = args.chosenBook
     }
@@ -76,42 +79,42 @@ class BookDetailFragment: Fragment() {
         }
 
         binding.chLibrary.setOnClickListener {
-            if (binding.chLibrary.isChecked) {
-                if (!binding.chWishlist.isChecked)
-                    viewModel.addBook(chosenBook)
-                viewModel.moveToLibrary(chosenBook)
-
-                binding.chLibrary.isClickable = false
-                (binding.chLibrary.layoutParams as LayoutParams).weight = 1F
-
-                binding.chWishlist.isChecked = false
-                binding.chWishlist.isClickable = true
-                (binding.chWishlist.layoutParams as LayoutParams).weight = 0F
-
-                setHasOptionsMenu(true)
-                setupReadPagesModifiers()
-                readPages = 0
-                updateReadPages(readPages)
-                binding.llReadPages.visibility = View.VISIBLE
-            }
+            // If the book is not already present, add it
+            if (!binding.chWishlist.isChecked)
+                viewModel.addBook(chosenBook)
+            viewModel.moveToLibrary(chosenBook)
+            // Either one of the two chips should always be checked, so it's not uncheckable
+            binding.chLibrary.isClickable = false
+            (binding.chLibrary.layoutParams as LayoutParams).weight = 1F
+            // Make the other chip ready to be checked
+            binding.chWishlist.isChecked = false
+            binding.chWishlist.isClickable = true
+            (binding.chWishlist.layoutParams as LayoutParams).weight = 0F
+            // Present book interface
+            setHasOptionsMenu(true)
+            // Library book interface
+            setupReadPagesModifiers()
+            readPages = 0
+            updateReadPages(readPages)
+            binding.llReadPages.visibility = View.VISIBLE
         }
 
         binding.chWishlist.setOnClickListener {
-            if (binding.chWishlist.isChecked) {
-                if (!binding.chLibrary.isChecked)
-                    viewModel.addBook(chosenBook)
-                viewModel.moveToWishlist(chosenBook)
-
-                binding.chWishlist.isClickable = false
-                (binding.chWishlist.layoutParams as LayoutParams).weight = 1F
-
-                binding.chLibrary.isChecked = false
-                binding.chLibrary.isClickable = true
-                (binding.chLibrary.layoutParams as LayoutParams).weight = 0F
-
-                setHasOptionsMenu(true)
-                binding.llReadPages.visibility = View.GONE
-            }
+            // If the book is not already present, add it
+            if (!binding.chLibrary.isChecked)
+                viewModel.addBook(chosenBook)
+            viewModel.moveToWishlist(chosenBook)
+            // Either one of the two chips should always be checked, so it's not uncheckable
+            binding.chWishlist.isClickable = false
+            (binding.chWishlist.layoutParams as LayoutParams).weight = 1F
+            // Make the other chip ready to be checked
+            binding.chLibrary.isChecked = false
+            binding.chLibrary.isClickable = true
+            (binding.chLibrary.layoutParams as LayoutParams).weight = 0F
+            // Present book interface
+            setHasOptionsMenu(true)
+            // Wishlist book interface
+            binding.llReadPages.visibility = View.GONE
         }
 
         binding.chLibrary.isChecked = viewModel.isBookInLibrary(chosenBook)
@@ -120,11 +123,14 @@ class BookDetailFragment: Fragment() {
         binding.chWishlist.isChecked = viewModel.isBookInWishlist(chosenBook)
         binding.chWishlist.isClickable = !binding.chWishlist.isChecked
 
+        // Not present book interface
         if (!binding.chLibrary.isChecked && !binding.chWishlist.isChecked) {
             setHasOptionsMenu(false)
             (binding.chLibrary.layoutParams as LayoutParams).weight = 1F
             (binding.chWishlist.layoutParams as LayoutParams).weight = 1F
-        } else {
+        }
+        // Present book interface
+        else {
             setHasOptionsMenu(true)
             (binding.chLibrary.layoutParams as LayoutParams).weight = if (binding.chLibrary.isChecked) 1F else 0F
             (binding.chWishlist.layoutParams as LayoutParams).weight = if (binding.chWishlist.isChecked) 1F else 0F
@@ -134,6 +140,7 @@ class BookDetailFragment: Fragment() {
     private fun setupReadPagesModifiers() {
         // The edit text only accepts valid page values
         binding.etReadPages.filters = arrayOf<InputFilter>(MinMaxFilter(0, chosenBook.pages))
+
         binding.tvFirstPage.text = (0).toString()
         binding.tvLastPage.text = chosenBook.pages.toString()
         binding.slReadPages.valueTo = chosenBook.pages.toFloat()
@@ -159,10 +166,8 @@ class BookDetailFragment: Fragment() {
         }
 
         binding.slReadPages.addOnSliderTouchListener(object: Slider.OnSliderTouchListener {
-            @SuppressLint("RestrictedApi")
-            override fun onStartTrackingTouch(slider: Slider) {}
+            override fun onStartTrackingTouch(slider: Slider) { }
 
-            @SuppressLint("RestrictedApi")
             override fun onStopTrackingTouch(slider: Slider) {
                 updateReadPages(slider.value.toInt())
             }
@@ -182,13 +187,16 @@ class BookDetailFragment: Fragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
+
+        menu.setGroupVisible(R.id.list_action_group, false)
         menu.setGroupVisible(R.id.default_action_group, false)
-        inflater.inflate(R.menu.book_detail_menu, menu)
+        menu.setGroupVisible(R.id.book_detail_action_group, true)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_share_book -> {
+                //todo share action
                 true
             }
             R.id.action_delete_book -> {
@@ -202,7 +210,11 @@ class BookDetailFragment: Fragment() {
     }
 
     override fun onDestroy() {
-        (requireActivity() as MainActivity).setBarInterfaces()
+        (requireActivity() as AppCompatActivity).supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(false)
+            title = getString(R.string.app_name)
+        }
+        (requireActivity() as MainActivity).setBottomNavVisibility(View.VISIBLE)
 
         super.onDestroy()
         _binding = null
