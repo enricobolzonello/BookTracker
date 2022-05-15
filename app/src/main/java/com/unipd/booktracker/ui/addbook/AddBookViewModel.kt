@@ -38,6 +38,7 @@ class AddBookViewModel(application: Application): AndroidViewModel(application) 
         val url = "https://www.googleapis.com/books/v1/volumes?key=$key&q=$query"
         var response: String? = ""
         try {
+            // todo handle exceptions inside viewModelScope
             viewModelScope.launch(Dispatchers.IO) {
                 response = URL(url).readText()
             }.join()
