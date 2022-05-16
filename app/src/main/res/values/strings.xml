@@ -94,9 +94,10 @@
     </string-array>
     <string name="dynamic_colors_title">Colori dinamici</string>
     <string name="dynamic_colors_summary">La scelta verrà applicata al prossimo riavvio dell\'applicazione</string>
-    <!-- Alert dialog -->
+    <!-- Dialog -->
     <string name="yes">Sì</string>
     <string name="no">No</string>
+    <string name="retry">Riprova</string>
     <string name="delete_book_dialog_title">Elimina libro</string>
     <string name="delete_book_dialog_message">Sei sicuro di voler eliminare %s?</string>
     <string name="clear_books_dialog_title">Elimina tutti i libri</string>

@@ -50,7 +50,6 @@ class MainActivity: AppCompatActivity() {
             R.id.action_settings -> {
                 val intent = Intent(this, SettingsActivity::class.java)
                 startActivity(intent)
-                //navController.navigate(R.id.navigation_settings)
                 true
             }
             else -> super.onOptionsItemSelected(item)

@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+import com.google.android.material.snackbar.Snackbar
 import com.unipd.booktracker.BookAdapter
 import com.unipd.booktracker.MainActivity
 import com.unipd.booktracker.R
@@ -74,7 +75,11 @@ abstract class BooklistFragment: Fragment() {
 
         fab.setOnClickListener {
             if (!(requireActivity() as MainActivity).isNetworkAvailable())
-                Toast.makeText(requireActivity(),getString(R.string.network_error), Toast.LENGTH_SHORT).show()
+                Snackbar.make(requireView(), getString(R.string.network_error), Snackbar.LENGTH_LONG)
+                    .setAction(getString(R.string.retry)) {
+                        fab.callOnClick()
+                    }
+                    .show()
             else {
                 val dialog = AddDialogFragment()
                 dialog.show(childFragmentManager, getString(R.string.add_book))
