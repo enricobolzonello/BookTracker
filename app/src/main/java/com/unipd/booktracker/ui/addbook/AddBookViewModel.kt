@@ -53,7 +53,11 @@ class AddBookViewModel(application: Application): AndroidViewModel(application) 
         if (response.isNullOrBlank())
             return books
 
-        val items = JSONObject(response!!).getJSONArray("items")
+        val data = JSONObject(response!!)
+        if (data.has("totalItems") && data.getInt("totalItems") <= 0)
+            return books
+
+        val items = data.getJSONArray("items")
         for (i in 0 until items.length()) {
             val item = items.getJSONObject(i)
             val itemUrl = item.getString("selfLink")
