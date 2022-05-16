@@ -3,16 +3,15 @@ package com.unipd.booktracker.ui.settings
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.preference.DropDownPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
-import androidx.preference.PreferenceManager
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.unipd.booktracker.BookUtils
 import com.unipd.booktracker.R
 import com.unipd.booktracker.SettingsActivity
@@ -62,7 +61,18 @@ class SettingsFragment: PreferenceFragmentCompat() {
                 true
             }
             getString(R.string.clear_books_key) -> {
-                viewModel.clearBooks()
+                MaterialAlertDialogBuilder(requireContext())
+                    .setTitle(resources.getString(R.string.clear_books_dialog_title))
+                    .setMessage(resources.getString(R.string.clear_books_dialog_message))
+                    .setIcon(ResourcesCompat.getDrawable(resources, R.drawable.ic_clear, requireContext().theme))
+                    .setNegativeButton(resources.getString(R.string.no)) { dialog, which ->
+                        // Respond to negative button press
+                    }
+                    .setPositiveButton(resources.getString(R.string.yes)) { dialog, which ->
+                        // Respond to positive button press
+                        viewModel.clearBooks()
+                    }
+                    .show()
                 true
             }
             else -> super.onPreferenceTreeClick(preference)

@@ -9,10 +9,13 @@ import android.text.Spanned
 import android.text.TextWatcher
 import android.view.*
 import android.widget.LinearLayout.LayoutParams
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.slider.Slider
 import com.unipd.booktracker.*
 import com.unipd.booktracker.databinding.FragmentBookDetailBinding
@@ -200,9 +203,20 @@ class BookDetailFragment: Fragment() {
                 true
             }
             R.id.action_delete_book -> {
-                viewModel.removeBook(chosenBook)
-                setHasOptionsMenu(false)
-                requireActivity().onBackPressed()
+                MaterialAlertDialogBuilder(requireContext())
+                    .setTitle(resources.getString(R.string.delete_book_dialog_title))
+                    .setMessage(resources.getString(R.string.delete_book_dialog_message, chosenBook.title))
+                    .setIcon(ResourcesCompat.getDrawable(resources, R.drawable.ic_delete, requireContext().theme))
+                    .setNegativeButton(resources.getString(R.string.no)) { dialog, which ->
+                        // Respond to negative button press
+                    }
+                    .setPositiveButton(resources.getString(R.string.yes)) { dialog, which ->
+                        // Respond to positive button press
+                        viewModel.removeBook(chosenBook)
+                        Toast.makeText(activity, R.string.book_deleted, Toast.LENGTH_SHORT).show()
+                        requireActivity().onBackPressed()
+                    }
+                    .show()
                 true
             }
             else -> super.onOptionsItemSelected(item)
