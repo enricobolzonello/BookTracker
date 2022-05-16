@@ -11,6 +11,7 @@ import androidx.lifecycle.*
 import com.unipd.booktracker.BookUtils
 import com.unipd.booktracker.R
 import com.unipd.booktracker.db.*
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -35,23 +36,22 @@ class AddBookViewModel(application: Application): AndroidViewModel(application) 
             }
             return books
         }
-        val url = "https://www.googleapis.com/books/v1/volumes?key=$key&q=$query"
-        var response: String? = ""
-        try {
-            // todo handle exceptions inside viewModelScope
-            viewModelScope.launch(Dispatchers.IO) {
-                response = URL(url).readText()
-            }.join()
-        } catch (e: Exception) {
-            response = null
-        }
 
-        if (response.isNullOrBlank()) {
-            withContext(Dispatchers.Main) {
-                Toast.makeText(app.applicationContext, app.getString(R.string.books_api_error), Toast.LENGTH_SHORT).show()
+        val url = "https://www.googleapis.com/books/v1/volumes?key=$key&q=$query"
+        var response: String? = null
+        viewModelScope.launch(Dispatchers.IO) {
+            response = try {
+                URL(url).readText()
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(app.applicationContext, app.getString(R.string.books_api_error), Toast.LENGTH_SHORT).show()
+                }
+                null
             }
+        }.join()
+
+        if (response.isNullOrBlank())
             return books
-        }
 
         val items = JSONObject(response!!).getJSONArray("items")
         for (i in 0 until items.length()) {
@@ -65,27 +65,30 @@ class AddBookViewModel(application: Application): AndroidViewModel(application) 
     }
 
     private suspend fun getBookInfo(url: String): Book? {
-        var response: String? = ""
-        try {
-            viewModelScope.launch(Dispatchers.IO) {
-                response = URL(url).readText()
-            }.join()
-        } catch (e: Exception) {
-            response = null
-        }
-
-        if (response.isNullOrBlank()) {
-            withContext(Dispatchers.Main) {
-                Toast.makeText(app.applicationContext, app.getString(R.string.books_api_error), Toast.LENGTH_SHORT).show()
+        var response: String? = null
+        viewModelScope.launch(Dispatchers.IO) {
+            response = try {
+                URL(url).readText()
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(app.applicationContext, app.getString(R.string.books_api_error), Toast.LENGTH_SHORT).show()
+                }
+                null
             }
+        }.join()
+
+        if (response.isNullOrBlank())
             return null
-        }
 
         val volume = JSONObject(response!!)
         val volumeInfo = volume.getJSONObject("volumeInfo")
 
         // Check if the minimum required parameters are present
-        if (!(volume.has("id") && volumeInfo.has("title") && volumeInfo.has("authors") && volumeInfo.has("pageCount")))
+        if (!(volume.has("id")
+                && volumeInfo.has("title")
+                && volumeInfo.has("authors") && volumeInfo.getJSONArray("authors").length() >= 1
+                && volumeInfo.has("pageCount")
+            ))
             return null
 
         val id = volume.getString("id")
@@ -100,7 +103,10 @@ class AddBookViewModel(application: Application): AndroidViewModel(application) 
                 null
 
         val isbn =
-            if (volumeInfo.has("industryIdentifiers") && volumeInfo.getJSONArray("industryIdentifiers").length() == 2)
+            if (volumeInfo.has("industryIdentifiers")
+                && volumeInfo.getJSONArray("industryIdentifiers").length() >= 2
+                && JSONObject(volumeInfo.getJSONArray("industryIdentifiers").get(1).toString()).has("identifier")
+            )
                 JSONObject(volumeInfo.getJSONArray("industryIdentifiers").get(1).toString()).getString("identifier")
             else
                 null
@@ -134,14 +140,13 @@ class AddBookViewModel(application: Application): AndroidViewModel(application) 
         if (volumeInfo.has("imageLinks") && volumeInfo.getJSONObject("imageLinks").has("thumbnail")) {
             val thumbnailUrl = volumeInfo.getJSONObject("imageLinks").getString("thumbnail")
                 .replace("http","https") // Cleartext HTTP traffic is not permitted, so secure url (https) is needed
-            Log.i("my",thumbnailUrl)
-            try {
-                viewModelScope.launch(Dispatchers.IO) {
-                    thumbnail = BitmapFactory.decodeStream(URL(thumbnailUrl).openStream())
-                }.join()
-            } catch (e: Exception) {
-                thumbnail = null
-            }
+            viewModelScope.launch(Dispatchers.IO) {
+                thumbnail = try {
+                    BitmapFactory.decodeStream(URL(thumbnailUrl).openStream())
+                } catch (e: Exception) {
+                    null
+                }
+            }.join()
         }
         return Book(id, title, mainAuthor, pages, publisher, isbn, mainCategory, description, year, language, BookUtils.fromBitmap(thumbnail))
     }
