@@ -20,7 +20,13 @@ class Book(
     @Nullable@ColumnInfo(name = "language") val language: String?,
     @Nullable@ColumnInfo(name = "thumbnail", typeAffinity = ColumnInfo.BLOB) val thumbnail: ByteArray?,
     @Nullable@ColumnInfo(name = "readPages") val readPages: Int? = null
-): Serializable
+): Serializable {
+    override fun toString(): String {
+        if (year == null)
+            return "$title - $mainAuthor"
+        return "$title ($year) - $mainAuthor"
+    }
+}
 
 @Entity(
     tableName = "readings",

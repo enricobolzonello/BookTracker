@@ -1,5 +1,6 @@
 package com.unipd.booktracker.ui.bookdetail
 
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
@@ -20,6 +21,7 @@ import com.google.android.material.slider.Slider
 import com.unipd.booktracker.*
 import com.unipd.booktracker.databinding.FragmentBookDetailBinding
 import com.unipd.booktracker.db.Book
+
 
 class BookDetailFragment: Fragment() {
     private lateinit var viewModel: BookDetailViewModel
@@ -199,18 +201,21 @@ class BookDetailFragment: Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_share_book -> {
-                //todo share action
+                val intent = Intent(Intent.ACTION_SEND)
+                intent.type = "text/plain"
+                intent.putExtra(Intent.EXTRA_TEXT, chosenBook.toString())
+                startActivity(Intent.createChooser(intent, getString(R.string.share_book)))
                 true
             }
             R.id.action_delete_book -> {
                 MaterialAlertDialogBuilder(requireContext())
-                    .setTitle(resources.getString(R.string.delete_book_dialog_title))
-                    .setMessage(resources.getString(R.string.delete_book_dialog_message, chosenBook.title))
+                    .setTitle(getString(R.string.delete_book_dialog_title))
+                    .setMessage(getString(R.string.delete_book_dialog_message, chosenBook.title))
                     .setIcon(ResourcesCompat.getDrawable(resources, R.drawable.ic_delete, requireContext().theme))
-                    .setNegativeButton(resources.getString(R.string.no)) { dialog, which ->
+                    .setNegativeButton(getString(R.string.no)) { _, _ ->
                         // Respond to negative button press
                     }
-                    .setPositiveButton(resources.getString(R.string.yes)) { dialog, which ->
+                    .setPositiveButton(getString(R.string.yes)) { _, _ ->
                         // Respond to positive button press
                         viewModel.removeBook(chosenBook)
                         Toast.makeText(activity, R.string.book_deleted, Toast.LENGTH_SHORT).show()
