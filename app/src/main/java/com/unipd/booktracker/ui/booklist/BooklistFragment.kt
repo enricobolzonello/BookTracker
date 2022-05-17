@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.FrameLayout
 import android.widget.Toast
@@ -27,10 +28,11 @@ import com.unipd.booktracker.MainActivity
 import com.unipd.booktracker.R
 import com.unipd.booktracker.db.OrderColumn
 import com.unipd.booktracker.fragments.AddDialogFragment
+import com.unipd.booktracker.ui.bookdetail.BookDetailFragment
 
 abstract class BooklistFragment: Fragment() {
 
-    abstract var bookAdapter: BookAdapter
+
     abstract var rw: RecyclerView
     abstract var fab: ExtendedFloatingActionButton
 
@@ -38,9 +40,11 @@ abstract class BooklistFragment: Fragment() {
     abstract fun updateFilters()
 
     protected lateinit var viewModel: BooklistViewModel
+    protected lateinit var bookAdapter: BookAdapter
     protected lateinit var prefs: SharedPreferences
     protected var _binding: ViewBinding? = null
     protected val binding get() = _binding!!
+    protected var detailFragment: BookDetailFragment? = null
     protected var query = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,6 +58,8 @@ abstract class BooklistFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        detailFragment = childFragmentManager.findFragmentById(R.id.detail_container) as BookDetailFragment?
+        bookAdapter = BookAdapter(this, detailFragment)
         rw.adapter = bookAdapter
         updateFilters()
 
@@ -158,7 +164,6 @@ abstract class BooklistFragment: Fragment() {
 
         menu.setGroupVisible(R.id.list_action_group, true)
         menu.setGroupVisible(R.id.default_action_group, true)
-        menu.setGroupVisible(R.id.book_detail_action_group, false)
 
         val searchView = (menu.findItem(R.id.action_search)?.actionView as SearchView)
         searchView.queryHint = getString(R.string.search_hint)
@@ -212,7 +217,7 @@ abstract class BooklistFragment: Fragment() {
         prefs.edit().putString(getString(R.string.sorting_column_key), orderColumn).apply()
         prefs.edit().putBoolean(getString(R.string.sorting_asc_key), asc).apply()
         updateFilters()
-        return true
+        return false
     }
 
     override fun onDestroyView() {

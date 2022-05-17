@@ -1,21 +1,19 @@
 package com.unipd.booktracker
 
-import android.app.SearchManager
 import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.SearchView
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.unipd.booktracker.databinding.ActivityMainBinding
+
 
 class MainActivity: AppCompatActivity() {
     private lateinit var navController: NavController
@@ -28,16 +26,11 @@ class MainActivity: AppCompatActivity() {
         setContentView(binding.root)
 
         navController = (binding.navHostFragment.getFragment() as NavHostFragment).navController
-        NavigationUI.setupWithNavController(binding.navView, navController)
-    }
 
-    fun isNetworkAvailable(): Boolean {
-        val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val activeNetwork = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
-        return activeNetwork != null && (
-                activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
-                activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)
-        )
+        if (BookUtils.isLargeScreen(this))
+            binding.railNav?.let { NavigationUI.setupWithNavController(it, navController) }
+        else
+            binding.bottomNav?.let { NavigationUI.setupWithNavController(it, navController) }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -57,13 +50,22 @@ class MainActivity: AppCompatActivity() {
         }
     }
 
-    fun setBottomNavVisibility(navViewVisibility: Int) {
-        if (navViewVisibility == View.VISIBLE || navViewVisibility == View.GONE)
-            binding.navView.visibility = navViewVisibility
-    }
-
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return true
+    }
+
+    fun setBottomNavVisibility(navViewVisibility: Int) {
+        if (navViewVisibility == View.VISIBLE || navViewVisibility == View.GONE)
+            binding.bottomNav?.visibility = navViewVisibility
+    }
+
+    fun isNetworkAvailable(): Boolean {
+        val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetwork = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+        return activeNetwork != null && (
+                    activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
+                    activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)
+                )
     }
 }

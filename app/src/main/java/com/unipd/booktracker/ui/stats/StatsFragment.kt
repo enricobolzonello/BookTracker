@@ -82,9 +82,7 @@ class StatsFragment: Fragment() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
 
-        menu.setGroupVisible(R.id.list_action_group, false)
         menu.setGroupVisible(R.id.default_action_group, true)
-        menu.setGroupVisible(R.id.book_detail_action_group, false)
     }
 
     override fun onDestroyView() {

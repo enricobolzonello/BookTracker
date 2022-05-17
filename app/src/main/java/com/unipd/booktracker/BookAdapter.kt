@@ -9,8 +9,13 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.unipd.booktracker.db.Book
 import com.unipd.booktracker.databinding.BookCardBinding
+import com.unipd.booktracker.ui.bookdetail.BookDetailFragment
+import com.unipd.booktracker.ui.booklist.BooklistFragment
 
-class BookAdapter(val parentFragment: Fragment): RecyclerView.Adapter<BookAdapter.BookViewHolder>() {
+class BookAdapter(
+    val listFragment: Fragment,
+    val detailFragment: BookDetailFragment? = null
+): RecyclerView.Adapter<BookAdapter.BookViewHolder>() {
 
     private var library: List<Book> = listOf()
 
@@ -35,13 +40,17 @@ class BookAdapter(val parentFragment: Fragment): RecyclerView.Adapter<BookAdapte
             else {
                 val progress = (book.readPages.toDouble() / book.pages.toDouble() * 100).toInt()
                 binding.piReadProgress.progress = progress
-                binding.tvReadProgress.text = parentFragment.getString(R.string.ph_percentage, progress)
+                binding.tvReadProgress.text = listFragment.getString(R.string.ph_percentage, progress)
             }
 
             binding.cvBook.setOnClickListener {
-                val bundle = Bundle()
-                bundle.putSerializable("chosenBook", book)
-                parentFragment.findNavController().navigate(R.id.navigation_book_detail, bundle)
+                if (detailFragment != null) {
+                        detailFragment.setBook(book)
+                } else {
+                    val bundle = Bundle()
+                    bundle.putSerializable("chosenBook", book)
+                    listFragment.findNavController().navigate(R.id.navigation_book_detail, bundle)
+                }
             }
         }
     }

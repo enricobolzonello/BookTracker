@@ -6,14 +6,11 @@ import android.view.*
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-import com.unipd.booktracker.BookAdapter
 import com.unipd.booktracker.R
 import com.unipd.booktracker.databinding.FragmentLibraryBinding
 import com.unipd.booktracker.db.OrderColumn
 
 class LibraryFragment: BooklistFragment() {
-
-    override lateinit var bookAdapter: BookAdapter
     override lateinit var rw: RecyclerView
     override lateinit var fab: ExtendedFloatingActionButton
 
@@ -21,7 +18,6 @@ class LibraryFragment: BooklistFragment() {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
 
-        bookAdapter = BookAdapter(this)
         viewModel.getObservableLibrary().observe(this) {
             updateFilters()
         }

@@ -8,6 +8,7 @@ import android.text.Editable
 import android.text.InputFilter
 import android.text.Spanned
 import android.text.TextWatcher
+import android.util.Log
 import android.view.*
 import android.widget.LinearLayout.LayoutParams
 import android.widget.Toast
@@ -22,27 +23,29 @@ import com.unipd.booktracker.*
 import com.unipd.booktracker.databinding.FragmentBookDetailBinding
 import com.unipd.booktracker.db.Book
 
-
 class BookDetailFragment: Fragment() {
+
     private lateinit var viewModel: BookDetailViewModel
     private var _binding: FragmentBookDetailBinding? = null
     private val binding get() = _binding!!
 
     private val args: BookDetailFragmentArgs by navArgs()
-    private lateinit var chosenBook: Book
+    private var _chosenBook: Book? = null
+    private val chosenBook get() = _chosenBook!!
     private var readPages = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        (requireActivity() as AppCompatActivity).supportActionBar?.apply {
-            setDisplayHomeAsUpEnabled(true)
-            title = getString(R.string.book_detail)
+        if (!BookUtils.isLargeScreen(requireContext())) {
+            (requireActivity() as AppCompatActivity).supportActionBar?.apply {
+                setDisplayHomeAsUpEnabled(true)
+                title = getString(R.string.book_detail)
+            }
+            (requireActivity() as MainActivity).setBottomNavVisibility(View.GONE)
         }
-        (requireActivity() as MainActivity).setBottomNavVisibility(View.GONE)
-
+        setHasOptionsMenu(true)
         viewModel = ViewModelProvider(requireActivity() as MainActivity)[BookDetailViewModel::class.java]
-        chosenBook = args.chosenBook
     }
 
     override fun onCreateView(
@@ -58,30 +61,6 @@ class BookDetailFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.layout.backgroundTintList = ColorStateList.valueOf(resources.getColor(com.google.android.material.R.color.m3_ref_palette_dynamic_primary10)).withAlpha(220)
-
-        if (chosenBook.thumbnail == null)
-            binding.ivBookThumbnail.setBackgroundResource(R.drawable.default_thumbnail)
-        else{
-            binding.ivBookThumbnail.setImageBitmap(BookUtils.toBitmap(chosenBook.thumbnail))
-            binding.layout.background = BitmapDrawable(BookUtils.toBitmap(chosenBook.thumbnail))
-        }
-
-        binding.tvBookTitle.text = chosenBook.title
-        binding.tvBookAuthor.text = chosenBook.mainAuthor
-        binding.tvBookPages.text = chosenBook.pages.toString()
-        // binding.tvBookGenre.text = chosenBook.mainCategory ?: "-"
-        binding.tvBookLanguage.text = chosenBook.language ?: "-"
-        binding.tvBookDescription.text = chosenBook.description ?: "-"
-        binding.tvBookPublisher.text = chosenBook.publisher ?: "-"
-        binding.tvBookIsbn.text = chosenBook.isbn ?: "-"
-
-        if (chosenBook.readPages == null)
-            binding.llReadPages.visibility = View.GONE
-        else {
-            setupReadPagesModifiers()
-            readPages = chosenBook.readPages!!
-            updateReadPages(readPages)
-        }
 
         binding.chLibrary.setOnClickListener {
             // If the book is not already present, add it
@@ -120,6 +99,44 @@ class BookDetailFragment: Fragment() {
             setHasOptionsMenu(true)
             // Wishlist book interface
             binding.llReadPages.visibility = View.GONE
+        }
+
+        if (arguments != null)
+            setBook(args.chosenBook)
+    }
+
+    fun setBook(book: Book) {
+        _chosenBook = book
+        if (_chosenBook != null) {
+            binding.tvBookDetailPlaceholder.visibility = View.GONE
+            binding.swBookDetail.visibility = View.VISIBLE
+            setupBookInfo()
+        }
+    }
+
+    private fun setupBookInfo() {
+        if (chosenBook.thumbnail == null)
+            binding.ivBookThumbnail.setBackgroundResource(R.drawable.default_thumbnail)
+        else {
+            binding.ivBookThumbnail.setImageBitmap(BookUtils.toBitmap(chosenBook.thumbnail))
+            binding.layout.background = BitmapDrawable(BookUtils.toBitmap(chosenBook.thumbnail))
+        }
+
+        binding.tvBookTitle.text = chosenBook.title
+        binding.tvBookAuthor.text = chosenBook.mainAuthor
+        binding.tvBookPages.text = chosenBook.pages.toString()
+        // binding.tvBookGenre.text = chosenBook.mainCategory ?: "-"
+        binding.tvBookLanguage.text = chosenBook.language ?: "-"
+        binding.tvBookDescription.text = chosenBook.description ?: "-"
+        binding.tvBookPublisher.text = chosenBook.publisher ?: "-"
+        binding.tvBookIsbn.text = chosenBook.isbn ?: "-"
+
+        if (chosenBook.readPages == null)
+            binding.llReadPages.visibility = View.GONE
+        else {
+            setupReadPagesModifiers()
+            readPages = chosenBook.readPages!!
+            updateReadPages(readPages)
         }
 
         binding.chLibrary.isChecked = viewModel.isBookInLibrary(chosenBook)
@@ -193,12 +210,11 @@ class BookDetailFragment: Fragment() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
 
-        menu.setGroupVisible(R.id.list_action_group, false)
-        menu.setGroupVisible(R.id.default_action_group, false)
         menu.setGroupVisible(R.id.book_detail_action_group, true)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        Log.i("my","here")
         return when (item.itemId) {
             R.id.action_share_book -> {
                 val intent = Intent(Intent.ACTION_SEND)
@@ -219,7 +235,6 @@ class BookDetailFragment: Fragment() {
                         // Respond to positive button press
                         viewModel.removeBook(chosenBook)
                         Toast.makeText(activity, R.string.book_deleted, Toast.LENGTH_SHORT).show()
-                        requireActivity().onBackPressed()
                     }
                     .show()
                 true
@@ -229,11 +244,13 @@ class BookDetailFragment: Fragment() {
     }
 
     override fun onDestroy() {
-        (requireActivity() as AppCompatActivity).supportActionBar?.apply {
-            setDisplayHomeAsUpEnabled(false)
-            title = getString(R.string.app_name)
+        if (!BookUtils.isLargeScreen(requireContext())) {
+            (requireActivity() as AppCompatActivity).supportActionBar?.apply {
+                setDisplayHomeAsUpEnabled(false)
+                title = getString(R.string.app_name)
+            }
+            (requireActivity() as MainActivity).setBottomNavVisibility(View.VISIBLE)
         }
-        (requireActivity() as MainActivity).setBottomNavVisibility(View.VISIBLE)
 
         super.onDestroy()
         _binding = null

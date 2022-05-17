@@ -1,329 +1,348 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.bookdetail.BookDetailFragment">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/tv_book_detail_placeholder"
+        android:visibility="visible"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_gravity="center"
+        android:text="@string/book_detail_placeholder"
+        android:textAppearance="@style/TextAppearance.Material3.TitleLarge"/>
+
+    <ScrollView
+        android:id="@+id/sw_book_detail"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <LinearLayout
-            android:id="@+id/layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/content_margin"
-            android:background="@drawable/default_thumbnail"
-            android:backgroundTintMode="src_over"
-            android:baselineAligned="false"
             android:orientation="vertical">
 
             <LinearLayout
+                android:id="@+id/layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/ch_library"
-                    style="@style/Widget.Material3.Chip.Filter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/text_margin"
-                    android:layout_weight="1"
-                    android:text="@string/library"
-                    android:textAlignment="center"
-                    app:checkedIcon="@drawable/ic_library" />
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/ch_wishlist"
-                    style="@style/Widget.Material3.Chip.Filter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/text_margin"
-                    android:layout_weight="1"
-                    android:text="@string/wishlist"
-                    android:textAlignment="center"
-                    app:checkedIcon="@drawable/ic_wishlist" />
-
-            </LinearLayout>
-
-            <ImageView
-                android:id="@+id/iv_book_thumbnail"
-                android:layout_width="@dimen/thumb_width"
-                android:layout_height="@dimen/thumb_height"
-                android:layout_gravity="center_horizontal"
-                android:layout_margin="@dimen/content_margin"
-                android:contentDescription="@string/description"
-                android:src="@drawable/default_thumbnail" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/content_margin"
+                android:background="@drawable/default_thumbnail"
+                android:backgroundTintMode="src_over"
+                android:baselineAligned="false"
                 android:orientation="vertical">
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/tv_book_title"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:ellipsize="end"
-                    android:maxLines="3"
-                    android:text="@string/title"
-                    android:textAlignment="center"
-                    android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"
-                    android:textColor="#FFFFFF" />
+                    android:orientation="horizontal">
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/tv_book_author"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/ch_library"
+                        style="@style/Widget.Material3.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/text_margin"
+                        android:layout_weight="1"
+                        android:text="@string/library"
+                        android:textAlignment="center"
+                        app:checkedIcon="@drawable/ic_library" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/ch_wishlist"
+                        style="@style/Widget.Material3.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/text_margin"
+                        android:layout_weight="1"
+                        android:text="@string/wishlist"
+                        android:textAlignment="center"
+                        app:checkedIcon="@drawable/ic_wishlist" />
+
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/iv_book_thumbnail"
+                    android:layout_width="@dimen/thumb_width"
+                    android:layout_height="@dimen/thumb_height"
                     android:layout_gravity="center_horizontal"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:text="@string/author"
-                    android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-                    android:textColor="#FFFFFF" />
+                    android:layout_margin="@dimen/content_margin"
+                    android:contentDescription="@string/description"
+                    android:src="@drawable/default_thumbnail" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tv_book_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:ellipsize="end"
+                        android:maxLines="3"
+                        android:text="@string/title"
+                        android:textAlignment="center"
+                        android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"
+                        android:textColor="#FFFFFF" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tv_book_author"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:text="@string/author"
+                        android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                        android:textColor="#FFFFFF" />
+                </LinearLayout>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="40dp">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/content_margin"
+                            android:orientation="vertical"
+                            android:gravity="center">
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/tv_book_language"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:ellipsize="end"
+                                android:maxLength="2"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:ellipsize="end"
+                                android:text="@string/language"
+                                android:textAppearance="@style/TextAppearance.Material3.BodySmall" />
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_margin="@dimen/content_margin"
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:background="@android:color/darker_gray"/>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/content_margin"
+                            android:orientation="vertical"
+                            android:gravity="center">
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/tv_book_pages"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:ellipsize="end"
+                                android:maxLines="1"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:ellipsize="end"
+                                android:text="@string/pages"
+                                android:textAppearance="@style/TextAppearance.Material3.BodySmall" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <LinearLayout
+                    android:id="@+id/ll_read_pages"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btn_remove_page"
+                            style="@style/Widget.Material3.Button.IconButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/content_margin"
+                            android:backgroundTint="?attr/colorPrimarySurface"
+                            app:icon="@drawable/ic_remove"
+                            app:iconTint="?attr/colorOnPrimarySurface" />
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/et_read_pages"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/content_margin"
+                            android:inputType="number"
+                            android:textAlignment="center"
+                            android:textColor="#FFFFFF" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btn_add_page"
+                            style="@style/Widget.Material3.Button.IconButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/content_margin"
+                            android:backgroundTint="?attr/colorPrimarySurface"
+                            app:icon="@drawable/ic_add"
+                            app:iconTint="?attr/colorOnPrimarySurface" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/tv_first_page"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/content_margin" />
+
+                        <com.google.android.material.slider.Slider
+                            android:id="@+id/sl_read_pages"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:stepSize="1.0"
+                            android:valueFrom="0.0"
+                            android:valueTo="100.0"
+                            app:labelBehavior="gone"
+                            app:tickVisible="false" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/tv_last_page"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/content_margin" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
             </LinearLayout>
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="40dp">
+                android:layout_margin="@dimen/content_margin"
+                app:cardElevation="@dimen/card_elevation"
+                app:contentPadding="@dimen/content_margin">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:orientation="horizontal">
+                    android:orientation="vertical">
 
-                    <LinearLayout
+                    <com.google.android.material.textview.MaterialTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/content_margin"
-                        android:orientation="vertical"
-                        android:gravity="center">
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:text="@string/description"
+                        android:textAppearance="@style/TextAppearance.Material3.BodySmall" />
 
-                        <com.google.android.material.textview.MaterialTextView
-                            android:id="@+id/tv_book_language"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:ellipsize="end"
-                            android:maxLength="2"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
-
-                        <com.google.android.material.textview.MaterialTextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:ellipsize="end"
-                            android:text="@string/language"
-                            android:textAppearance="@style/TextAppearance.Material3.BodySmall" />
-
-                    </LinearLayout>
-
-                    <View
-                        android:layout_margin="@dimen/content_margin"
-                        android:layout_width="1dp"
-                        android:layout_height="match_parent"
-                        android:background="@android:color/darker_gray"/>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tv_book_description"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/content_margin"
-                        android:orientation="vertical"
-                        android:gravity="center">
-
-                        <com.google.android.material.textview.MaterialTextView
-                            android:id="@+id/tv_book_pages"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:ellipsize="end"
-                            android:maxLines="1"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
-
-                        <com.google.android.material.textview.MaterialTextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:ellipsize="end"
-                            android:text="@string/pages"
-                            android:textAppearance="@style/TextAppearance.Material3.BodySmall" />
-
-                    </LinearLayout>
+                        android:textAppearance="@style/TextAppearance.Material3.BodyMedium" />
 
                 </LinearLayout>
 
             </com.google.android.material.card.MaterialCardView>
 
-            <LinearLayout
-                android:id="@+id/ll_read_pages"
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
+                android:layout_margin="@dimen/content_margin"
+                app:cardElevation="@dimen/card_elevation"
+                app:contentPadding="@dimen/content_margin">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:orientation="horizontal">
+                    android:orientation="vertical">
 
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btn_remove_page"
-                        style="@style/Widget.Material3.Button.IconButton"
+                    <com.google.android.material.textview.MaterialTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/content_margin"
-                        android:backgroundTint="?attr/colorPrimarySurface"
-                        app:icon="@drawable/ic_remove"
-                        app:iconTint="?attr/colorOnPrimarySurface" />
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:text="@string/publisher"
+                        android:textAppearance="@style/TextAppearance.Material3.BodySmall" />
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/et_read_pages"
-                        android:layout_width="wrap_content"
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tv_book_publisher"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/content_margin"
-                        android:inputType="number"
-                        android:textAlignment="center"
-                        android:textColor="#FFFFFF" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btn_add_page"
-                        style="@style/Widget.Material3.Button.IconButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/content_margin"
-                        android:backgroundTint="?attr/colorPrimarySurface"
-                        app:icon="@drawable/ic_add"
-                        app:iconTint="?attr/colorOnPrimarySurface" />
+                        android:textAppearance="@style/TextAppearance.Material3.BodyMedium" />
 
                 </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/content_margin"
+                app:cardElevation="@dimen/card_elevation"
+                app:contentPadding="@dimen/content_margin">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:orientation="horizontal">
+                    android:orientation="vertical">
 
                     <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/tv_first_page"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/content_margin" />
-
-                    <com.google.android.material.slider.Slider
-                        android:id="@+id/sl_read_pages"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:stepSize="1.0"
-                        android:valueFrom="0.0"
-                        android:valueTo="100.0"
-                        app:labelBehavior="gone"
-                        app:tickVisible="false" />
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:text="@string/isbn"
+                        android:textAppearance="@style/TextAppearance.Material3.BodySmall" />
 
                     <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/tv_last_page"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/tv_book_isbn"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/content_margin" />
-
+                        android:textAppearance="@style/TextAppearance.Material3.BodyMedium" />
                 </LinearLayout>
 
-            </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
         </LinearLayout>
 
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/content_margin"
-            app:cardElevation="@dimen/card_elevation"
-            app:contentPadding="@dimen/content_margin">
+    </ScrollView>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:text="@string/description"
-                    android:textAppearance="@style/TextAppearance.Material3.BodySmall" />
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/tv_book_description"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="@style/TextAppearance.Material3.BodyMedium" />
-
-            </LinearLayout>
-
-        </com.google.android.material.card.MaterialCardView>
-
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/content_margin"
-            app:cardElevation="@dimen/card_elevation"
-            app:contentPadding="@dimen/content_margin">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:text="@string/publisher"
-                    android:textAppearance="@style/TextAppearance.Material3.BodySmall" />
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/tv_book_publisher"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="@style/TextAppearance.Material3.BodyMedium" />
-
-            </LinearLayout>
-
-        </com.google.android.material.card.MaterialCardView>
-
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/content_margin"
-            app:cardElevation="@dimen/card_elevation"
-            app:contentPadding="@dimen/content_margin">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:text="@string/isbn"
-                    android:textAppearance="@style/TextAppearance.Material3.BodySmall" />
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/tv_book_isbn"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="@style/TextAppearance.Material3.BodyMedium" />
-            </LinearLayout>
-
-        </com.google.android.material.card.MaterialCardView>
-    </LinearLayout>
-
-</ScrollView>
+</FrameLayout>

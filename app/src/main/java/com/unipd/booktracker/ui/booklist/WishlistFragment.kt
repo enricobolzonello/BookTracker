@@ -11,14 +11,12 @@ import com.unipd.booktracker.db.OrderColumn
 
 class WishlistFragment: BooklistFragment() {
 
-    override lateinit var bookAdapter: BookAdapter
     override lateinit var rw: RecyclerView
     override lateinit var fab: ExtendedFloatingActionButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        bookAdapter = BookAdapter(this)
         viewModel.getObservableWishlist().observe(this) {
             updateFilters()
         }
