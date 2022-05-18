@@ -55,9 +55,11 @@ class MainActivity: AppCompatActivity() {
         return true
     }
 
-    fun setBottomNavVisibility(navViewVisibility: Int) {
-        if (navViewVisibility == View.VISIBLE || navViewVisibility == View.GONE)
+    fun setNavVisibility(navViewVisibility: Int) {
+        if (navViewVisibility == View.VISIBLE || navViewVisibility == View.GONE) {
+            binding.railNav?.visibility = navViewVisibility
             binding.bottomNav?.visibility = navViewVisibility
+        }
     }
 
     fun isNetworkAvailable(): Boolean {

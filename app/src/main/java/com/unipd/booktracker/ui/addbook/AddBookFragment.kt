@@ -1,15 +1,18 @@
 package com.unipd.booktracker.fragments
 
-import android.content.res.Resources
 import android.os.Bundle
+import android.util.DisplayMetrics
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.unipd.booktracker.BookAdapter
+import com.unipd.booktracker.BookUtils
 import com.unipd.booktracker.MainActivity
 import com.unipd.booktracker.R
 import com.unipd.booktracker.databinding.FragmentAddBookBinding
@@ -17,6 +20,7 @@ import com.unipd.booktracker.ui.addbook.AddBookViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+
 
 class AddDialogFragment: BottomSheetDialogFragment() {
     private lateinit var viewModel: AddBookViewModel
@@ -44,7 +48,18 @@ class AddDialogFragment: BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.root.layoutParams.height = Resources.getSystem().displayMetrics.heightPixels
+        val windowHeight = requireActivity().window.decorView.rootView.height
+        val windowWidth = requireActivity().window.decorView.rootView.width
+
+        val bottomSheetBehavior = (this.dialog as BottomSheetDialog).behavior
+        bottomSheetBehavior.maxWidth =
+            if (BookUtils.isLargeScreen(requireContext()))
+                (windowWidth * 0.66).toInt()
+            else
+                windowWidth
+        bottomSheetBehavior.peekHeight = windowHeight / 2
+        view.minimumHeight = windowHeight / 2
+
         binding.rwAddBook.adapter = bookAdapter
         binding.rwAddBook.setPadding(0, 0, 0, (resources.getDimension(R.dimen.content_margin) * 2).toInt())
         binding.rwAddBook.clipToPadding = false

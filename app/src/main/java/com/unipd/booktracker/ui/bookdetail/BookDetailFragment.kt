@@ -37,14 +37,15 @@ class BookDetailFragment: Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (!BookUtils.isLargeScreen(requireContext())) {
+        if (arguments != null) {
+            setHasOptionsMenu(true)
             (requireActivity() as AppCompatActivity).supportActionBar?.apply {
                 setDisplayHomeAsUpEnabled(true)
                 title = getString(R.string.book_detail)
             }
-            (requireActivity() as MainActivity).setBottomNavVisibility(View.GONE)
+            (requireActivity() as MainActivity).setNavVisibility(View.GONE)
         }
-        setHasOptionsMenu(true)
+
         viewModel = ViewModelProvider(requireActivity() as MainActivity)[BookDetailViewModel::class.java]
     }
 
@@ -244,12 +245,12 @@ class BookDetailFragment: Fragment() {
     }
 
     override fun onDestroy() {
-        if (!BookUtils.isLargeScreen(requireContext())) {
+        if (arguments != null) {
             (requireActivity() as AppCompatActivity).supportActionBar?.apply {
                 setDisplayHomeAsUpEnabled(false)
                 title = getString(R.string.app_name)
             }
-            (requireActivity() as MainActivity).setBottomNavVisibility(View.VISIBLE)
+            (requireActivity() as MainActivity).setNavVisibility(View.VISIBLE)
         }
 
         super.onDestroy()

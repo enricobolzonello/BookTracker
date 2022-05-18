@@ -28,6 +28,7 @@
         <item name="colorSurfaceInverse">@color/md_theme_light_inverseSurface</item>
         <item name="colorPrimaryInverse">@color/md_theme_light_primaryInverse</item>
     </style>
+
     <style name="Theme.BookTracker.ActionBar" parent="Widget.Material3.Light.ActionBar.Solid">
         <item name="titleTextStyle">@style/Theme.BookTracker.ActionBar.Title</item>
     </style>
@@ -35,4 +36,5 @@
         <item name="fontFamily">@font/lobster_two_bold</item>
         <item name="android:textSize">25sp</item>
     </style>
+
 </resources>
