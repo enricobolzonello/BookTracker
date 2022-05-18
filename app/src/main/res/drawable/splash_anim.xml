@@ -12,7 +12,6 @@
                 android:name="group"
                 android:pivotX="216"
                 android:pivotY="216"
-                android:translateX="1"
                 android:scaleX="0.66"
                 android:scaleY="0.66">
                 <path
