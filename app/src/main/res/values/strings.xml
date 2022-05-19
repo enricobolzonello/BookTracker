@@ -103,6 +103,6 @@
     <string name="clear_books_dialog_title">Elimina tutti i libri</string>
     <string name="clear_books_dialog_message">Sei sicuro di voler eliminare tutti i libri?</string>
     <!-- Content placeholder -->
-    <string name="book_list_placeholder">Non sono presenti libri da visualizzare al momento</string>
-    <string name="book_detail_placeholder">Seleziona un libro dalla lista per visualizzarlo</string>
+    <string name="empty_list_placeholder">Non sono presenti libri da visualizzare</string>
+    <string name="empty_detail_placeholder">Seleziona un libro dalla lista per visualizzarlo</string>
 </resources>

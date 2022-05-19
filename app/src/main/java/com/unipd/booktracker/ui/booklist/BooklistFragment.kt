@@ -32,7 +32,6 @@ import com.unipd.booktracker.ui.bookdetail.BookDetailFragment
 
 abstract class BooklistFragment: Fragment() {
 
-
     abstract var rw: RecyclerView
     abstract var fab: ExtendedFloatingActionButton
 
@@ -118,8 +117,8 @@ abstract class BooklistFragment: Fragment() {
                     .setPositiveButton(resources.getString(R.string.yes)) { dialog, which ->
                         // Respond to positive button press
                         viewModel.removeBook(book)
+                        bookAdapter.clearBookDetail()
                         Toast.makeText(activity, R.string.book_deleted, Toast.LENGTH_SHORT).show()
-                        updateFilters()
                     }
                     .show()
                 updateFilters()

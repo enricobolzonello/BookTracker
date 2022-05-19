@@ -11,6 +11,7 @@ import com.unipd.booktracker.databinding.FragmentLibraryBinding
 import com.unipd.booktracker.db.OrderColumn
 
 class LibraryFragment: BooklistFragment() {
+
     override lateinit var rw: RecyclerView
     override lateinit var fab: ExtendedFloatingActionButton
 
@@ -30,7 +31,7 @@ class LibraryFragment: BooklistFragment() {
     ): View {
         _binding = FragmentLibraryBinding.inflate(inflater, container, false)
         rw = (binding as FragmentLibraryBinding).rwLibrary
-        fab = (binding as FragmentLibraryBinding).fab
+        fab = (binding as FragmentLibraryBinding).fabAddBook
         return binding.root
     }
 
@@ -69,5 +70,11 @@ class LibraryFragment: BooklistFragment() {
             prefs.getBoolean(getString(R.string.sorting_asc_key), true)
         )
         bookAdapter.setBooks(books)
+
+        (binding as FragmentLibraryBinding).tvEmptyListPlaceholder.visibility =
+        if (books.isEmpty())
+            View.VISIBLE
+        else
+            View.GONE
     }
 }

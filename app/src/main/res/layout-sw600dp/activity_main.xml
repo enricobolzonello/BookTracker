@@ -11,9 +11,9 @@
         android:id="@+id/rail_nav"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:elevation="@dimen/elevation"
         app:menuGravity="center"
-        app:menu="@menu/nav_menu" />
+        app:menu="@menu/nav_menu"
+        style="@style/Widget.Material3.AppBarLayout"/>
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/nav_host_fragment"

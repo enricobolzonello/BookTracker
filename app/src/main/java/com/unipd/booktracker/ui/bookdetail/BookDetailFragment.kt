@@ -106,13 +106,21 @@ class BookDetailFragment: Fragment() {
             setBook(args.chosenBook)
     }
 
-    fun setBook(book: Book) {
+    fun setBook(book: Book? = null) {
         _chosenBook = book
-        if (_chosenBook != null) {
+        if (_chosenBook == null) {
+            binding.tvBookDetailPlaceholder.visibility = View.VISIBLE
+            binding.swBookDetail.visibility = View.GONE
+        } else {
             binding.tvBookDetailPlaceholder.visibility = View.GONE
             binding.swBookDetail.visibility = View.VISIBLE
             setupBookInfo()
         }
+    }
+
+    fun clearBookInfo() {
+        setBook()
+        requireActivity().invalidateOptionsMenu()
     }
 
     private fun setupBookInfo() {
@@ -211,11 +219,11 @@ class BookDetailFragment: Fragment() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
 
-        menu.setGroupVisible(R.id.book_detail_action_group, true)
+        if (_chosenBook != null)
+            menu.setGroupVisible(R.id.book_detail_action_group, true)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        Log.i("my","here")
         return when (item.itemId) {
             R.id.action_share_book -> {
                 val intent = Intent(Intent.ACTION_SEND)
@@ -235,7 +243,10 @@ class BookDetailFragment: Fragment() {
                     .setPositiveButton(getString(R.string.yes)) { _, _ ->
                         // Respond to positive button press
                         viewModel.removeBook(chosenBook)
-                        Toast.makeText(activity, R.string.book_deleted, Toast.LENGTH_SHORT).show()
+                        clearBookInfo()
+                        if (arguments != null)
+                            requireActivity().onBackPressed()
+                        Toast.makeText(requireActivity(), R.string.book_deleted, Toast.LENGTH_SHORT).show()
                     }
                     .show()
                 true
@@ -251,6 +262,7 @@ class BookDetailFragment: Fragment() {
                 title = getString(R.string.app_name)
             }
             (requireActivity() as MainActivity).setNavVisibility(View.VISIBLE)
+            requireActivity().invalidateOptionsMenu()
         }
 
         super.onDestroy()

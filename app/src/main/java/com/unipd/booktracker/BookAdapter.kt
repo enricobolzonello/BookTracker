@@ -19,11 +19,6 @@ class BookAdapter(
 
     private var library: List<Book> = listOf()
 
-    fun setBooks(books: List<Book>) {
-        library = books
-        notifyDataSetChanged() // Needed to update the adapter list
-    }
-
     // Describes an item view and its place within the RecyclerView
     inner class BookViewHolder(private val binding: BookCardBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(book: Book) {
@@ -44,9 +39,9 @@ class BookAdapter(
             }
 
             binding.cvBook.setOnClickListener {
-                if (detailFragment != null) {
-                        detailFragment.setBook(book)
-                } else {
+                if (detailFragment != null)
+                    detailFragment.setBook(book)
+                else {
                     val bundle = Bundle()
                     bundle.putSerializable("chosenBook", book)
                     listFragment.findNavController().navigate(R.id.navigation_book_detail, bundle)
@@ -71,7 +66,16 @@ class BookAdapter(
         holder.bind(library[position])
     }
 
-    fun getBookAt(position: Int):Book{
+    fun setBooks(books: List<Book>) {
+        library = books
+        notifyDataSetChanged() // Needed to update the adapter list
+    }
+
+    fun getBookAt(position: Int): Book {
         return library[position]
+    }
+
+    fun clearBookDetail() {
+        detailFragment?.clearBookInfo()
     }
 }

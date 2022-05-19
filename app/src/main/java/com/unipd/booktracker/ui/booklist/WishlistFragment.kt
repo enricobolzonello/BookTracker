@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.unipd.booktracker.BookAdapter
 import com.unipd.booktracker.R
+import com.unipd.booktracker.databinding.FragmentLibraryBinding
 import com.unipd.booktracker.databinding.FragmentWishlistBinding
 import com.unipd.booktracker.db.OrderColumn
 
@@ -29,7 +30,7 @@ class WishlistFragment: BooklistFragment() {
     ): View {
         _binding = FragmentWishlistBinding.inflate(inflater, container, false)
         rw = (binding as FragmentWishlistBinding).rwWishlist
-        fab = (binding as FragmentWishlistBinding).fab
+        fab = (binding as FragmentWishlistBinding).fabAddBook
         return binding.root
     }
 
@@ -55,5 +56,11 @@ class WishlistFragment: BooklistFragment() {
             prefs.getBoolean(getString(R.string.sorting_asc_key), true)
         )
         bookAdapter.setBooks(books)
+
+        (binding as FragmentWishlistBinding).tvEmptyListPlaceholder.visibility =
+            if (books.isEmpty())
+                View.VISIBLE
+            else
+                View.GONE
     }
 }

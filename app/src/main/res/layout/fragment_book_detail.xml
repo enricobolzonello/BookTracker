@@ -9,12 +9,13 @@
 
     <TextView
         android:id="@+id/tv_book_detail_placeholder"
-        android:visibility="visible"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="@string/book_detail_placeholder"
-        android:textAppearance="@style/TextAppearance.Material3.TitleLarge"/>
+        android:text="@string/empty_detail_placeholder"
+        android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+        android:textAlignment="center"
+        android:layout_marginHorizontal="@dimen/content_margin"/>
 
     <ScrollView
         android:id="@+id/sw_book_detail"
