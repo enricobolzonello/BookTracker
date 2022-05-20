@@ -3,6 +3,7 @@ package com.unipd.booktracker.ui.settings
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -12,9 +13,10 @@ import androidx.preference.DropDownPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.unipd.booktracker.BookUtils
+import com.unipd.booktracker.BookTrackerUtils
 import com.unipd.booktracker.R
 import com.unipd.booktracker.SettingsActivity
+import java.util.*
 
 class SettingsFragment: PreferenceFragmentCompat() {
     private lateinit var viewModel: SettingsViewModel
@@ -38,10 +40,11 @@ class SettingsFragment: PreferenceFragmentCompat() {
             }
         }
 
-        val appThemeList = findPreference<DropDownPreference>(getString(R.string.app_theme_key))
-        appThemeList?.setOnPreferenceChangeListener { _, newValue ->
-            BookUtils.setModeNight(requireContext(), newValue as String)
-            true
+        findPreference<DropDownPreference>(getString(R.string.app_theme_key))?.apply {
+            setOnPreferenceChangeListener { _, newValue ->
+                BookTrackerUtils.setModeNight(requireContext(), newValue as String)
+                true
+            }
         }
     }
 
@@ -65,10 +68,10 @@ class SettingsFragment: PreferenceFragmentCompat() {
                     .setTitle(resources.getString(R.string.clear_books_dialog_title))
                     .setMessage(resources.getString(R.string.clear_books_dialog_message))
                     .setIcon(ResourcesCompat.getDrawable(resources, R.drawable.ic_clear, requireContext().theme))
-                    .setNegativeButton(resources.getString(R.string.no)) { dialog, which ->
+                    .setNegativeButton(resources.getString(R.string.no)) { _, _ ->
                         // Respond to negative button press
                     }
-                    .setPositiveButton(resources.getString(R.string.yes)) { dialog, which ->
+                    .setPositiveButton(resources.getString(R.string.yes)) { _, _ ->
                         // Respond to positive button press
                         viewModel.clearBooks()
                     }

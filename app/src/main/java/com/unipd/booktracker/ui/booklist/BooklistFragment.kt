@@ -111,10 +111,10 @@ abstract class BooklistFragment: Fragment() {
                     .setTitle(resources.getString(R.string.delete_book_dialog_title))
                     .setMessage(resources.getString(R.string.delete_book_dialog_message, book.title))
                     .setIcon(ResourcesCompat.getDrawable(resources, R.drawable.ic_delete, requireContext().theme))
-                    .setNegativeButton(resources.getString(R.string.no)) { dialog, which ->
+                    .setNegativeButton(resources.getString(R.string.no)) { _, _ ->
                         // Respond to negative button press
                     }
-                    .setPositiveButton(resources.getString(R.string.yes)) { dialog, which ->
+                    .setPositiveButton(resources.getString(R.string.yes)) { _, _ ->
                         // Respond to positive button press
                         viewModel.removeBook(book)
                         bookAdapter.clearBookDetail()

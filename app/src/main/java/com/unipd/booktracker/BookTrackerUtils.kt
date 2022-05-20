@@ -4,11 +4,14 @@ import android.content.Context
 import android.content.res.TypedArray
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.util.DisplayMetrics
 import android.util.TypedValue
 import androidx.appcompat.app.AppCompatDelegate
 import java.io.ByteArrayOutputStream
+import java.util.*
 
-class BookUtils {
+
+class BookTrackerUtils {
     companion object {
         fun fromBitmap(bmp: Bitmap?): ByteArray? {
             if (bmp == null)

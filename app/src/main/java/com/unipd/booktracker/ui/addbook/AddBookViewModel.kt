@@ -4,14 +4,12 @@ import android.app.Application
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.util.Log
 import android.widget.Toast
 import androidx.core.text.HtmlCompat
 import androidx.lifecycle.*
-import com.unipd.booktracker.BookUtils
+import com.unipd.booktracker.BookTrackerUtils
 import com.unipd.booktracker.R
 import com.unipd.booktracker.db.*
-import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -152,6 +150,6 @@ class AddBookViewModel(application: Application): AndroidViewModel(application) 
                 }
             }.join()
         }
-        return Book(id, title, mainAuthor, pages, publisher, isbn, mainCategory, description, year, language, BookUtils.fromBitmap(thumbnail))
+        return Book(id, title, mainAuthor, pages, publisher, isbn, mainCategory, description, year, language, BookTrackerUtils.fromBitmap(thumbnail))
     }
 }

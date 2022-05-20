@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.unipd.booktracker.db.Book
 import com.unipd.booktracker.databinding.BookCardBinding
 import com.unipd.booktracker.ui.bookdetail.BookDetailFragment
-import com.unipd.booktracker.ui.booklist.BooklistFragment
 
 class BookAdapter(
     val listFragment: Fragment,
@@ -28,7 +27,7 @@ class BookAdapter(
             if (book.thumbnail == null)
                 binding.ivBookThumbnail.setBackgroundResource(R.drawable.default_thumbnail)
             else
-                binding.ivBookThumbnail.setImageBitmap(BookUtils.toBitmap(book.thumbnail))
+                binding.ivBookThumbnail.setImageBitmap(BookTrackerUtils.toBitmap(book.thumbnail))
 
             if (book.readPages == null)
                 binding.llReadProgress.visibility = View.GONE

@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -12,10 +13,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
+import androidx.preference.PreferenceManager
 import com.unipd.booktracker.databinding.ActivityMainBinding
+import java.util.*
 
 
 class MainActivity: AppCompatActivity() {
+
     private lateinit var navController: NavController
     private lateinit var binding: ActivityMainBinding
 
@@ -27,13 +31,13 @@ class MainActivity: AppCompatActivity() {
 
         navController = (binding.navHostFragment.getFragment() as NavHostFragment).navController
 
-        if (BookUtils.isLargeScreen(this))
+        if (BookTrackerUtils.isLargeScreen(this))
             binding.railNav?.let { NavigationUI.setupWithNavController(it, navController) }
         else
             binding.bottomNav?.let { NavigationUI.setupWithNavController(it, navController) }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.action_menu, menu)
         return super.onCreateOptionsMenu(menu)
     }

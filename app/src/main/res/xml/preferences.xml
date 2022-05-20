@@ -2,8 +2,6 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <!-- https://medium.com/google-developer-experts/exploring-android-jetpack-preferences-8bcb0b7bdd14 -->
-
     <PreferenceCategory
         android:title="@string/book_settings_category">
 

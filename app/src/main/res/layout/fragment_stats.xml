@@ -23,7 +23,7 @@
                 android:layout_margin="@dimen/content_margin"
                 android:layout_weight="1"
                 android:clickable="false"
-                app:cardElevation="@dimen/card_elevation"
+                app:cardElevation="@dimen/elevation"
                 app:contentPadding="@dimen/content_margin">
 
                 <LinearLayout
@@ -68,7 +68,7 @@
                 android:layout_margin="@dimen/content_margin"
                 android:layout_weight="1"
                 android:clickable="false"
-                app:cardElevation="@dimen/card_elevation"
+                app:cardElevation="@dimen/elevation"
                 app:contentPadding="@dimen/content_margin">
 
                 <LinearLayout
@@ -116,7 +116,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/content_margin"
             android:clickable="false"
-            app:cardElevation="@dimen/card_elevation"
+            app:cardElevation="@dimen/elevation"
             app:contentPadding="@dimen/content_margin">
 
             <LinearLayout
@@ -155,7 +155,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/content_margin"
             android:clickable="false"
-            app:cardElevation="@dimen/card_elevation"
+            app:cardElevation="@dimen/elevation"
             app:contentPadding="@dimen/content_margin">
 
             <LinearLayout
@@ -192,9 +192,11 @@
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/content_margin"
+            android:layout_marginHorizontal="@dimen/content_margin"
+            android:layout_marginTop="@dimen/content_margin"
+            android:layout_marginBottom="20dp"
             android:clickable="false"
-            app:cardElevation="@dimen/card_elevation"
+            app:cardElevation="@dimen/elevation"
             app:contentPadding="@dimen/content_margin">
 
             <LinearLayout

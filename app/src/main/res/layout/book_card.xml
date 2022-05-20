@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/content_margin"
     android:clickable="true"
-    app:cardElevation="@dimen/card_elevation"
+    app:cardElevation="@dimen/elevation"
     app:contentPadding="@dimen/content_margin">
 
     <LinearLayout
@@ -19,8 +19,7 @@
             android:layout_width="@dimen/thumb_prev_width"
             android:layout_height="@dimen/thumb_prev_height"
             android:contentDescription="@string/description"
-            android:fadeScrollbars="false"
-            android:src="@drawable/default_thumbnail" />
+            android:fadeScrollbars="false" />
 
         <LinearLayout
             android:layout_width="0dp"

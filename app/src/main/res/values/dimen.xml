@@ -2,8 +2,7 @@
 <resources>
     <dimen name="content_margin">10dp</dimen>
     <dimen name="text_margin">5dp</dimen>
-    <dimen name="card_elevation">10dp</dimen>
-    <dimen name="elevation">1dp</dimen>
+    <dimen name="elevation">10dp</dimen>
     <dimen name="thumb_prev_height">100dp</dimen>
     <dimen name="thumb_prev_width">60dp</dimen>
     <dimen name="thumb_height">200dp</dimen>

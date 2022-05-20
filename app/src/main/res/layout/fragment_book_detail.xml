@@ -257,7 +257,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/content_margin"
-                app:cardElevation="@dimen/card_elevation"
+                app:cardElevation="@dimen/elevation"
                 app:contentPadding="@dimen/content_margin">
 
                 <LinearLayout
@@ -287,7 +287,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/content_margin"
-                app:cardElevation="@dimen/card_elevation"
+                app:cardElevation="@dimen/elevation"
                 app:contentPadding="@dimen/content_margin">
 
                 <LinearLayout
@@ -317,7 +317,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/content_margin"
-                app:cardElevation="@dimen/card_elevation"
+                app:cardElevation="@dimen/elevation"
                 app:contentPadding="@dimen/content_margin">
 
                 <LinearLayout

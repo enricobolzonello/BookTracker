@@ -8,7 +8,6 @@ import android.text.Editable
 import android.text.InputFilter
 import android.text.Spanned
 import android.text.TextWatcher
-import android.util.Log
 import android.view.*
 import android.widget.LinearLayout.LayoutParams
 import android.widget.Toast
@@ -127,8 +126,8 @@ class BookDetailFragment: Fragment() {
         if (chosenBook.thumbnail == null)
             binding.ivBookThumbnail.setBackgroundResource(R.drawable.default_thumbnail)
         else {
-            binding.ivBookThumbnail.setImageBitmap(BookUtils.toBitmap(chosenBook.thumbnail))
-            binding.layout.background = BitmapDrawable(BookUtils.toBitmap(chosenBook.thumbnail))
+            binding.ivBookThumbnail.setImageBitmap(BookTrackerUtils.toBitmap(chosenBook.thumbnail))
+            binding.layout.background = BitmapDrawable(BookTrackerUtils.toBitmap(chosenBook.thumbnail))
         }
 
         binding.tvBookTitle.text = chosenBook.title
