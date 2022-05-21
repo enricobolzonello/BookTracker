@@ -5,7 +5,6 @@ import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -13,10 +12,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
-import androidx.preference.PreferenceManager
 import com.unipd.booktracker.databinding.ActivityMainBinding
-import java.util.*
-
+import com.unipd.booktracker.util.isLargeScreen
 
 class MainActivity: AppCompatActivity() {
 
@@ -31,7 +28,7 @@ class MainActivity: AppCompatActivity() {
 
         navController = (binding.navHostFragment.getFragment() as NavHostFragment).navController
 
-        if (BookTrackerUtils.isLargeScreen(this))
+        if (isLargeScreen())
             binding.railNav?.let { NavigationUI.setupWithNavController(it, navController) }
         else
             binding.bottomNav?.let { NavigationUI.setupWithNavController(it, navController) }
@@ -50,7 +47,6 @@ class MainActivity: AppCompatActivity() {
                 true
             }
             else -> super.onOptionsItemSelected(item)
-
         }
     }
 
@@ -70,8 +66,8 @@ class MainActivity: AppCompatActivity() {
         val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val activeNetwork = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
         return activeNetwork != null && (
-                    activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
-                    activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)
-                )
+            activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
+            activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)
+        )
     }
 }

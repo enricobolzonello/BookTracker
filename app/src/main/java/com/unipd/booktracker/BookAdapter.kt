@@ -5,11 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.transition.MaterialElevationScale
 import com.unipd.booktracker.db.Book
-import com.unipd.booktracker.databinding.BookCardBinding
+import com.unipd.booktracker.databinding.BookItemBinding
 import com.unipd.booktracker.ui.bookdetail.BookDetailFragment
+import com.unipd.booktracker.util.BookTrackerUtils
 
 class BookAdapter(
     val listFragment: Fragment,
@@ -19,8 +22,9 @@ class BookAdapter(
     private var library: List<Book> = listOf()
 
     // Describes an item view and its place within the RecyclerView
-    inner class BookViewHolder(private val binding: BookCardBinding): RecyclerView.ViewHolder(binding.root) {
+    inner class BookViewHolder(private val binding: BookItemBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(book: Book) {
+
             binding.tvBookTitle.text = book.title
             binding.tvBookAuthor.text = book.mainAuthor
 
@@ -37,13 +41,23 @@ class BookAdapter(
                 binding.tvReadProgress.text = listFragment.getString(R.string.ph_percentage, progress)
             }
 
+            binding.cvBook.transitionName = listFragment.resources.getString(R.string.book_item_transition, book.id)
+
             binding.cvBook.setOnClickListener {
                 if (detailFragment != null)
                     detailFragment.setBook(book)
                 else {
+                    listFragment.exitTransition = MaterialElevationScale(false).apply {
+                        duration = listFragment.resources.getInteger(com.google.android.material.R.integer.material_motion_duration_long_1).toLong()
+                    }
+                    listFragment.reenterTransition = MaterialElevationScale(true).apply {
+                        duration = listFragment.resources.getInteger(com.google.android.material.R.integer.material_motion_duration_long_1).toLong()
+                    }
                     val bundle = Bundle()
                     bundle.putSerializable("chosenBook", book)
-                    listFragment.findNavController().navigate(R.id.navigation_book_detail, bundle)
+                    val bookDetailTransitionName = listFragment.getString(R.string.book_detail_transition)
+                    val extras = FragmentNavigatorExtras(binding.cvBook to bookDetailTransitionName)
+                    listFragment.findNavController().navigate(R.id.navigation_book_detail, bundle, null, extras)
                 }
             }
         }
@@ -51,7 +65,7 @@ class BookAdapter(
 
     // Returns a new ViewHolder
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookViewHolder {
-        val binding = BookCardBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = BookItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return BookViewHolder(binding)
     }
 
@@ -75,6 +89,6 @@ class BookAdapter(
     }
 
     fun clearBookDetail() {
-        detailFragment?.clearBookInfo()
+        detailFragment?.setBook(null)
     }
 }

@@ -10,9 +10,11 @@ import android.util.Log
 import android.view.*
 import android.widget.FrameLayout
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.doOnPreDraw
 import androidx.core.view.marginBottom
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -49,13 +51,23 @@ abstract class BooklistFragment: Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setHasOptionsMenu(true)
         viewModel = ViewModelProvider(requireActivity() as MainActivity)[BooklistViewModel::class.java]
         prefs = PreferenceManager.getDefaultSharedPreferences(requireContext().applicationContext)
+
+        setHasOptionsMenu(true)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        (requireActivity() as AppCompatActivity).supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(false)
+            title = getString(R.string.app_name)
+        }
+        (requireActivity() as MainActivity).setNavVisibility(View.VISIBLE)
+
+        postponeEnterTransition()
+        view.doOnPreDraw { startPostponedEnterTransition() }
 
         detailFragment = childFragmentManager.findFragmentById(R.id.detail_container) as BookDetailFragment?
         bookAdapter = BookAdapter(this, detailFragment)

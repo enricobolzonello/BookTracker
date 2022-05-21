@@ -1,9 +1,9 @@
 package com.unipd.booktracker
 
 import android.app.Application
-import android.util.Log
 import androidx.preference.PreferenceManager
 import com.google.android.material.color.DynamicColors
+import com.unipd.booktracker.util.setModeNight
 
 class BookTrackerApp: Application() {
     override fun onCreate() {
@@ -14,7 +14,7 @@ class BookTrackerApp: Application() {
             DynamicColors.applyToActivitiesIfAvailable(this)
 
         prefs.getString(getString(R.string.app_theme_key), getString(R.string.system))?.let {
-            BookTrackerUtils.setModeNight(this, it)
+            setModeNight(it)
         }
     }
 }

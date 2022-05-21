@@ -5,7 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.bookdetail.BookDetailFragment">
+    tools:context=".ui.bookdetail.BookDetailFragment"
+    android:transitionName="@string/book_detail_transition">
 
     <TextView
         android:id="@+id/tv_book_detail_placeholder"

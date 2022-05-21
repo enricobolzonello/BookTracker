@@ -2,6 +2,7 @@ package com.unipd.booktracker.ui.stats
 
 import android.os.Bundle
 import android.view.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.unipd.booktracker.MainActivity
@@ -19,8 +20,9 @@ class StatsFragment: Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setHasOptionsMenu(true)
         viewModel = ViewModelProvider(requireActivity() as MainActivity)[StatsViewModel::class.java]
+
+        setHasOptionsMenu(true)
     }
 
     override fun onCreateView(
@@ -34,6 +36,12 @@ class StatsFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        (requireActivity() as AppCompatActivity).supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(false)
+            title = getString(R.string.app_name)
+        }
+        (requireActivity() as MainActivity).setNavVisibility(View.VISIBLE)
 
         // Daily stats
         binding.tvPagesReadToday.text = viewModel.countReadPagesToday().toString()

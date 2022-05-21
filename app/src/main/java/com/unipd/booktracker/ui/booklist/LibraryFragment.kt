@@ -17,7 +17,6 @@ class LibraryFragment: BooklistFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
 
         viewModel.getObservableLibrary().observe(this) {
             updateFilters()

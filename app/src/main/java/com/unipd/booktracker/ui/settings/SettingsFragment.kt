@@ -3,7 +3,6 @@ package com.unipd.booktracker.ui.settings
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -13,10 +12,9 @@ import androidx.preference.DropDownPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.unipd.booktracker.BookTrackerUtils
 import com.unipd.booktracker.R
 import com.unipd.booktracker.SettingsActivity
-import java.util.*
+import com.unipd.booktracker.util.setModeNight
 
 class SettingsFragment: PreferenceFragmentCompat() {
     private lateinit var viewModel: SettingsViewModel
@@ -30,6 +28,7 @@ class SettingsFragment: PreferenceFragmentCompat() {
         super.onCreate(savedInstanceState)
 
         viewModel = ViewModelProvider(requireActivity() as SettingsActivity)[SettingsViewModel::class.java]
+
         resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 val intent = result.data as Intent
@@ -42,7 +41,7 @@ class SettingsFragment: PreferenceFragmentCompat() {
 
         findPreference<DropDownPreference>(getString(R.string.app_theme_key))?.apply {
             setOnPreferenceChangeListener { _, newValue ->
-                BookTrackerUtils.setModeNight(requireContext(), newValue as String)
+                requireContext().setModeNight(newValue as String)
                 true
             }
         }

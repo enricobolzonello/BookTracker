@@ -7,7 +7,7 @@ import android.graphics.BitmapFactory
 import android.widget.Toast
 import androidx.core.text.HtmlCompat
 import androidx.lifecycle.*
-import com.unipd.booktracker.BookTrackerUtils
+import com.unipd.booktracker.util.BookTrackerUtils
 import com.unipd.booktracker.R
 import com.unipd.booktracker.db.*
 import kotlinx.coroutines.Dispatchers

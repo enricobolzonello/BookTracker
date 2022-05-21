@@ -4,9 +4,7 @@ import android.os.Bundle
 import android.view.*
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-import com.unipd.booktracker.BookAdapter
 import com.unipd.booktracker.R
-import com.unipd.booktracker.databinding.FragmentLibraryBinding
 import com.unipd.booktracker.databinding.FragmentWishlistBinding
 import com.unipd.booktracker.db.OrderColumn
 

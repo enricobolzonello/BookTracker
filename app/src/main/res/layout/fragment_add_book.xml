@@ -40,6 +40,7 @@
         android:layout_weight="1"
         android:scrollbars="vertical"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/book_card" />
+        tools:listitem="@layout/book_item"
+        android:transitionGroup="true" />
 
 </LinearLayout>

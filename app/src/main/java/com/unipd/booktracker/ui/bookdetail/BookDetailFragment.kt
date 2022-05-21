@@ -2,12 +2,14 @@ package com.unipd.booktracker.ui.bookdetail
 
 import android.content.Intent
 import android.content.res.ColorStateList
+import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.text.Editable
 import android.text.InputFilter
 import android.text.Spanned
 import android.text.TextWatcher
+import android.util.Log
 import android.view.*
 import android.widget.LinearLayout.LayoutParams
 import android.widget.Toast
@@ -18,9 +20,12 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.slider.Slider
+import com.google.android.material.transition.MaterialContainerTransform
 import com.unipd.booktracker.*
 import com.unipd.booktracker.databinding.FragmentBookDetailBinding
 import com.unipd.booktracker.db.Book
+import com.unipd.booktracker.util.BookTrackerUtils
+import com.unipd.booktracker.util.themeColor
 
 class BookDetailFragment: Fragment() {
 
@@ -36,8 +41,16 @@ class BookDetailFragment: Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        viewModel = ViewModelProvider(requireActivity() as MainActivity)[BookDetailViewModel::class.java]
+
+        sharedElementEnterTransition = MaterialContainerTransform().apply {
+            drawingViewId = R.id.nav_host_fragment
+            duration = resources.getInteger(com.google.android.material.R.integer.material_motion_duration_long_1).toLong()
+            scrimColor = Color.TRANSPARENT
+            setAllContainerColors(requireContext().themeColor(com.google.android.material.R.attr.colorSurface))
+        }
+
         if (arguments != null) {
-            setHasOptionsMenu(true)
             (requireActivity() as AppCompatActivity).supportActionBar?.apply {
                 setDisplayHomeAsUpEnabled(true)
                 title = getString(R.string.book_detail)
@@ -45,7 +58,7 @@ class BookDetailFragment: Fragment() {
             (requireActivity() as MainActivity).setNavVisibility(View.GONE)
         }
 
-        viewModel = ViewModelProvider(requireActivity() as MainActivity)[BookDetailViewModel::class.java]
+        setHasOptionsMenu(true)
     }
 
     override fun onCreateView(
@@ -60,11 +73,13 @@ class BookDetailFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        Log.i("my", "created")
         binding.layout.backgroundTintList = ColorStateList.valueOf(resources.getColor(com.google.android.material.R.color.m3_ref_palette_dynamic_primary10)).withAlpha(220)
 
         binding.chLibrary.setOnClickListener {
+            val moveNeeded = binding.chWishlist.isChecked
             // If the book is not already present, add it
-            if (!binding.chWishlist.isChecked)
+            if (!moveNeeded)
                 viewModel.addBook(chosenBook)
             viewModel.moveToLibrary(chosenBook)
             // Either one of the two chips should always be checked, so it's not uncheckable
@@ -74,20 +89,23 @@ class BookDetailFragment: Fragment() {
             binding.chWishlist.isChecked = false
             binding.chWishlist.isClickable = true
             (binding.chWishlist.layoutParams as LayoutParams).weight = 0F
-            // Present book interface
-            setHasOptionsMenu(true)
             // Library book interface
             setupReadPagesModifiers()
             readPages = 0
             updateReadPages(readPages)
             binding.llReadPages.visibility = View.VISIBLE
+
+            if (arguments == null && moveNeeded)
+                setBook(null)
         }
 
         binding.chWishlist.setOnClickListener {
+            val moveNeeded = binding.chLibrary.isChecked
             // If the book is not already present, add it
-            if (!binding.chLibrary.isChecked)
+            if (!moveNeeded)
                 viewModel.addBook(chosenBook)
-            viewModel.moveToWishlist(chosenBook)
+            else
+                viewModel.moveToWishlist(chosenBook)
             // Either one of the two chips should always be checked, so it's not uncheckable
             binding.chWishlist.isClickable = false
             (binding.chWishlist.layoutParams as LayoutParams).weight = 1F
@@ -95,17 +113,20 @@ class BookDetailFragment: Fragment() {
             binding.chLibrary.isChecked = false
             binding.chLibrary.isClickable = true
             (binding.chLibrary.layoutParams as LayoutParams).weight = 0F
-            // Present book interface
-            setHasOptionsMenu(true)
             // Wishlist book interface
             binding.llReadPages.visibility = View.GONE
+
+            if (arguments == null && moveNeeded)
+                setBook(null)
         }
 
         if (arguments != null)
             setBook(args.chosenBook)
+        else
+            setBook(_chosenBook)
     }
 
-    fun setBook(book: Book? = null) {
+    fun setBook(book: Book?) {
         _chosenBook = book
         if (_chosenBook == null) {
             binding.tvBookDetailPlaceholder.visibility = View.VISIBLE
@@ -115,10 +136,6 @@ class BookDetailFragment: Fragment() {
             binding.swBookDetail.visibility = View.VISIBLE
             setupBookInfo()
         }
-    }
-
-    fun clearBookInfo() {
-        setBook()
         requireActivity().invalidateOptionsMenu()
     }
 
@@ -155,13 +172,11 @@ class BookDetailFragment: Fragment() {
 
         // Not present book interface
         if (!binding.chLibrary.isChecked && !binding.chWishlist.isChecked) {
-            setHasOptionsMenu(false)
             (binding.chLibrary.layoutParams as LayoutParams).weight = 1F
             (binding.chWishlist.layoutParams as LayoutParams).weight = 1F
         }
         // Present book interface
         else {
-            setHasOptionsMenu(true)
             (binding.chLibrary.layoutParams as LayoutParams).weight = if (binding.chLibrary.isChecked) 1F else 0F
             (binding.chWishlist.layoutParams as LayoutParams).weight = if (binding.chWishlist.isChecked) 1F else 0F
         }
@@ -218,8 +233,8 @@ class BookDetailFragment: Fragment() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
 
-        if (_chosenBook != null)
-            menu.setGroupVisible(R.id.book_detail_action_group, true)
+        val isAlreadyPresent = !(arguments == null && _chosenBook == null)
+        menu.setGroupVisible(R.id.book_detail_action_group, isAlreadyPresent)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -242,7 +257,7 @@ class BookDetailFragment: Fragment() {
                     .setPositiveButton(getString(R.string.yes)) { _, _ ->
                         // Respond to positive button press
                         viewModel.removeBook(chosenBook)
-                        clearBookInfo()
+                        setBook(null)
                         if (arguments != null)
                             requireActivity().onBackPressed()
                         Toast.makeText(requireActivity(), R.string.book_deleted, Toast.LENGTH_SHORT).show()
@@ -255,16 +270,8 @@ class BookDetailFragment: Fragment() {
     }
 
     override fun onDestroy() {
-        if (arguments != null) {
-            (requireActivity() as AppCompatActivity).supportActionBar?.apply {
-                setDisplayHomeAsUpEnabled(false)
-                title = getString(R.string.app_name)
-            }
-            (requireActivity() as MainActivity).setNavVisibility(View.VISIBLE)
-            requireActivity().invalidateOptionsMenu()
-        }
-
         super.onDestroy()
+        _chosenBook = null
         _binding = null
     }
 

@@ -108,4 +108,7 @@
     <string name="app_language_key" translatable="false">app_language</string>
     <string name="app_theme_key" translatable="false">app_theme</string>
     <string name="dynamic_colors_key" translatable="false">dynamic_colors</string>
+    <!-- Transition names -->
+    <string name="book_item_transition" translatable="false">book_item_transition_%s</string>
+    <string name="book_detail_transition" translatable="false">book_detail_transition</string>
 </resources>
