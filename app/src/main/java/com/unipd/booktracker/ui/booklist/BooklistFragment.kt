@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.MenuItemCompat
 import androidx.core.view.doOnPreDraw
 import androidx.core.view.marginBottom
 import androidx.fragment.app.Fragment
@@ -37,7 +38,6 @@ abstract class BooklistFragment: Fragment() {
 
     abstract var rw: RecyclerView
     abstract var fab: ExtendedFloatingActionButton
-
     abstract override fun onCreateView(inflater: LayoutInflater,container: ViewGroup?,savedInstanceState: Bundle?): View
     abstract fun updateFilters()
 
@@ -46,8 +46,10 @@ abstract class BooklistFragment: Fragment() {
     protected lateinit var prefs: SharedPreferences
     protected var _binding: ViewBinding? = null
     protected val binding get() = _binding!!
-    protected var detailFragment: BookDetailFragment? = null
     protected var query = ""
+
+    private lateinit var searchItem: MenuItem
+    private var detailFragment: BookDetailFragment? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -184,7 +186,9 @@ abstract class BooklistFragment: Fragment() {
         menu.setGroupVisible(R.id.list_action_group, true)
         menu.setGroupVisible(R.id.default_action_group, true)
 
-        val searchView = (menu.findItem(R.id.action_search)?.actionView as SearchView)
+        // todo fix when navigating with search view open
+        searchItem = menu.findItem(R.id.action_search)
+        val searchView = searchItem.actionView as SearchView
         searchView.queryHint = getString(R.string.search_hint)
         searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(submittedText: String): Boolean {

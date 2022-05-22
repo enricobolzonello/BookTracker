@@ -43,7 +43,10 @@
 
     </FrameLayout>
 
-    <include layout="@layout/vertical_divider"/>
+    <View
+        android:layout_width="@dimen/divider_size"
+        android:layout_height="match_parent"
+        android:background="?android:attr/listDivider"/>
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/detail_container"
