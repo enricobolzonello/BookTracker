@@ -25,6 +25,7 @@ import androidx.viewbinding.ViewBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.transition.MaterialElevationScale
 import com.unipd.booktracker.BookAdapter
 import com.unipd.booktracker.MainActivity
 import com.unipd.booktracker.R
@@ -55,6 +56,13 @@ abstract class BooklistFragment: Fragment() {
         prefs = PreferenceManager.getDefaultSharedPreferences(requireContext().applicationContext)
 
         setHasOptionsMenu(true)
+
+        enterTransition = MaterialElevationScale(true).apply {
+            duration = resources.getInteger(com.google.android.material.R.integer.material_motion_duration_short_2).toLong()
+        }
+        reenterTransition = MaterialElevationScale(true).apply {
+            duration = resources.getInteger(com.google.android.material.R.integer.material_motion_duration_short_2).toLong()
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

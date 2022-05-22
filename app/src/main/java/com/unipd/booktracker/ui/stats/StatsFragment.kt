@@ -3,8 +3,10 @@ package com.unipd.booktracker.ui.stats
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.transition.MaterialElevationScale
 import com.unipd.booktracker.MainActivity
 import com.unipd.booktracker.R
 import com.unipd.booktracker.databinding.FragmentStatsBinding
@@ -23,6 +25,13 @@ class StatsFragment: Fragment() {
         viewModel = ViewModelProvider(requireActivity() as MainActivity)[StatsViewModel::class.java]
 
         setHasOptionsMenu(true)
+
+        enterTransition = MaterialElevationScale(true).apply {
+            duration = resources.getInteger(com.google.android.material.R.integer.material_motion_duration_short_2).toLong()
+        }
+        reenterTransition = MaterialElevationScale(true).apply {
+            duration = resources.getInteger(com.google.android.material.R.integer.material_motion_duration_short_2).toLong()
+        }
     }
 
     override fun onCreateView(
@@ -42,6 +51,9 @@ class StatsFragment: Fragment() {
             title = getString(R.string.app_name)
         }
         (requireActivity() as MainActivity).setNavVisibility(View.VISIBLE)
+
+        postponeEnterTransition()
+        view.doOnPreDraw { startPostponedEnterTransition() }
 
         // Daily stats
         binding.tvPagesReadToday.text = viewModel.countReadPagesToday().toString()
@@ -77,7 +89,7 @@ class StatsFragment: Fragment() {
 
     private fun getFormattedIncrement(value: Int): String {
         val incrementSign =
-            if (sign(value.toDouble()) == 1.0)
+            if (value >= 0)
                 '+'
             else
                 '-'

@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
-import androidx.core.view.doOnPreDraw
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -46,9 +45,6 @@ class AddDialogFragment: BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        postponeEnterTransition()
-        view.doOnPreDraw { startPostponedEnterTransition() }
-
         val windowHeight = requireActivity().window.decorView.rootView.height
         val windowWidth = requireActivity().window.decorView.rootView.width
 
@@ -57,7 +53,7 @@ class AddDialogFragment: BottomSheetDialogFragment() {
             if (requireContext().isLargeScreen())
                 (windowWidth * 0.66).toInt()
             else
-                windowWidth
+                (windowWidth * 0.95).toInt()
         bottomSheetBehavior.peekHeight = windowHeight / 2
         view.minimumHeight = windowHeight / 2
 

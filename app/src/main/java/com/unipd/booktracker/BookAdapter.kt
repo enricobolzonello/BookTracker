@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.transition.MaterialElevationScale
 import com.unipd.booktracker.db.Book
 import com.unipd.booktracker.databinding.BookItemBinding
 import com.unipd.booktracker.ui.bookdetail.BookDetailFragment
@@ -47,12 +46,6 @@ class BookAdapter(
                 if (detailFragment != null)
                     detailFragment.setBook(book)
                 else {
-                    listFragment.exitTransition = MaterialElevationScale(false).apply {
-                        duration = listFragment.resources.getInteger(com.google.android.material.R.integer.material_motion_duration_long_1).toLong()
-                    }
-                    listFragment.reenterTransition = MaterialElevationScale(true).apply {
-                        duration = listFragment.resources.getInteger(com.google.android.material.R.integer.material_motion_duration_long_1).toLong()
-                    }
                     val bundle = Bundle()
                     bundle.putSerializable("chosenBook", book)
                     val bookDetailTransitionName = listFragment.getString(R.string.book_detail_transition)

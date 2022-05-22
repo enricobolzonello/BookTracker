@@ -73,7 +73,6 @@ class BookDetailFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        Log.i("my", "created")
         binding.layout.backgroundTintList = ColorStateList.valueOf(resources.getColor(com.google.android.material.R.color.m3_ref_palette_dynamic_primary10)).withAlpha(220)
 
         binding.chLibrary.setOnClickListener {

@@ -3,15 +3,18 @@ package com.unipd.booktracker.ui.settings
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.doOnPreDraw
 import androidx.lifecycle.ViewModelProvider
 import androidx.preference.DropDownPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.transition.MaterialElevationScale
 import com.unipd.booktracker.R
 import com.unipd.booktracker.SettingsActivity
 import com.unipd.booktracker.util.setModeNight
@@ -19,10 +22,6 @@ import com.unipd.booktracker.util.setModeNight
 class SettingsFragment: PreferenceFragmentCompat() {
     private lateinit var viewModel: SettingsViewModel
     private lateinit var resultLauncher: ActivityResultLauncher<Intent>
-
-    override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-        setPreferencesFromResource(R.xml.preferences, rootKey)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,6 +44,10 @@ class SettingsFragment: PreferenceFragmentCompat() {
                 true
             }
         }
+    }
+
+    override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+        setPreferencesFromResource(R.xml.preferences, rootKey)
     }
 
     override fun onPreferenceTreeClick(preference: Preference): Boolean {
