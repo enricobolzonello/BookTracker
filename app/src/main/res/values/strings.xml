@@ -43,8 +43,8 @@
     <string name="add_book_hint">Search book</string>
     <!-- Placeholders -->
     <string name="ph_percentage" translatable="false">%s%%</string>
-    <string name="ph_read_pages">Read pages %d</string>
-    <string name="ph_read_books">Read books %d</string>
+    <string name="ph_read_pages">Read pages %s</string>
+    <string name="ph_read_books">Read books %s</string>
     <string name="ph_than_usual">%s compared to the average</string>
     <string name="ph_most_read">Most read %s</string>
     <string name="ph_total">Total %s</string>
