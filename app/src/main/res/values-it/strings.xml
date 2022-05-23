@@ -1,0 +1,84 @@
+<resources>
+    <!-- Fragment titles -->
+    <string name="library">Libreria</string>
+    <string name="wishlist">Desideri</string>
+    <string name="stats">Statistiche</string>
+    <string name="settings">Impostazioni</string>
+    <string name="book_detail">Dettagli libro</string>
+    <string name="add_book">Aggiungi libro</string>
+    <!-- Actions -->
+    <string name="sort_books">Ordina</string>
+    <string name="search_books">Ricerca</string>
+    <string name="share_book">Condividi libro</string>
+    <string name="delete_book">Elimina libro</string>
+    <string name="sort_by">Ordina per</string>
+    <!-- Sortings -->
+    <string name="sorting_column">Campo</string>
+    <string name="sorting_order">Ordinamento</string>
+    <string name="read_progress">Progresso lettura</string>
+    <string name="asc">Crescente</string>
+    <string name="desc">Decrescente</string>
+    <!-- Filter chips -->
+    <string name="not_read">Non letti</string>
+    <string name="reading">In lettura</string>
+    <string name="read">Letti</string>
+    <!-- Book info -->
+    <string name="title">Titolo</string>
+    <string name="author">Autore</string>
+    <string name="category">Categoria</string>
+    <string name="language">Lingua</string>
+    <string name="year">Anno</string>
+    <string name="pages">Pagine</string>
+    <string name="description">Descrizione</string>
+    <string name="publisher">Editore</string>
+    <!-- Stats -->
+    <string name="today">Oggi</string>
+    <string name="this_year">Questo anno</string>
+    <string name="total">Totale</string>
+    <!-- Search hint -->
+    <string name="search_hint">Cerca titolo o autore</string>
+    <string name="add_book_hint">Cerca libro</string>
+    <!-- Placeholders -->
+    <string name="ph_read_pages">Pagine lette %s</string>
+    <string name="ph_read_books">Libri letti %s</string>
+    <string name="ph_than_usual">%s rispetto alla media</string>
+    <string name="ph_most_read">Più letto %s</string>
+    <string name="ph_total">Totale %s</string>
+    <!-- Toasts -->
+    <string name="book_deleted">Libro eliminato</string>
+    <string name="file_exported">File esportato %s</string>
+    <string name="file_exported_error">Si è verificato un errore nell\'esportazione del file</string>
+    <string name="file_imported">File importato corretamente</string>
+    <string name="file_imported_error">Errore nell\'importazione del file</string>
+    <string name="network_error">Per favore controlla che la connessione di rete sia disponibile</string>
+    <string name="books_api_error">Si è verificato un errore durante la connessione a Books API</string>
+    <string name="page_value_error">Per favore inserire un numero di pagine valido</string>
+    <!-- Settings -->
+    <string name="book_settings_category">Libri</string>
+    <string name="export_books_title">Esporta libri</string>
+    <string name="export_books_summary">Esporta il database dei libri nella cartella Download</string>
+    <string name="import_books_title">Importa libri</string>
+    <string name="import_books_summary">Seleziona un file da cui importare il database dei libri</string>
+    <string name="clear_books_title">Elimina tutti i libri</string>
+    <string name="clear_books_summary">Elimina i libri da Libreria e Desideri</string>
+    <string name="look_settings_category">Aspetto dell\'app</string>
+    <string name="app_theme_title">Scegli il tema dell\'app</string>
+    <string-array name="app_theme_entries">
+        <item>Sistema</item>
+        <item>Chiaro</item>
+        <item>Scuro</item>
+    </string-array>
+    <string name="dynamic_colors_title">Colori dinamici</string>
+    <string name="dynamic_colors_summary">La scelta verrà applicata al prossimo riavvio dell\'applicazione</string>
+    <!-- Dialog -->
+    <string name="yes">Sì</string>
+    <string name="no">No</string>
+    <string name="retry">Riprova</string>
+    <string name="delete_book_dialog_title">Elimina libro</string>
+    <string name="delete_book_dialog_message">Sei sicuro di voler eliminare %s?</string>
+    <string name="clear_books_dialog_title">Elimina tutti i libri</string>
+    <string name="clear_books_dialog_message">Sei sicuro di voler eliminare tutti i libri?</string>
+    <!-- Content placeholders -->
+    <string name="empty_list_placeholder">Non sono presenti libri da visualizzare</string>
+    <string name="empty_detail_placeholder">Seleziona un libro dalla lista per visualizzarlo</string>
+</resources>
