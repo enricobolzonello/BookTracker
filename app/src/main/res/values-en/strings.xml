@@ -21,23 +21,17 @@
     <string name="read">Read</string>
     <string name="title">Title</string>
     <string name="author">Author</string>
-    <string name="genre">Genre</string>
+    <string name="category">category</string>
     <string name="language">Language</string>
     <string name="year">Year</string>
     <string name="pages">Pages</string>
     <string name="description">Description</string>
     <string name="publisher">Publisher</string>
     <string name="today">Today</string>
-    <string name="read_pages">Read pages</string>
-    <string name="read_books">Read books</string>
-    <string name="most_read_author">Most read author</string>
-    <string name="most_read_genre">Most read genre</string>
     <string name="total">Total</string>
     <string name="search_hint">Search title or author</string>
     <string name="add_book_hint">Search book</string>
-    <string name="ph_total">Total %d</string>
-    <string name="ph_total_pages">Read pages %d</string>
-    <string name="ph_total_books">Read books %d</string>
+    <string name="ph_total">Total %s</string>
     <string name="book_deleted">Book deleted</string>
     <string name="file_exported">File exported %s</string>
     <string name="file_exported_error">An error occurred while exporting the file</string>
@@ -71,4 +65,9 @@
         <item>Light</item>
         <item>Dark</item>
     </string-array>
+    <string name="this_year">This year</string>
+    <string name="ph_read_pages">Read pages %d</string>
+    <string name="ph_read_books">Read books %d</string>
+    <string name="ph_than_usual">%s compared to the average</string>
+    <string name="ph_most_read">Most read %s</string>
 </resources>

@@ -1,6 +1,7 @@
 package com.unipd.booktracker.ui.stats
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.*
 import com.unipd.booktracker.db.*
 import kotlinx.coroutines.Dispatchers

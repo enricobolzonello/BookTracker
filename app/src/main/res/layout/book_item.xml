@@ -37,8 +37,7 @@
                 android:ellipsize="end"
                 android:maxLines="3"
                 android:text="@string/title"
-                android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
-                android:textStyle="bold" />
+                android:textAppearance="@style/TextAppearance.Material3.TitleMedium" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tv_book_author"

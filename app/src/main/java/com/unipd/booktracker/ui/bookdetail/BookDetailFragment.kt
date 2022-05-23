@@ -14,6 +14,7 @@ import android.view.*
 import android.widget.LinearLayout.LayoutParams
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -25,7 +26,7 @@ import com.unipd.booktracker.*
 import com.unipd.booktracker.databinding.FragmentBookDetailBinding
 import com.unipd.booktracker.db.Book
 import com.unipd.booktracker.util.BookTrackerUtils
-import com.unipd.booktracker.util.themeColor
+import com.unipd.booktracker.util.resolveAttr
 
 class BookDetailFragment: Fragment() {
 
@@ -47,7 +48,7 @@ class BookDetailFragment: Fragment() {
             drawingViewId = R.id.nav_host_fragment
             duration = resources.getInteger(com.google.android.material.R.integer.material_motion_duration_long_1).toLong()
             scrimColor = Color.TRANSPARENT
-            setAllContainerColors(requireContext().themeColor(com.google.android.material.R.attr.colorSurface))
+            setAllContainerColors(requireContext().resolveAttr(com.google.android.material.R.attr.colorSurface))
         }
 
         if (arguments != null) {
@@ -73,7 +74,8 @@ class BookDetailFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.layout.backgroundTintList = ColorStateList.valueOf(resources.getColor(com.google.android.material.R.color.m3_ref_palette_dynamic_primary10)).withAlpha(220)
+        val bgColor = ContextCompat.getColor(requireContext(), com.google.android.material.R.color.material_dynamic_primary10)
+        binding.layout.backgroundTintList = ColorStateList.valueOf(bgColor).withAlpha(220)
 
         binding.chLibrary.setOnClickListener {
             val moveNeeded = binding.chWishlist.isChecked
@@ -143,13 +145,13 @@ class BookDetailFragment: Fragment() {
             binding.ivBookThumbnail.setBackgroundResource(R.drawable.default_thumbnail)
         else {
             binding.ivBookThumbnail.setImageBitmap(BookTrackerUtils.toBitmap(chosenBook.thumbnail))
-            binding.layout.background = BitmapDrawable(BookTrackerUtils.toBitmap(chosenBook.thumbnail))
+            binding.layout.background = BitmapDrawable(resources, BookTrackerUtils.toBitmap(chosenBook.thumbnail))
         }
 
         binding.tvBookTitle.text = chosenBook.title
         binding.tvBookAuthor.text = chosenBook.mainAuthor
         binding.tvBookPages.text = chosenBook.pages.toString()
-        // binding.tvBookGenre.text = chosenBook.mainCategory ?: "-"
+        // binding.tvBookCategory.text = chosenBook.mainCategory ?: "-"
         binding.tvBookLanguage.text = chosenBook.language ?: "-"
         binding.tvBookDescription.text = chosenBook.description ?: "-"
         binding.tvBookPublisher.text = chosenBook.publisher ?: "-"

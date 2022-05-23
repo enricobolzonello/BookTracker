@@ -24,8 +24,11 @@ interface StatsDao {
     @Query("SELECT AVG(readBooks) FROM (" +
                     "SELECT COUNT(*) AS readBooks FROM books WHERE readPages = pages " +
                     "GROUP BY " +
-                        "(SELECT strftime('%Y', date) AS year FROM readings WHERE books.id = bookId AND year <:year ORDER BY date DESC LIMIT 1)" +
-                    ")")
+                        "(SELECT strftime('%Y', date) AS year FROM readings WHERE books.id = bookId ORDER BY date DESC LIMIT 1) " +
+                    "HAVING " +
+                        "(SELECT strftime('%Y', date) AS year FROM readings WHERE books.id = bookId ORDER BY date DESC LIMIT 1) " +
+                    "< :year " +
+                ")")
     fun avgReadBooksByYear(year: String): Int
 
     @Query("SELECT mainAuthor FROM books WHERE readPages IS NOT NULL GROUP BY mainAuthor ORDER BY COUNT(*) DESC LIMIT 1")

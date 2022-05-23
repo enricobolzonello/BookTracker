@@ -1,3 +1,2 @@
 IN ORDINE DI IMPORTANZA
 todo: sistemare interfaccia book detail
-todo: animazioni fragment (dalla consegna https://codelabs.developers.google.com/codelabs/material-motion-android#4)

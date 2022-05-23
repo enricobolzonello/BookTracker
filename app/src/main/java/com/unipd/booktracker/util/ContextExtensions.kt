@@ -1,21 +1,16 @@
 package com.unipd.booktracker.util
 
 import android.content.Context
-import android.graphics.Color
+import android.util.TypedValue
 import androidx.annotation.AttrRes
+import androidx.annotation.ColorInt
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.content.res.use
 import com.unipd.booktracker.R
 
-// Retrieve a color from the current theme
-fun Context.themeColor(
-    @AttrRes themeAttrId: Int
-): Int {
-    return obtainStyledAttributes(
-        intArrayOf(themeAttrId)
-    ).use {
-        it.getColor(0, Color.MAGENTA)
-    }
+fun Context.resolveAttr(attrId: Int): Int {
+    val typedValue = TypedValue()
+    theme.resolveAttribute(attrId, typedValue,true)
+    return typedValue.resourceId
 }
 
 fun Context.setModeNight(value: String) {

@@ -26,7 +26,7 @@
     <!-- Book info -->
     <string name="title">Titolo</string>
     <string name="author">Autore</string>
-    <string name="genre">Genere</string>
+    <string name="category">Categoria</string>
     <string name="language">Lingua</string>
     <string name="year">Anno</string>
     <string name="pages">Pagine</string>
@@ -35,20 +35,18 @@
     <string name="isbn" translatable="false">ISBN</string>
     <!-- Stats -->
     <string name="today">Oggi</string>
-    <string name="read_pages">Pagine lette</string>
-    <string name="read_books">Libri letti</string>
-    <string name="most_read_author">Autore più letto</string>
-    <string name="most_read_genre">Genere più letto</string>
-    <string name="total">Totali</string>
+    <string name="this_year">Questo anno</string>
+    <string name="total">Totale</string>
     <!-- Search hint -->
     <string name="search_hint">Cerca titolo o autore</string>
     <string name="add_book_hint">Cerca libro</string>
     <!-- Placeholders -->
-    <string name="ph_percentage" translatable="false">%d %%</string>
-    <string name="ph_signed_percentage" translatable="false">%c%d %%</string>
-    <string name="ph_total">Totale %d</string>
-    <string name="ph_total_pages">Pagine lette %d</string>
-    <string name="ph_total_books">Libri letti %d</string>
+    <string name="ph_percentage" translatable="false">%s%%</string>
+    <string name="ph_total">Totale %s</string>
+    <string name="ph_than_usual">%s rispetto alla media</string>
+    <string name="ph_read_pages">Pagine lette %s</string>
+    <string name="ph_read_books">Libri letti %s</string>
+    <string name="ph_most_read">Più letto %s</string>
     <!-- Toasts -->
     <string name="book_deleted">Libro eliminato</string>
     <string name="file_exported">File esportato %s</string>
@@ -67,7 +65,6 @@
     <string name="clear_books_title">Elimina tutti i libri</string>
     <string name="clear_books_summary">Elimina i libri da Libreria e Desideri</string>
     <string name="look_settings_category">Aspetto dell\'app</string>
-
     <string name="app_theme_title">Scegli il tema dell\'app</string>
     <string-array name="app_theme_entries">
         <item>Sistema</item>
@@ -82,7 +79,6 @@
         <item>@string/light</item>
         <item>@string/dark</item>
     </string-array>
-
     <string name="dynamic_colors_title">Colori dinamici</string>
     <string name="dynamic_colors_summary">La scelta verrà applicata al prossimo riavvio dell\'applicazione</string>
     <!-- Dialog -->
