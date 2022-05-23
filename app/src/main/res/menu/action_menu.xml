@@ -4,8 +4,7 @@
 
     <group
         android:id="@+id/list_action_group"
-        android:visible="false"
-        android:checkableBehavior="all">
+        android:visible="false">
         <item
             android:id="@+id/action_search"
             android:icon="@drawable/ic_search"

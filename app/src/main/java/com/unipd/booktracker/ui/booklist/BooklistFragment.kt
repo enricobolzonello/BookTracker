@@ -14,7 +14,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.view.MenuItemCompat
 import androidx.core.view.doOnPreDraw
 import androidx.core.view.marginBottom
 import androidx.fragment.app.Fragment
@@ -186,7 +185,6 @@ abstract class BooklistFragment: Fragment() {
         menu.setGroupVisible(R.id.list_action_group, true)
         menu.setGroupVisible(R.id.default_action_group, true)
 
-        // todo fix when navigating with search view open
         searchItem = menu.findItem(R.id.action_search)
         val searchView = searchItem.actionView as SearchView
         searchView.queryHint = getString(R.string.search_hint)
@@ -209,16 +207,14 @@ abstract class BooklistFragment: Fragment() {
             false
         }
 
-        val orderColumn = prefs.getString(getString(R.string.sorting_column_key), OrderColumn.title.name)
-        when (orderColumn) {
+        when (prefs.getString(getString(R.string.sorting_column_key), OrderColumn.title.name)) {
             OrderColumn.title.name -> menu.findItem(R.id.action_by_title).isChecked = true
             OrderColumn.author.name -> menu.findItem(R.id.action_by_author).isChecked = true
             OrderColumn.year.name -> menu.findItem(R.id.action_by_year).isChecked = true
             OrderColumn.progress.name -> menu.findItem(R.id.action_by_progress).isChecked = true
         }
 
-        val asc = prefs.getBoolean(getString(R.string.sorting_asc_key), true)
-        when (asc) {
+        when (prefs.getBoolean(getString(R.string.sorting_asc_key), true)) {
             true -> menu.findItem(R.id.action_asc).isChecked = true
             false -> menu.findItem(R.id.action_desc).isChecked = true
         }
@@ -241,6 +237,11 @@ abstract class BooklistFragment: Fragment() {
         prefs.edit().putBoolean(getString(R.string.sorting_asc_key), asc).apply()
         updateFilters()
         return false
+    }
+
+    override fun onPause() {
+        super.onPause()
+        searchItem.collapseActionView()
     }
 
     override fun onDestroyView() {
