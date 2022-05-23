@@ -27,7 +27,7 @@
     <!-- Book info -->
     <string name="title">Title</string>
     <string name="author">Author</string>
-    <string name="category">category</string>
+    <string name="category">Category</string>
     <string name="language">Language</string>
     <string name="year">Year</string>
     <string name="pages">Pages</string>
@@ -54,7 +54,7 @@
     <string name="file_exported_error">An error occurred while exporting the file</string>
     <string name="file_imported">File importing succeeded</string>
     <string name="file_imported_error">An error occurred while importing the file</string>
-    <string name="network_error">Please check that network connection is aviable</string>
+    <string name="network_error">Please check that network connection is available</string>
     <string name="books_api_error">An error occurred while connecting to Books API</string>
     <string name="page_value_error">Please type a valid number page</string>
     <!-- Settings -->

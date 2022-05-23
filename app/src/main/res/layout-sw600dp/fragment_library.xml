@@ -41,36 +41,39 @@
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/ch_not_read"
-                        style="@style/Widget.MaterialComponents.Chip.Filter"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="@dimen/text_margin"
                         android:layout_weight="1"
                         android:checked="true"
                         android:text="@string/not_read"
-                        android:textAlignment="center" />
+                        android:textAlignment="center"
+                        app:checkedIconTint="?attr/colorControlNormal"
+                        style="@style/Widget.MaterialComponents.Chip.Filter"/>
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/ch_reading"
-                        style="@style/Widget.MaterialComponents.Chip.Filter"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="@dimen/text_margin"
                         android:layout_weight="1"
                         android:checked="true"
                         android:text="@string/reading"
-                        android:textAlignment="center" />
+                        android:textAlignment="center"
+                        app:checkedIconTint="?attr/colorControlNormal"
+                        style="@style/Widget.MaterialComponents.Chip.Filter"/>
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/ch_read"
-                        style="@style/Widget.MaterialComponents.Chip.Filter"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="@dimen/text_margin"
                         android:layout_weight="1"
                         android:checked="true"
                         android:text="@string/read"
-                        android:textAlignment="center"/>
+                        android:textAlignment="center"
+                        app:checkedIconTint="?attr/colorControlNormal"
+                        style="@style/Widget.MaterialComponents.Chip.Filter"/>
 
                 </LinearLayout>
 

@@ -33,13 +33,15 @@
             android:title="@string/app_theme_title"
             android:entries="@array/app_theme_entries"
             android:entryValues="@array/app_theme_values"
+            android:defaultValue="@string/system"
             app:useSimpleSummaryProvider="true"
-            app:icon="@drawable/ic_app_theme"/>
+            app:icon="@drawable/ic_app_theme" />
 
         <SwitchPreferenceCompat
             android:key="@string/dynamic_colors_key"
             android:title="@string/dynamic_colors_title"
             android:summary="@string/dynamic_colors_summary"
+            android:defaultValue="true"
             app:icon="@drawable/ic_dynamic_colors"/>
 
     </PreferenceCategory>

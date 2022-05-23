@@ -55,6 +55,7 @@ class AddDialogFragment: BottomSheetDialogFragment() {
             else
                 (windowWidth * 0.95).toInt()
         view.minimumHeight = windowHeight / 2
+        bottomSheetBehavior.peekHeight = windowHeight / 2
         bottomSheetBehavior.maxHeight = (windowHeight * 0.90).toInt()
 
         binding.rwAddBook.adapter = bookAdapter

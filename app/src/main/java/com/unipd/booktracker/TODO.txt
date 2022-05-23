@@ -1,2 +1,1 @@
-IN ORDINE DI IMPORTANZA
-todo: sistemare interfaccia book detail
+TO DO LIST

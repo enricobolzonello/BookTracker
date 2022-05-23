@@ -7,7 +7,7 @@ import androidx.annotation.ColorInt
 import androidx.appcompat.app.AppCompatDelegate
 import com.unipd.booktracker.R
 
-fun Context.resolveAttr(attrId: Int): Int {
+fun Context.getAttrId(attrId: Int): Int {
     val typedValue = TypedValue()
     theme.resolveAttribute(attrId, typedValue,true)
     return typedValue.resourceId

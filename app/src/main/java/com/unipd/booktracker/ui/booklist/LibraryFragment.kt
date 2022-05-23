@@ -55,7 +55,6 @@ class LibraryFragment: BooklistFragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-
         menu.findItem(R.id.action_by_progress).isVisible = true
     }
 

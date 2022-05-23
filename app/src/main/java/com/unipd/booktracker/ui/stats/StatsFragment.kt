@@ -1,13 +1,9 @@
 package com.unipd.booktracker.ui.stats
 
-import android.content.Context
-import android.graphics.Color
 import android.os.Bundle
-import android.text.SpannableString
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
 import android.text.style.TextAppearanceSpan
-import android.util.Log
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -19,7 +15,7 @@ import com.google.android.material.transition.MaterialElevationScale
 import com.unipd.booktracker.MainActivity
 import com.unipd.booktracker.R
 import com.unipd.booktracker.databinding.FragmentStatsBinding
-import com.unipd.booktracker.util.resolveAttr
+import com.unipd.booktracker.util.getAttrId
 import kotlin.math.abs
 
 class StatsFragment: Fragment() {
@@ -63,7 +59,7 @@ class StatsFragment: Fragment() {
         postponeEnterTransition()
         view.doOnPreDraw { startPostponedEnterTransition() }
 
-        val spanTitleSmall = TextAppearanceSpan(requireContext(), requireContext().resolveAttr(com.google.android.material.R.attr.textAppearanceTitleSmall))
+        val spanTitleSmall = TextAppearanceSpan(requireContext(), requireContext().getAttrId(com.google.android.material.R.attr.textAppearanceTitleSmall))
         val spanGreen = ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.green))
         val spanRed = ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.red))
 

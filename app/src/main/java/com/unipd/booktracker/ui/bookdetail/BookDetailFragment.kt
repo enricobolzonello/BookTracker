@@ -1,15 +1,12 @@
 package com.unipd.booktracker.ui.bookdetail
 
 import android.content.Intent
-import android.content.res.ColorStateList
 import android.graphics.Color
-import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.text.Editable
 import android.text.InputFilter
 import android.text.Spanned
 import android.text.TextWatcher
-import android.util.Log
 import android.view.*
 import android.widget.LinearLayout.LayoutParams
 import android.widget.Toast
@@ -26,7 +23,7 @@ import com.unipd.booktracker.*
 import com.unipd.booktracker.databinding.FragmentBookDetailBinding
 import com.unipd.booktracker.db.Book
 import com.unipd.booktracker.util.BookTrackerUtils
-import com.unipd.booktracker.util.resolveAttr
+import com.unipd.booktracker.util.getAttrId
 
 class BookDetailFragment: Fragment() {
 
@@ -46,9 +43,11 @@ class BookDetailFragment: Fragment() {
 
         sharedElementEnterTransition = MaterialContainerTransform().apply {
             drawingViewId = R.id.nav_host_fragment
-            duration = resources.getInteger(com.google.android.material.R.integer.material_motion_duration_long_1).toLong()
+            duration = resources.getInteger(com.google.android.material.R.integer.material_motion_duration_long_2).toLong()
             scrimColor = Color.TRANSPARENT
-            setAllContainerColors(requireContext().resolveAttr(com.google.android.material.R.attr.colorSurface))
+            setAllContainerColors(ContextCompat.getColor(
+                requireContext(),
+                requireContext().getAttrId(com.google.android.material.R.attr.colorSurface)))
         }
 
         if (arguments != null) {
@@ -73,9 +72,6 @@ class BookDetailFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val bgColor = ContextCompat.getColor(requireContext(), com.google.android.material.R.color.material_dynamic_primary10)
-        binding.layout.backgroundTintList = ColorStateList.valueOf(bgColor).withAlpha(220)
 
         binding.chLibrary.setOnClickListener {
             val moveNeeded = binding.chWishlist.isChecked
@@ -143,19 +139,19 @@ class BookDetailFragment: Fragment() {
     private fun setupBookInfo() {
         if (chosenBook.thumbnail == null)
             binding.ivBookThumbnail.setBackgroundResource(R.drawable.default_thumbnail)
-        else {
+        else
             binding.ivBookThumbnail.setImageBitmap(BookTrackerUtils.toBitmap(chosenBook.thumbnail))
-            binding.layout.background = BitmapDrawable(resources, BookTrackerUtils.toBitmap(chosenBook.thumbnail))
-        }
 
         binding.tvBookTitle.text = chosenBook.title
         binding.tvBookAuthor.text = chosenBook.mainAuthor
+        binding.tvBookYear.text = chosenBook.year.toString()
         binding.tvBookPages.text = chosenBook.pages.toString()
-        // binding.tvBookCategory.text = chosenBook.mainCategory ?: "-"
-        binding.tvBookLanguage.text = chosenBook.language ?: "-"
-        binding.tvBookDescription.text = chosenBook.description ?: "-"
-        binding.tvBookPublisher.text = chosenBook.publisher ?: "-"
-        binding.tvBookIsbn.text = chosenBook.isbn ?: "-"
+
+        binding.tvBookLanguage.text = if (!chosenBook.language.isNullOrEmpty()) chosenBook.language else "-"
+        binding.tvBookCategory.text = if (!chosenBook.mainCategory.isNullOrEmpty()) chosenBook.mainCategory else "-"
+        binding.tvBookDescription.text = if (!chosenBook.description.isNullOrEmpty()) chosenBook.description else "-"
+        binding.tvBookPublisher.text = if (!chosenBook.publisher.isNullOrEmpty()) chosenBook.publisher else "-"
+        binding.tvBookIsbn.text = if (!chosenBook.isbn.isNullOrEmpty()) chosenBook.isbn else "-"
 
         if (chosenBook.readPages == null)
             binding.llReadPages.visibility = View.GONE
