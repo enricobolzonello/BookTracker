@@ -3,11 +3,13 @@ package com.unipd.booktracker.ui.settings
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.preference.DropDownPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
@@ -15,6 +17,9 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.unipd.booktracker.R
 import com.unipd.booktracker.SettingsActivity
 import com.unipd.booktracker.util.setModeNight
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class SettingsFragment : PreferenceFragmentCompat() {
     private lateinit var viewModel: SettingsViewModel
@@ -28,11 +33,18 @@ class SettingsFragment : PreferenceFragmentCompat() {
         // Catching the selected file when reentering app after the import Intent.ACTION_GET_CONTENT
         resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
-                val intent = result.data as Intent
-                val path = intent.data?.path
-                if (path != null)
-                    if (viewModel.importDbFromFile(path.substringAfter(":")))
-                        Toast.makeText(requireContext(), getString(R.string.file_imported), Toast.LENGTH_SHORT).show()
+                val path = (result.data as Intent).data?.path
+                path?.let {
+                    lifecycleScope.launch(Dispatchers.IO) {
+                        // Running suspend fun on IO thread
+                        val imported = viewModel.importDbFromFile(it.substringAfter(":"))
+                        withContext(Dispatchers.Main) {
+                            // Updating the UI after the suspend fun has ended
+                            if (imported)
+                                Toast.makeText(requireContext(), getString(R.string.file_imported), Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
             }
         }
 
@@ -51,9 +63,15 @@ class SettingsFragment : PreferenceFragmentCompat() {
     override fun onPreferenceTreeClick(preference: Preference): Boolean {
         return when (preference.key) {
             getString(R.string.export_books_key) -> {
-                val path = (viewModel.exportDbToFile())
-                path?.let {
-                    Toast.makeText(requireContext(), getString(R.string.file_exported, it), Toast.LENGTH_SHORT).show()
+                lifecycleScope.launch(Dispatchers.IO) {
+                    // Running suspend fun on IO thread
+                    val path = viewModel.exportDbToFile()
+                    withContext(Dispatchers.Main) {
+                        // Updating the UI after the suspend fun has ended
+                        path?.let {
+                            Toast.makeText(requireContext(), getString(R.string.file_exported, it), Toast.LENGTH_SHORT).show()
+                        }
+                    }
                 }
                 true
             }

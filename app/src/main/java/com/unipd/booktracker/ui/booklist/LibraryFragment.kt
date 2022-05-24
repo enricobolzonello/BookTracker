@@ -37,15 +37,19 @@ class LibraryFragment : BooklistFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
         (binding as FragmentLibraryBinding).apply {
+            chNotRead.isChecked = prefs.getBoolean(getString(R.string.not_read_books_key), true)
             chNotRead.setOnClickListener {
                 prefs.edit().putBoolean(getString(R.string.not_read_books_key), (it as Chip).isChecked).apply()
                 updateFilters()
             }
+            chReading.isChecked = prefs.getBoolean(getString(R.string.reading_books_key), true)
             chReading.setOnClickListener {
                 prefs.edit().putBoolean(getString(R.string.reading_books_key), (it as Chip).isChecked).apply()
                 updateFilters()
             }
+            chRead.isChecked = prefs.getBoolean(getString(R.string.read_books_key), true)
             chRead.setOnClickListener {
                 prefs.edit().putBoolean(getString(R.string.read_books_key), (it as Chip).isChecked).apply()
                 updateFilters()

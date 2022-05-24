@@ -9,6 +9,7 @@ import com.unipd.booktracker.db.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 import java.io.*
 
 /*
@@ -43,62 +44,51 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         bookDao.deleteBooks()
     }
 
-    fun exportDbToFile(): String? = runBlocking(Dispatchers.IO) {
-        val books = getBooks()
-        val readings = getReadings()
-
-        val exportFile: File?
-        var fos: FileOutputStream? = null
-        var oos: ObjectOutputStream? = null
-        try {
-            exportFile = File(
-                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
-                app.getString(R.string.app_name) + ".dat"
-            )
-            fos = FileOutputStream(exportFile)
-            oos = ObjectOutputStream(fos)
-
-            books.forEach { oos.writeObject(it) }
-            readings.forEach { oos.writeObject(it) }
-            return@runBlocking exportFile.absolutePath
-        } catch (e: Exception) {
-            Toast.makeText(app, app.getString(R.string.file_exported_error), Toast.LENGTH_SHORT).show()
-            return@runBlocking null
-        } finally {
-            fos?.close()
-            oos?.close()
-        }
+    suspend fun exportDbToFile(): String? {
+        var exportFile: File? = null
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                exportFile = File(
+                    Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
+                    app.getString(R.string.app_name) + ".dat"
+                )
+                val oos = ObjectOutputStream(FileOutputStream(exportFile))
+                getBooks().forEach { oos.writeObject(it) }
+                getReadings().forEach { oos.writeObject(it) }
+                oos.close()
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(app, app.getString(R.string.file_exported_error), Toast.LENGTH_SHORT).show()
+                }
+            }
+        }.join()
+        return exportFile?.absolutePath
     }
 
-    fun importDbFromFile(filePath: String): Boolean = runBlocking(Dispatchers.IO) {
-        val books = mutableListOf<Book>()
-        val readings = mutableListOf<Reading>()
-
-        var fis: FileInputStream? = null
-        var ois: ObjectInputStream? = null
-        try {
-            fis = FileInputStream(filePath)
-            ois = ObjectInputStream(fis)
-
-            while (fis.available() > 0) {
-                val obj = ois.readObject()
-                if (obj !is Book && obj !is Reading)
-                    throw Exception()
-                if (obj is Book)
-                    books.add(obj)
-                if (obj is Reading)
-                    readings.add(obj)
+    suspend fun importDbFromFile(filePath: String): Boolean {
+        var imported = false
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val fis = FileInputStream(filePath)
+                val ois = ObjectInputStream(fis)
+                while (fis.available() > 0) {
+                    val obj = ois.readObject()
+                    if (obj !is Book && obj !is Reading)
+                        throw Exception()
+                    if (obj is Book)
+                        addBook(obj)
+                    if (obj is Reading)
+                        addReading(obj)
+                }
+                fis.close()
+                ois.close()
+                imported = true
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(app, app.getString(R.string.file_imported_error), Toast.LENGTH_SHORT).show()
+                }
             }
-
-            books.forEach { addBook(it) }
-            readings.forEach { addReading(it) }
-            return@runBlocking true
-        } catch (e: Exception) {
-            Toast.makeText(app, app.getString(R.string.file_imported_error), Toast.LENGTH_SHORT).show()
-            return@runBlocking false
-        } finally {
-            fis?.close()
-            ois?.close()
-        }
+        }.join()
+        return imported
     }
 }
