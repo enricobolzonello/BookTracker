@@ -7,5 +7,5 @@
     <dimen name="thumb_prev_width">60dp</dimen>
     <dimen name="thumb_height">200dp</dimen>
     <dimen name="thumb_width">120dp</dimen>
-    <dimen name="divider_size">5dp</dimen>
+    <dimen name="line_thickness">5dp</dimen>
 </resources>

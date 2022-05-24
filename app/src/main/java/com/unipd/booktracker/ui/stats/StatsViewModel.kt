@@ -1,7 +1,6 @@
 package com.unipd.booktracker.ui.stats
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.*
 import com.unipd.booktracker.db.*
 import kotlinx.coroutines.Dispatchers
@@ -9,8 +8,11 @@ import kotlinx.coroutines.runBlocking
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
+/*
+   This ViewModel intermediates between StatsFragment and Room Database
+   Database action need to be performed in the IO thread instead of the Main one
+*/
 class StatsViewModel(application: Application): AndroidViewModel(application) {
-
     private val bookDatabase: BookRoomDatabase = BookRoomDatabase.getDatabase(application.applicationContext)
     private val statsDao: StatsDao = bookDatabase.statsDao()
 

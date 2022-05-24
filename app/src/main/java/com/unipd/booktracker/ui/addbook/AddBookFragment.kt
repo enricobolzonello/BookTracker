@@ -1,4 +1,4 @@
-package com.unipd.booktracker.fragments
+package com.unipd.booktracker.ui.addbook
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,13 +13,12 @@ import com.unipd.booktracker.BookAdapter
 import com.unipd.booktracker.MainActivity
 import com.unipd.booktracker.R
 import com.unipd.booktracker.databinding.FragmentAddBookBinding
-import com.unipd.booktracker.ui.addbook.AddBookViewModel
-import com.unipd.booktracker.util.isLargeScreen
+import com.unipd.booktracker.util.isSideBySideMode
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class AddDialogFragment: BottomSheetDialogFragment() {
+class AddBookFragment : BottomSheetDialogFragment() {
     private lateinit var viewModel: AddBookViewModel
     private lateinit var bookAdapter: BookAdapter
     private var _binding: FragmentAddBookBinding? = null
@@ -37,7 +36,6 @@ class AddDialogFragment: BottomSheetDialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
         _binding = FragmentAddBookBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -50,19 +48,20 @@ class AddDialogFragment: BottomSheetDialogFragment() {
 
         val bottomSheetBehavior = (this.dialog as BottomSheetDialog).behavior
         bottomSheetBehavior.maxWidth =
-            if (requireContext().isLargeScreen())
+            if (requireContext().isSideBySideMode())
                 (windowWidth * 0.66).toInt()
             else
                 (windowWidth * 0.95).toInt()
-        view.minimumHeight = windowHeight / 2
-        bottomSheetBehavior.peekHeight = windowHeight / 2
         bottomSheetBehavior.maxHeight = (windowHeight * 0.90).toInt()
+        bottomSheetBehavior.peekHeight = windowHeight / 2
+        view.minimumHeight = windowHeight / 2
 
         binding.rwAddBook.adapter = bookAdapter
+
         binding.rwAddBook.setPadding(0, 0, 0, (resources.getDimension(R.dimen.content_margin) * 2).toInt())
         binding.rwAddBook.clipToPadding = false
 
-        binding.swAddBook.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
+        binding.swAddBook.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
 
             override fun onQueryTextChange(newText: String): Boolean {
                 return false

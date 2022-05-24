@@ -1,15 +1,17 @@
 package com.unipd.booktracker.ui.booklist
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.*
 import com.unipd.booktracker.db.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
-class BooklistViewModel(application: Application): AndroidViewModel(application) {
-
+/*
+   This ViewModel intermediates between BooklistFragment and Room Database
+   Database action need to be performed in the IO thread instead of the Main one
+*/
+class BooklistViewModel(application: Application) : AndroidViewModel(application) {
     private val bookDatabase: BookRoomDatabase = BookRoomDatabase.getDatabase(application.applicationContext)
     private val bookDao: BookDao = bookDatabase.bookDao()
 
@@ -21,7 +23,7 @@ class BooklistViewModel(application: Application): AndroidViewModel(application)
         return@runBlocking bookDao.getObservableWishlist()
     }
 
-    fun getFilteredLibrary (
+    fun getFilteredLibrary(
         query: String = "",
         notRead: Boolean,
         reading: Boolean,

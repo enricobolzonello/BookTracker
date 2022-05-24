@@ -7,27 +7,32 @@ import android.graphics.BitmapFactory
 import android.widget.Toast
 import androidx.core.text.HtmlCompat
 import androidx.lifecycle.*
-import com.unipd.booktracker.util.BookTrackerUtils
 import com.unipd.booktracker.R
 import com.unipd.booktracker.db.*
+import com.unipd.booktracker.util.toByteArray
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import java.net.URL
 
-class AddBookViewModel(application: Application): AndroidViewModel(application) {
-    // The application context is only used to save get resources and show toasts
-    private val app = application
+/*
+   This ViewModel intermediates between AddBookFragment and Google Books API
+   Network requests need to performed in the IO thread instead of the Main one
+*/
+class AddBookViewModel(application: Application) : AndroidViewModel(application) {
+    // The application context is only used to get resources and show toasts
+    private val app = getApplication<Application>()
 
-    private fun getApiKey(): String? {
+    private fun getBooksApiKey(): String? {
         val appInfo = app.packageManager.getApplicationInfo(app.packageName, PackageManager.GET_META_DATA)
         return appInfo.metaData.getString("google.books.key")
     }
 
     suspend fun getBooksFromQuery(query: String): List<Book> {
         val books: MutableList<Book> = mutableListOf()
-        val key = getApiKey()
+
+        val key = getBooksApiKey()
         if (key.isNullOrBlank()) {
             withContext(Dispatchers.Main) {
                 Toast.makeText(app.applicationContext, app.getString(R.string.books_api_error), Toast.LENGTH_SHORT).show()
@@ -42,7 +47,8 @@ class AddBookViewModel(application: Application): AndroidViewModel(application) 
                 URL(url).readText()
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
-                    Toast.makeText(app.applicationContext, app.getString(R.string.books_api_error), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(app.applicationContext, app.getString(R.string.books_api_error), Toast.LENGTH_SHORT)
+                        .show()
                 }
                 null
             }
@@ -73,7 +79,8 @@ class AddBookViewModel(application: Application): AndroidViewModel(application) 
                 URL(url).readText()
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
-                    Toast.makeText(app.applicationContext, app.getString(R.string.books_api_error), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(app.applicationContext, app.getString(R.string.books_api_error), Toast.LENGTH_SHORT)
+                        .show()
                 }
                 null
             }
@@ -86,11 +93,9 @@ class AddBookViewModel(application: Application): AndroidViewModel(application) 
         val volumeInfo = volume.getJSONObject("volumeInfo")
 
         // Check if the minimum required parameters are present
-        if (!(volume.has("id")
-                && volumeInfo.has("title")
-                && volumeInfo.has("authors") && volumeInfo.getJSONArray("authors").length() >= 1
-                && volumeInfo.has("pageCount")
-            ))
+        if (!(volume.has("id") && volumeInfo.has("title") && volumeInfo.has("authors")
+                    && volumeInfo.getJSONArray("authors").length() >= 1 && volumeInfo.has("pageCount"))
+        )
             return null
 
         val id = volume.getString("id")
@@ -100,13 +105,12 @@ class AddBookViewModel(application: Application): AndroidViewModel(application) 
 
         val publisher =
             if (volumeInfo.has("publisher"))
-                    volumeInfo.getString("publisher")
+                volumeInfo.getString("publisher")
             else
                 null
 
         val isbn =
-            if (volumeInfo.has("industryIdentifiers")
-                && volumeInfo.getJSONArray("industryIdentifiers").length() >= 2
+            if (volumeInfo.has("industryIdentifiers") && volumeInfo.getJSONArray("industryIdentifiers").length() >= 2
                 && JSONObject(volumeInfo.getJSONArray("industryIdentifiers").get(1).toString()).has("identifier")
             )
                 JSONObject(volumeInfo.getJSONArray("industryIdentifiers").get(1).toString()).getString("identifier")
@@ -128,7 +132,7 @@ class AddBookViewModel(application: Application): AndroidViewModel(application) 
 
         val year =
             if (volumeInfo.has("publishedDate"))
-                volumeInfo.getString("publishedDate").substring(0,4).toInt()
+                volumeInfo.getString("publishedDate").substring(0, 4).toInt()
             else
                 null
 
@@ -141,7 +145,7 @@ class AddBookViewModel(application: Application): AndroidViewModel(application) 
         var thumbnail: Bitmap? = null
         if (volumeInfo.has("imageLinks") && volumeInfo.getJSONObject("imageLinks").has("thumbnail")) {
             val thumbnailUrl = volumeInfo.getJSONObject("imageLinks").getString("thumbnail")
-                .replace("http","https") // Cleartext HTTP traffic is not permitted, so secure url (https) is needed
+                .replace("http", "https") // Cleartext HTTP traffic is not permitted, so secure url (https) is needed
             viewModelScope.launch(Dispatchers.IO) {
                 thumbnail = try {
                     BitmapFactory.decodeStream(URL(thumbnailUrl).openStream())
@@ -150,6 +154,19 @@ class AddBookViewModel(application: Application): AndroidViewModel(application) 
                 }
             }.join()
         }
-        return Book(id, title, mainAuthor, pages, publisher, isbn, mainCategory, description, year, language, BookTrackerUtils.fromBitmap(thumbnail))
+
+        return Book(
+            id,
+            title,
+            mainAuthor,
+            pages,
+            publisher,
+            isbn,
+            mainCategory,
+            description,
+            year,
+            language,
+            thumbnail.toByteArray()
+        )
     }
 }

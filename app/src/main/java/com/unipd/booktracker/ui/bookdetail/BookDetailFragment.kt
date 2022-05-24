@@ -22,11 +22,11 @@ import com.google.android.material.transition.MaterialContainerTransform
 import com.unipd.booktracker.*
 import com.unipd.booktracker.databinding.FragmentBookDetailBinding
 import com.unipd.booktracker.db.Book
-import com.unipd.booktracker.util.BookTrackerUtils
 import com.unipd.booktracker.util.getAttrId
+import com.unipd.booktracker.util.isSideBySideMode
+import com.unipd.booktracker.util.toBitMap
 
-class BookDetailFragment: Fragment() {
-
+class BookDetailFragment : Fragment() {
     private lateinit var viewModel: BookDetailViewModel
     private var _binding: FragmentBookDetailBinding? = null
     private val binding get() = _binding!!
@@ -41,16 +41,21 @@ class BookDetailFragment: Fragment() {
 
         viewModel = ViewModelProvider(requireActivity() as MainActivity)[BookDetailViewModel::class.java]
 
+        // Transition from list card to book detail
         sharedElementEnterTransition = MaterialContainerTransform().apply {
             drawingViewId = R.id.nav_host_fragment
             duration = resources.getInteger(com.google.android.material.R.integer.material_motion_duration_long_2).toLong()
             scrimColor = Color.TRANSPARENT
-            setAllContainerColors(ContextCompat.getColor(
-                requireContext(),
-                requireContext().getAttrId(com.google.android.material.R.attr.colorSurface)))
+            setAllContainerColors(
+                ContextCompat.getColor(
+                    requireContext(),
+                    requireContext().getAttrId(com.google.android.material.R.attr.colorSurface)
+                )
+            )
         }
 
-        if (arguments != null) {
+        // If the fragment is being displayed full window, top and bottom bar need to be updated
+        if (!requireContext().isSideBySideMode()) {
             (requireActivity() as AppCompatActivity).supportActionBar?.apply {
                 setDisplayHomeAsUpEnabled(true)
                 title = getString(R.string.book_detail)
@@ -91,8 +96,9 @@ class BookDetailFragment: Fragment() {
             readPages = 0
             updateReadPages(readPages)
             binding.llReadPages.visibility = View.VISIBLE
-
-            if (arguments == null && moveNeeded)
+            // If the fragment is displayed side by side with wishlist,
+            // when the book gets moved to the library, the detail view needs to be cleared
+            if (requireContext().isSideBySideMode() && moveNeeded)
                 setBook(null)
         }
 
@@ -112,8 +118,9 @@ class BookDetailFragment: Fragment() {
             (binding.chLibrary.layoutParams as LayoutParams).weight = 0F
             // Wishlist book interface
             binding.llReadPages.visibility = View.GONE
-
-            if (arguments == null && moveNeeded)
+            // If the fragment is displayed side by side with library,
+            // when the book gets moved to the library, the detail view needs to be cleared
+            if (requireContext().isSideBySideMode() && moveNeeded)
                 setBook(null)
         }
 
@@ -140,7 +147,7 @@ class BookDetailFragment: Fragment() {
         if (chosenBook.thumbnail == null)
             binding.ivBookThumbnail.setBackgroundResource(R.drawable.default_thumbnail)
         else
-            binding.ivBookThumbnail.setImageBitmap(BookTrackerUtils.toBitmap(chosenBook.thumbnail))
+            binding.ivBookThumbnail.setImageBitmap(chosenBook.thumbnail.toBitMap())
 
         binding.tvBookTitle.text = chosenBook.title
         binding.tvBookAuthor.text = chosenBook.mainAuthor
@@ -167,12 +174,12 @@ class BookDetailFragment: Fragment() {
         binding.chWishlist.isChecked = viewModel.isBookInWishlist(chosenBook)
         binding.chWishlist.isClickable = !binding.chWishlist.isChecked
 
-        // Not present book interface
+        // Not already present book interface
         if (!binding.chLibrary.isChecked && !binding.chWishlist.isChecked) {
             (binding.chLibrary.layoutParams as LayoutParams).weight = 1F
             (binding.chWishlist.layoutParams as LayoutParams).weight = 1F
         }
-        // Present book interface
+        // Already present book interface
         else {
             (binding.chLibrary.layoutParams as LayoutParams).weight = if (binding.chLibrary.isChecked) 1F else 0F
             (binding.chWishlist.layoutParams as LayoutParams).weight = if (binding.chWishlist.isChecked) 1F else 0F
@@ -187,7 +194,7 @@ class BookDetailFragment: Fragment() {
         binding.tvLastPage.text = chosenBook.pages.toString()
         binding.slReadPages.valueTo = chosenBook.pages.toFloat()
 
-        binding.etReadPages.addTextChangedListener(object: TextWatcher {
+        binding.etReadPages.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {
                 if (s.isBlank())
                     return
@@ -195,8 +202,9 @@ class BookDetailFragment: Fragment() {
                 if (newValue != readPages)
                     updateReadPages(newValue)
             }
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) { }
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) { }
+
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
         })
 
         binding.btnAddPage.setOnClickListener { updateReadPages(readPages + 1) }
@@ -207,8 +215,8 @@ class BookDetailFragment: Fragment() {
             binding.etReadPages.setText(value.toInt().toString())
         }
 
-        binding.slReadPages.addOnSliderTouchListener(object: Slider.OnSliderTouchListener {
-            override fun onStartTrackingTouch(slider: Slider) { }
+        binding.slReadPages.addOnSliderTouchListener(object : Slider.OnSliderTouchListener {
+            override fun onStartTrackingTouch(slider: Slider) {}
 
             override fun onStopTrackingTouch(slider: Slider) {
                 updateReadPages(slider.value.toInt())
@@ -248,11 +256,8 @@ class BookDetailFragment: Fragment() {
                     .setTitle(getString(R.string.delete_book_dialog_title))
                     .setMessage(getString(R.string.delete_book_dialog_message, chosenBook.title))
                     .setIcon(ResourcesCompat.getDrawable(resources, R.drawable.ic_delete, requireContext().theme))
-                    .setNegativeButton(getString(R.string.no)) { _, _ ->
-                        // Respond to negative button press
-                    }
+                    .setNegativeButton(getString(R.string.no)) { _, _ -> }
                     .setPositiveButton(getString(R.string.yes)) { _, _ ->
-                        // Respond to positive button press
                         viewModel.removeBook(chosenBook)
                         setBook(null)
                         if (arguments != null)
@@ -268,32 +273,31 @@ class BookDetailFragment: Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        _chosenBook = null
         _binding = null
+        _chosenBook = null
     }
 
-    inner class MinMaxFilter(): InputFilter {
-        private var intMin: Int = 0
-        private var intMax: Int = 0
+    inner class MinMaxFilter(
+        private val minValue: Int,
+        private val maxValue: Int
+    ) : InputFilter {
+        override fun filter(
+            source: CharSequence,
+            start: Int,
+            end: Int,
+            dest: Spanned,
+            dStart: Int,
+            dEnd: Int
+        ): CharSequence? {
 
-        constructor(minValue: Int, maxValue: Int): this() {
-            this.intMin = minValue
-            this.intMax = maxValue
-        }
-
-        override fun filter(source: CharSequence, start: Int, end: Int, dest: Spanned, dStart: Int, dEnd: Int): CharSequence? {
             try {
                 val input = Integer.parseInt(dest.toString() + source.toString())
-                if (isInRange(intMin, intMax, input))
+                if (input in minValue..maxValue)
                     return null
             } catch (e: NumberFormatException) {
                 e.printStackTrace()
             }
             return ""
-        }
-
-        private fun isInRange(a: Int, b: Int, c: Int): Boolean {
-            return if (b > a) c in a..b else c in b..a
         }
     }
 }

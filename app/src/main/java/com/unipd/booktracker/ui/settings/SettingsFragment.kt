@@ -3,24 +3,20 @@ package com.unipd.booktracker.ui.settings
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.view.doOnPreDraw
 import androidx.lifecycle.ViewModelProvider
 import androidx.preference.DropDownPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
-import androidx.preference.PreferenceManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.transition.MaterialElevationScale
 import com.unipd.booktracker.R
 import com.unipd.booktracker.SettingsActivity
 import com.unipd.booktracker.util.setModeNight
 
-class SettingsFragment: PreferenceFragmentCompat() {
+class SettingsFragment : PreferenceFragmentCompat() {
     private lateinit var viewModel: SettingsViewModel
     private lateinit var resultLauncher: ActivityResultLauncher<Intent>
 
@@ -29,13 +25,14 @@ class SettingsFragment: PreferenceFragmentCompat() {
 
         viewModel = ViewModelProvider(requireActivity() as SettingsActivity)[SettingsViewModel::class.java]
 
+        // Catching the selected file when reentering app after the import Intent.ACTION_GET_CONTENT
         resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 val intent = result.data as Intent
                 val path = intent.data?.path
                 if (path != null)
                     if (viewModel.importDbFromFile(path.substringAfter(":")))
-                        Toast.makeText(this.context, getString(R.string.file_imported), Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), getString(R.string.file_imported), Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -52,11 +49,11 @@ class SettingsFragment: PreferenceFragmentCompat() {
     }
 
     override fun onPreferenceTreeClick(preference: Preference): Boolean {
-        return when(preference.key) {
+        return when (preference.key) {
             getString(R.string.export_books_key) -> {
                 val path = (viewModel.exportDbToFile())
                 path?.let {
-                    Toast.makeText(this.context, getString(R.string.file_exported, it), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), getString(R.string.file_exported, it), Toast.LENGTH_SHORT).show()
                 }
                 true
             }
@@ -71,12 +68,10 @@ class SettingsFragment: PreferenceFragmentCompat() {
                     .setTitle(resources.getString(R.string.clear_books_dialog_title))
                     .setMessage(resources.getString(R.string.clear_books_dialog_message))
                     .setIcon(ResourcesCompat.getDrawable(resources, R.drawable.ic_clear, requireContext().theme))
-                    .setNegativeButton(resources.getString(R.string.no)) { _, _ ->
-                        // Respond to negative button press
-                    }
+                    .setNegativeButton(resources.getString(R.string.no)) { _, _ -> }
                     .setPositiveButton(resources.getString(R.string.yes)) { _, _ ->
-                        // Respond to positive button press
                         viewModel.clearBooks()
+                        Toast.makeText(requireContext(), getString(R.string.all_books_deleted), Toast.LENGTH_SHORT).show()
                     }
                     .show()
                 true

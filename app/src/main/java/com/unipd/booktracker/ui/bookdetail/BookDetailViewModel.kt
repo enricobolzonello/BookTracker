@@ -9,8 +9,11 @@ import kotlinx.coroutines.runBlocking
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-class BookDetailViewModel(application: Application): AndroidViewModel(application) {
-
+/*
+   This ViewModel intermediates between BookDetailFragment and Room Database
+   Database action need to be performed in the IO thread instead of the Main one
+*/
+class BookDetailViewModel(application: Application) : AndroidViewModel(application) {
     private val bookDatabase: BookRoomDatabase = BookRoomDatabase.getDatabase(application.applicationContext)
     private val bookDao: BookDao = bookDatabase.bookDao()
     private val readingDao: ReadingDao = bookDatabase.readingDao()
@@ -43,5 +46,4 @@ class BookDetailViewModel(application: Application): AndroidViewModel(applicatio
     fun removeBook(book: Book) = viewModelScope.launch(Dispatchers.IO) {
         bookDao.delete(book)
     }
-
 }

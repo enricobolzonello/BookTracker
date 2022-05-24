@@ -46,6 +46,7 @@
     <string name="ph_total">Totale %s</string>
     <!-- Toasts -->
     <string name="book_deleted">Libro eliminato</string>
+    <string name="all_books_deleted">Tutti i libri sono stati eliminati</string>
     <string name="file_exported">File esportato %s</string>
     <string name="file_exported_error">Si è verificato un errore nell\'esportazione del file</string>
     <string name="file_imported">File importato corretamente</string>

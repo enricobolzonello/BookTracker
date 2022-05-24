@@ -5,7 +5,6 @@ import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
 import android.text.style.TextAppearanceSpan
 import android.view.*
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.text.set
 import androidx.core.view.doOnPreDraw
@@ -18,7 +17,7 @@ import com.unipd.booktracker.databinding.FragmentStatsBinding
 import com.unipd.booktracker.util.getAttrId
 import kotlin.math.abs
 
-class StatsFragment: Fragment() {
+class StatsFragment : Fragment() {
     private lateinit var viewModel: StatsViewModel
     private var _binding: FragmentStatsBinding? = null
     private val binding get() = _binding!!
@@ -30,6 +29,7 @@ class StatsFragment: Fragment() {
 
         setHasOptionsMenu(true)
 
+        // Entering transitions
         enterTransition = MaterialElevationScale(true).apply {
             duration = resources.getInteger(com.google.android.material.R.integer.material_motion_duration_short_2).toLong()
         }
@@ -50,16 +50,14 @@ class StatsFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        (requireActivity() as AppCompatActivity).supportActionBar?.apply {
-            setDisplayHomeAsUpEnabled(false)
-            title = getString(R.string.app_name)
-        }
-        (requireActivity() as MainActivity).setNavVisibility(View.VISIBLE)
-
+        // The entering transition need to be postponed to be visible to the user
         postponeEnterTransition()
         view.doOnPreDraw { startPostponedEnterTransition() }
 
-        val spanTitleSmall = TextAppearanceSpan(requireContext(), requireContext().getAttrId(com.google.android.material.R.attr.textAppearanceTitleSmall))
+        val spanTitleSmall = TextAppearanceSpan(
+            requireContext(),
+            requireContext().getAttrId(com.google.android.material.R.attr.textAppearanceTitleSmall)
+        )
         val spanGreen = ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.green))
         val spanRed = ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.red))
 
@@ -154,9 +152,14 @@ class StatsFragment: Fragment() {
         )
     }
 
+    // This method applies multiple given modifiers to a Text-Value string
     private fun getSpannedValueString(stringId: Int, value: String, start: Boolean, vararg modifiers: Any): SpannableStringBuilder {
         val spannable = SpannableStringBuilder(getString(stringId, value))
-        val range = if (start) 0 .. value.length else spannable.length - value.length .. spannable.length
+        val range =
+            if (start)
+                0 .. value.length
+            else
+                spannable.length - value.length .. spannable.length
         modifiers.forEach {
             spannable[range] = it
         }
@@ -166,7 +169,8 @@ class StatsFragment: Fragment() {
     private fun getFormattedIncrement(value: Int): String {
         val incrementSign = if (value >= 0) '+' else '-'
         var increment = abs(value)
-        if (increment > 999) increment = 999
+        if (increment > 999)
+            increment = 999
         return getString(R.string.ph_percentage, incrementSign + increment.toString())
     }
 

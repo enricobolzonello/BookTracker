@@ -50,6 +50,7 @@
     <string name="ph_total">Total %s</string>
     <!-- Toasts -->
     <string name="book_deleted">Book deleted</string>
+    <string name="all_books_deleted">All the books have been deleted</string>
     <string name="file_exported">File exported %s</string>
     <string name="file_exported_error">An error occurred while exporting the file</string>
     <string name="file_imported">File importing succeeded</string>
