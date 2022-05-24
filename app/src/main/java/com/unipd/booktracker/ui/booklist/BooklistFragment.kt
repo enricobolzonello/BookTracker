@@ -6,7 +6,6 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.FrameLayout
 import android.widget.Toast
@@ -30,14 +29,16 @@ import com.unipd.booktracker.BookAdapter
 import com.unipd.booktracker.MainActivity
 import com.unipd.booktracker.R
 import com.unipd.booktracker.db.OrderColumn
-import com.unipd.booktracker.fragments.AddDialogFragment
+import com.unipd.booktracker.ui.addbook.AddBookFragment
 import com.unipd.booktracker.ui.bookdetail.BookDetailFragment
 
-abstract class BooklistFragment: Fragment() {
-
+/*
+    This Fragment is an abstract base class that implements the shared behavior of LibraryFragment and WishlistFragment
+ */
+abstract class BooklistFragment : Fragment() {
     abstract var rw: RecyclerView
     abstract var fab: ExtendedFloatingActionButton
-    abstract override fun onCreateView(inflater: LayoutInflater,container: ViewGroup?,savedInstanceState: Bundle?): View
+    abstract override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View
     abstract fun updateFilters()
 
     protected lateinit var viewModel: BooklistViewModel
@@ -58,6 +59,7 @@ abstract class BooklistFragment: Fragment() {
 
         setHasOptionsMenu(true)
 
+        // Entering transitions
         enterTransition = MaterialElevationScale(true).apply {
             duration = resources.getInteger(com.google.android.material.R.integer.material_motion_duration_short_2).toLong()
         }
@@ -69,12 +71,14 @@ abstract class BooklistFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Make sure that the correct app and bottom bar are displayed
         (requireActivity() as AppCompatActivity).supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(false)
             title = getString(R.string.app_name)
         }
         (requireActivity() as MainActivity).setNavVisibility(View.VISIBLE)
 
+        // The entering transition need to be postponed to be visible to the user
         postponeEnterTransition()
         view.doOnPreDraw { startPostponedEnterTransition() }
 
@@ -85,11 +89,11 @@ abstract class BooklistFragment: Fragment() {
 
         // Set appropriate padding to recycler view's bottom, otherwise fab will cover the last item
         fab.measure(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT)
-        rw.setPadding(0,0,0,fab.measuredHeight + fab.marginBottom)
+        rw.setPadding(0, 0, 0, fab.measuredHeight + fab.marginBottom)
         rw.clipToPadding = false
 
         // Extend and reduce FAB on scroll
-        rw.addOnScrollListener(object: RecyclerView.OnScrollListener() {
+        rw.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 if (!recyclerView.canScrollVertically(-1))
                     fab.extend()
@@ -100,26 +104,25 @@ abstract class BooklistFragment: Fragment() {
         })
 
         fab.setOnClickListener {
+            // If network is not available show a retry Snackbar
             if (!(requireActivity() as MainActivity).isNetworkAvailable())
                 Snackbar.make(requireView(), getString(R.string.network_error), Snackbar.LENGTH_LONG)
-                    .setAction(getString(R.string.retry)) {
-                        fab.callOnClick()
-                    }
+                    .setAction(getString(R.string.retry)) { fab.callOnClick() }
                     .show()
             else {
-                val dialog = AddDialogFragment()
+                val dialog = AddBookFragment()
                 dialog.show(childFragmentManager, getString(R.string.add_book))
             }
         }
 
         //  Swipe to delete item
-        val swipeTouchHelper = ItemTouchHelper(object: ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+        val swipeTouchHelper = ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
             var background: Drawable? = ColorDrawable(Color.RED)
-            var xMark: Drawable? = context?.let { ContextCompat.getDrawable(it, R.drawable.ic_delete_fill) }
-            var xMarkMargin = resources.getDimension(R.dimen.content_margin)
-            var initiated = true
+            var icDelete: Drawable? = context?.let { ContextCompat.getDrawable(it, R.drawable.ic_delete) }
+            var icDeleteMargin = resources.getDimension(R.dimen.content_margin)
 
-            override fun onMove(recyclerView: RecyclerView,
+            override fun onMove(
+                recyclerView: RecyclerView,
                 viewHolder: RecyclerView.ViewHolder,
                 target: RecyclerView.ViewHolder
             ): Boolean {
@@ -133,16 +136,15 @@ abstract class BooklistFragment: Fragment() {
                     .setMessage(resources.getString(R.string.delete_book_dialog_message, book.title))
                     .setIcon(ResourcesCompat.getDrawable(resources, R.drawable.ic_delete, requireContext().theme))
                     .setNegativeButton(resources.getString(R.string.no)) { _, _ ->
-                        // Respond to negative button press
+                        updateFilters()
                     }
                     .setPositiveButton(resources.getString(R.string.yes)) { _, _ ->
-                        // Respond to positive button press
                         viewModel.removeBook(book)
                         bookAdapter.clearBookDetail()
                         Toast.makeText(activity, R.string.book_deleted, Toast.LENGTH_SHORT).show()
+                        updateFilters()
                     }
                     .show()
-                updateFilters()
             }
 
             override fun onChildDraw(
@@ -155,7 +157,7 @@ abstract class BooklistFragment: Fragment() {
                 isCurrentlyActive: Boolean
             ) {
                 val itemView: View = viewHolder.itemView
-                if(viewHolder.adapterPosition == -1)
+                if (viewHolder.adapterPosition == -1)
                     return
 
                 // Draw red background
@@ -164,14 +166,14 @@ abstract class BooklistFragment: Fragment() {
 
                 // Draw x mark
                 val itemHeight = itemView.bottom - itemView.top
-                val intrinsicWidth = xMark!!.intrinsicWidth
-                val intrinsicHeight = xMark!!.intrinsicWidth
-                val xMarkLeft = (itemView.right - xMarkMargin - intrinsicWidth).toInt()
-                val xMarkRight = (itemView.right - xMarkMargin).toInt()
-                val xMarkTop = itemView.top + (itemHeight - intrinsicHeight) / 2
-                val xMarkBottom = xMarkTop + intrinsicHeight
-                xMark!!.setBounds(xMarkLeft, xMarkTop, xMarkRight, xMarkBottom)
-                xMark!!.draw(c)
+                val intrinsicWidth = icDelete!!.intrinsicWidth
+                val intrinsicHeight = icDelete!!.intrinsicWidth
+                val icMarginLeft = (itemView.right - icDeleteMargin - intrinsicWidth).toInt()
+                val icMarginRight = (itemView.right - icDeleteMargin).toInt()
+                val icMarginTop = itemView.top + (itemHeight - intrinsicHeight) / 2
+                val icMarginBottom = icMarginTop + intrinsicHeight
+                icDelete!!.setBounds(icMarginLeft, icMarginTop, icMarginRight, icMarginBottom)
+                icDelete!!.draw(c)
 
                 super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
             }
@@ -188,7 +190,7 @@ abstract class BooklistFragment: Fragment() {
         searchItem = menu.findItem(R.id.action_search)
         val searchView = searchItem.actionView as SearchView
         searchView.queryHint = getString(R.string.search_hint)
-        searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(submittedText: String): Boolean {
                 query = submittedText
                 updateFilters()
@@ -242,6 +244,11 @@ abstract class BooklistFragment: Fragment() {
     override fun onPause() {
         super.onPause()
         searchItem.collapseActionView()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        updateFilters()
     }
 
     override fun onDestroyView() {

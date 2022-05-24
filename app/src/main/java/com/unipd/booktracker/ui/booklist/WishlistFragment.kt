@@ -7,18 +7,19 @@ import com.google.android.material.floatingactionbutton.ExtendedFloatingActionBu
 import com.unipd.booktracker.R
 import com.unipd.booktracker.databinding.FragmentWishlistBinding
 import com.unipd.booktracker.db.OrderColumn
+import com.unipd.booktracker.util.isSideBySideMode
 
-class WishlistFragment: BooklistFragment() {
-
+class WishlistFragment : BooklistFragment() {
     override lateinit var rw: RecyclerView
     override lateinit var fab: ExtendedFloatingActionButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel.getObservableWishlist().observe(this) {
-            updateFilters()
-        }
+        // If side by side mode is active, read pages update from the book detail
+        // need to be displayed immediately in the wishlist view
+        if (requireContext().isSideBySideMode())
+            viewModel.getObservableWishlist().observe(this) { updateFilters() }
     }
 
     override fun onCreateView(

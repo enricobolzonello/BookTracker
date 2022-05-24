@@ -110,15 +110,15 @@
     </FrameLayout>
 
     <View
-        android:layout_width="@dimen/divider_size"
+        android:layout_width="@dimen/line_thickness"
         android:layout_height="match_parent"
         android:background="?android:attr/listDivider"/>
 
     <androidx.fragment.app.FragmentContainerView
-        android:layout_weight="1"
         android:id="@+id/detail_container"
         android:layout_width="0dp"
         android:layout_height="match_parent"
+        android:layout_weight="1"
         android:name="com.unipd.booktracker.ui.bookdetail.BookDetailFragment" />
 
 </LinearLayout>

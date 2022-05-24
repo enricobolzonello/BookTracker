@@ -1,7 +1,6 @@
 package com.unipd.booktracker.ui.booklist
 
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
@@ -9,18 +8,19 @@ import com.google.android.material.floatingactionbutton.ExtendedFloatingActionBu
 import com.unipd.booktracker.R
 import com.unipd.booktracker.databinding.FragmentLibraryBinding
 import com.unipd.booktracker.db.OrderColumn
+import com.unipd.booktracker.util.isSideBySideMode
 
-class LibraryFragment: BooklistFragment() {
-
+class LibraryFragment : BooklistFragment() {
     override lateinit var rw: RecyclerView
     override lateinit var fab: ExtendedFloatingActionButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel.getObservableLibrary().observe(this) {
-            updateFilters()
-        }
+        // If side by side mode is active, read pages update from the book detail
+        // need to be displayed immediately in the library view
+        if (requireContext().isSideBySideMode())
+            viewModel.getObservableLibrary().observe(this) { updateFilters() }
     }
 
     override fun onCreateView(
@@ -70,9 +70,9 @@ class LibraryFragment: BooklistFragment() {
         bookAdapter.setBooks(books)
 
         (binding as FragmentLibraryBinding).tvEmptyListPlaceholder.visibility =
-        if (books.isEmpty())
-            View.VISIBLE
-        else
-            View.GONE
+            if (books.isEmpty())
+                View.VISIBLE
+            else
+                View.GONE
     }
 }

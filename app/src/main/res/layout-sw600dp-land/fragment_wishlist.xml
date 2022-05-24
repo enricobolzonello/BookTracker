@@ -44,7 +44,7 @@
     </FrameLayout>
 
     <View
-        android:layout_width="@dimen/divider_size"
+        android:layout_width="@dimen/line_thickness"
         android:layout_height="match_parent"
         android:background="?android:attr/listDivider"/>
 
