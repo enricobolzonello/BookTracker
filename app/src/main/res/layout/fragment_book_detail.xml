@@ -69,8 +69,7 @@
                             android:layout_width="@dimen/thumb_width"
                             android:layout_height="@dimen/thumb_height"
                             android:layout_margin="@dimen/content_margin"
-                            android:contentDescription="@string/description"
-                            android:src="@drawable/default_thumbnail" />
+                            android:contentDescription="@string/book_thumbnail" />
 
                 </com.google.android.material.card.MaterialCardView>
 

@@ -25,6 +25,7 @@
         <entry key="..\:/Users/Daniele/AndroidStudioProjects/BookTracker/app/src/main/res/menu/bottom_nav_menu.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Daniele/AndroidStudioProjects/BookTracker/app/src/main/res/menu/sorting_menu.xml" value="0.18802083333333333" />
         <entry key="..\:/Users/Daniele/CodeProjects/AndroidStudioProjects/BookTracker/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1" />
+        <entry key="..\:/Users/Daniele/CodeProjects/AndroidStudioProjects/BookTracker/app/src/main/res/drawable/add_book_dialog_background.xml" value="0.135" />
         <entry key="..\:/Users/Daniele/CodeProjects/AndroidStudioProjects/BookTracker/app/src/main/res/drawable/bottom_sheet_dialog.xml" value="0.1" />
         <entry key="..\:/Users/Daniele/CodeProjects/AndroidStudioProjects/BookTracker/app/src/main/res/drawable/bt_logo.xml" value="0.1315" />
         <entry key="..\:/Users/Daniele/CodeProjects/AndroidStudioProjects/BookTracker/app/src/main/res/drawable/circular_button.xml" value="0.1" />
@@ -32,13 +33,19 @@
         <entry key="..\:/Users/Daniele/CodeProjects/AndroidStudioProjects/BookTracker/app/src/main/res/drawable/ic_baseline_library_books_24.xml" value="0.1305" />
         <entry key="..\:/Users/Daniele/CodeProjects/AndroidStudioProjects/BookTracker/app/src/main/res/drawable/ic_delete.xml" value="0.1" />
         <entry key="..\:/Users/Daniele/CodeProjects/AndroidStudioProjects/BookTracker/app/src/main/res/drawable/ic_delete_fill.xml" value="0.1" />
+        <entry key="..\:/Users/Daniele/CodeProjects/AndroidStudioProjects/BookTracker/app/src/main/res/drawable/ic_dynamic_colors.xml" value="0.1" />
+        <entry key="..\:/Users/Daniele/CodeProjects/AndroidStudioProjects/BookTracker/app/src/main/res/drawable/ic_import.xml" value="0.1" />
+        <entry key="..\:/Users/Daniele/CodeProjects/AndroidStudioProjects/BookTracker/app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.1" />
         <entry key="..\:/Users/Daniele/CodeProjects/AndroidStudioProjects/BookTracker/app/src/main/res/drawable/ic_library.xml" value="0.1115" />
         <entry key="..\:/Users/Daniele/CodeProjects/AndroidStudioProjects/BookTracker/app/src/main/res/drawable/ic_logo_dark.xml" value="0.1" />
         <entry key="..\:/Users/Daniele/CodeProjects/AndroidStudioProjects/BookTracker/app/src/main/res/drawable/ic_logo_light.xml" value="0.1" />
         <entry key="..\:/Users/Daniele/CodeProjects/AndroidStudioProjects/BookTracker/app/src/main/res/drawable/ic_minus.xml" value="0.1" />
+        <entry key="..\:/Users/Daniele/CodeProjects/AndroidStudioProjects/BookTracker/app/src/main/res/drawable/ic_outline_book_24.xml" value="0.1" />
         <entry key="..\:/Users/Daniele/CodeProjects/AndroidStudioProjects/BookTracker/app/src/main/res/drawable/ic_remove.xml" value="0.1" />
         <entry key="..\:/Users/Daniele/CodeProjects/AndroidStudioProjects/BookTracker/app/src/main/res/drawable/splash_anim.xml" value="0.1" />
         <entry key="..\:/Users/Daniele/CodeProjects/AndroidStudioProjects/BookTracker/app/src/main/res/layout-large/activity_main.xml" value="0.1" />
+        <entry key="..\:/Users/Daniele/CodeProjects/AndroidStudioProjects/BookTracker/app/src/main/res/layout-sw600dp-land/fragment_library.xml" value="0.1" />
+        <entry key="..\:/Users/Daniele/CodeProjects/AndroidStudioProjects/BookTracker/app/src/main/res/layout-sw600dp-land/fragment_wishlist.xml" value="0.1" />
         <entry key="..\:/Users/Daniele/CodeProjects/AndroidStudioProjects/BookTracker/app/src/main/res/layout-sw600dp-land/prova.xml" value="0.1" />
         <entry key="..\:/Users/Daniele/CodeProjects/AndroidStudioProjects/BookTracker/app/src/main/res/layout-sw600dp/activity_main.xml" value="0.1" />
         <entry key="..\:/Users/Daniele/CodeProjects/AndroidStudioProjects/BookTracker/app/src/main/res/layout-sw600dp/fragment_library.xml" value="0.1" />

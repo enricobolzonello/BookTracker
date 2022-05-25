@@ -23,14 +23,14 @@ fun Context.setModeNight(value: String) {
     AppCompatDelegate.setDefaultNightMode(mode)
 }
 
-fun Context.isSideBySideMode(): Boolean {
-    return this.isLargeScreen() && this.isLandscape()
-}
-
 fun Context.isLargeScreen(): Boolean {
     return resources.configuration.smallestScreenWidthDp >= LARGE_SCREEN_SW
 }
 
 fun Context.isLandscape(): Boolean {
     return resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
+}
+
+fun Context.isSideBySideMode(): Boolean {
+    return this.isLargeScreen() && this.isLandscape()
 }

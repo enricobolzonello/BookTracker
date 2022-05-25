@@ -30,7 +30,6 @@ class BookAdapter(
             else
                 binding.ivBookThumbnail.setImageBitmap(book.thumbnail.toBitMap())
 
-
             if (book.readPages == null)
                 binding.llReadProgress.visibility = View.GONE
             else {

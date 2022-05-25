@@ -29,7 +29,7 @@ import com.unipd.booktracker.BookAdapter
 import com.unipd.booktracker.MainActivity
 import com.unipd.booktracker.R
 import com.unipd.booktracker.db.OrderColumn
-import com.unipd.booktracker.ui.addbook.AddBookFragment
+import com.unipd.booktracker.ui.addbook.AddBookDialogFragment
 import com.unipd.booktracker.ui.bookdetail.BookDetailFragment
 
 /*
@@ -110,7 +110,7 @@ abstract class BooklistFragment : Fragment() {
                     .setAction(getString(R.string.retry)) { fab.callOnClick() }
                     .show()
             else {
-                val dialog = AddBookFragment()
+                val dialog = AddBookDialogFragment()
                 dialog.show(childFragmentManager, getString(R.string.add_book))
             }
         }

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -18,7 +19,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class AddBookFragment : BottomSheetDialogFragment() {
+class AddBookDialogFragment : BottomSheetDialogFragment() {
     private lateinit var viewModel: AddBookViewModel
     private lateinit var bookAdapter: BookAdapter
     private var _binding: FragmentAddBookBinding? = null
@@ -68,16 +69,24 @@ class AddBookFragment : BottomSheetDialogFragment() {
             }
 
             override fun onQueryTextSubmit(query: String): Boolean {
-                binding.piLoading.visibility = View.VISIBLE
                 binding.rwAddBook.visibility = View.GONE
+                binding.piLoading.visibility = View.VISIBLE
+                binding.tvEmptyListPlaceholder.visibility = View.GONE
                 lifecycleScope.launch(Dispatchers.IO) {
                     // Running suspend fun on IO thread
                     val books = viewModel.getBooksFromQuery(query)
                     withContext(Dispatchers.Main) {
                         // Updating the UI after the suspend fun has ended
-                        bookAdapter.setBooks(books)
                         binding.piLoading.visibility = View.GONE
-                        binding.rwAddBook.visibility = View.VISIBLE
+                        if (!books.isNullOrEmpty()) {
+                            bookAdapter.setBooks(books)
+                            binding.rwAddBook.visibility = View.VISIBLE
+                            binding.tvEmptyListPlaceholder.visibility = View.GONE
+                        } else {
+                            binding.tvEmptyListPlaceholder.visibility = View.VISIBLE
+                            if (books == null)
+                                Toast.makeText(requireContext(), getString(R.string.books_api_error), Toast.LENGTH_SHORT).show()
+                        }
                     }
                 }
                 return false

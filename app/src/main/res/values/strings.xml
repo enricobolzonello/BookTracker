@@ -46,7 +46,7 @@
     <string name="ph_read_pages">Read pages %s</string>
     <string name="ph_read_books">Read books %s</string>
     <string name="ph_than_usual">%s compared to the average</string>
-    <string name="ph_most_read">Most read %s</string>
+    <string name="ph_most_read">Most read: %s</string>
     <string name="ph_total">Total %s</string>
     <!-- Toasts -->
     <string name="book_deleted">Book deleted</string>
@@ -88,12 +88,14 @@
     <string name="no">No</string>
     <string name="retry">Retry</string>
     <string name="delete_book_dialog_title">Delete book</string>
-    <string name="delete_book_dialog_message">Are you sure you want to delete %s?</string>
+    <string name="delete_book_dialog_message">Are you sure you want to delete \"%s\"?</string>
     <string name="clear_books_dialog_title">Delete all the books</string>
     <string name="clear_books_dialog_message">Are you sure you want to delete all the books?</string>
     <!-- Content placeholders -->
     <string name="empty_list_placeholder">There are no books to display</string>
     <string name="empty_detail_placeholder">Select a book from the list to display it</string>
+    <!-- Content description -->
+    <string name="book_thumbnail">Book thumbnail</string>
     <!-- Preference keys-->
     <string name="read_books_key" translatable="false">read_books</string>
     <string name="not_read_books_key" translatable="false">not_read_books</string>

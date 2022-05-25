@@ -42,7 +42,7 @@
     <string name="ph_read_pages">Pagine lette %s</string>
     <string name="ph_read_books">Libri letti %s</string>
     <string name="ph_than_usual">%s rispetto alla media</string>
-    <string name="ph_most_read">Più letto %s</string>
+    <string name="ph_most_read">Più letto: %s</string>
     <string name="ph_total">Totale %s</string>
     <!-- Toasts -->
     <string name="book_deleted">Libro eliminato</string>
@@ -76,10 +76,12 @@
     <string name="no">No</string>
     <string name="retry">Riprova</string>
     <string name="delete_book_dialog_title">Elimina libro</string>
-    <string name="delete_book_dialog_message">Sei sicuro di voler eliminare %s?</string>
+    <string name="delete_book_dialog_message">Sei sicuro di voler eliminare \"%s\"?</string>
     <string name="clear_books_dialog_title">Elimina tutti i libri</string>
     <string name="clear_books_dialog_message">Sei sicuro di voler eliminare tutti i libri?</string>
     <!-- Content placeholders -->
     <string name="empty_list_placeholder">Non sono presenti libri da visualizzare</string>
     <string name="empty_detail_placeholder">Seleziona un libro dalla lista per visualizzarlo</string>
+    <!-- Content description -->
+    <string name="book_thumbnail">Copertina del libro</string>
 </resources>

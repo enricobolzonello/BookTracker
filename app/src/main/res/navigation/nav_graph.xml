@@ -40,7 +40,7 @@
 
     <dialog
         android:id="@+id/addDialogFragment"
-        android:name="com.unipd.booktracker.ui.addbook.AddBookFragment"
+        android:name="com.unipd.booktracker.ui.addbook.AddBookDialogFragment"
         android:label="@string/app_name">
         <action
             android:id="@+id/action_addDialogFragment_to_navigation_book_detail"

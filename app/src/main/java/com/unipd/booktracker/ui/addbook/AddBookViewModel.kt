@@ -4,15 +4,12 @@ import android.app.Application
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.widget.Toast
 import androidx.core.text.HtmlCompat
 import androidx.lifecycle.*
-import com.unipd.booktracker.R
 import com.unipd.booktracker.db.*
 import com.unipd.booktracker.util.toByteArray
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import java.net.URL
 
@@ -29,35 +26,25 @@ class AddBookViewModel(application: Application) : AndroidViewModel(application)
         return appInfo.metaData.getString("google.books.key")
     }
 
-    suspend fun getBooksFromQuery(query: String): List<Book> {
-        val books: MutableList<Book> = mutableListOf()
-
+    suspend fun getBooksFromQuery(query: String): List<Book>? {
         val key = getBooksApiKey()
-        if (key.isNullOrBlank()) {
-            withContext(Dispatchers.Main) {
-                Toast.makeText(app.applicationContext, app.getString(R.string.books_api_error), Toast.LENGTH_SHORT).show()
-            }
-            return books
-        }
+        if (key.isNullOrBlank())
+            return null
 
         val url = "https://www.googleapis.com/books/v1/volumes?key=$key&q=$query"
         var response: String? = null
         viewModelScope.launch(Dispatchers.IO) {
-            response = try {
-                URL(url).readText()
+            try {
+                response = URL(url).readText()
             } catch (e: Exception) {
-                withContext(Dispatchers.Main) {
-                    Toast.makeText(app.applicationContext, app.getString(R.string.books_api_error), Toast.LENGTH_SHORT)
-                        .show()
-                }
-                null
+                e.printStackTrace()
             }
         }.join()
 
         if (response.isNullOrBlank())
-            return books
-
+            return null
         val data = JSONObject(response!!)
+        val books: MutableList<Book> = mutableListOf()
         if (data.has("totalItems") && data.getInt("totalItems") <= 0)
             return books
 
@@ -75,14 +62,10 @@ class AddBookViewModel(application: Application) : AndroidViewModel(application)
     private suspend fun getBookInfo(url: String): Book? {
         var response: String? = null
         viewModelScope.launch(Dispatchers.IO) {
-            response = try {
-                URL(url).readText()
+            try {
+                response = URL(url).readText()
             } catch (e: Exception) {
-                withContext(Dispatchers.Main) {
-                    Toast.makeText(app.applicationContext, app.getString(R.string.books_api_error), Toast.LENGTH_SHORT)
-                        .show()
-                }
-                null
+                e.printStackTrace()
             }
         }.join()
 
@@ -147,10 +130,10 @@ class AddBookViewModel(application: Application) : AndroidViewModel(application)
             val thumbnailUrl = volumeInfo.getJSONObject("imageLinks").getString("thumbnail")
                 .replace("http", "https") // Cleartext HTTP traffic is not permitted, so secure url (https) is needed
             viewModelScope.launch(Dispatchers.IO) {
-                thumbnail = try {
-                    BitmapFactory.decodeStream(URL(thumbnailUrl).openStream())
+                try {
+                    thumbnail = BitmapFactory.decodeStream(URL(thumbnailUrl).openStream())
                 } catch (e: Exception) {
-                    null
+                    e.printStackTrace()
                 }
             }.join()
         }

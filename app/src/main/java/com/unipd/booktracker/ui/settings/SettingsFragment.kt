@@ -3,7 +3,6 @@ package com.unipd.booktracker.ui.settings
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -42,6 +41,8 @@ class SettingsFragment : PreferenceFragmentCompat() {
                             // Updating the UI after the suspend fun has ended
                             if (imported)
                                 Toast.makeText(requireContext(), getString(R.string.file_imported), Toast.LENGTH_SHORT).show()
+                            else
+                                Toast.makeText(requireContext(), getString(R.string.file_imported_error), Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
@@ -68,9 +69,10 @@ class SettingsFragment : PreferenceFragmentCompat() {
                     val path = viewModel.exportDbToFile()
                     withContext(Dispatchers.Main) {
                         // Updating the UI after the suspend fun has ended
-                        path?.let {
-                            Toast.makeText(requireContext(), getString(R.string.file_exported, it), Toast.LENGTH_SHORT).show()
-                        }
+                        if (path != null)
+                            Toast.makeText(requireContext(), getString(R.string.file_exported, path), Toast.LENGTH_SHORT).show()
+                        else
+                            Toast.makeText(requireContext(), getString(R.string.file_exported_error), Toast.LENGTH_SHORT).show()
                     }
                 }
                 true

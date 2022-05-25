@@ -44,7 +44,7 @@ class BookDetailFragment : Fragment() {
         // Transition from list card to book detail
         sharedElementEnterTransition = MaterialContainerTransform().apply {
             drawingViewId = R.id.nav_host_fragment
-            duration = resources.getInteger(com.google.android.material.R.integer.material_motion_duration_long_2).toLong()
+            duration = resources.getInteger(com.google.android.material.R.integer.material_motion_duration_long_1).toLong()
             scrimColor = Color.TRANSPARENT
             setAllContainerColors(
                 ContextCompat.getColor(
@@ -62,8 +62,6 @@ class BookDetailFragment : Fragment() {
             }
             (requireActivity() as MainActivity).setNavVisibility(View.GONE)
         }
-
-        setHasOptionsMenu(true)
     }
 
     override fun onCreateView(
@@ -100,6 +98,7 @@ class BookDetailFragment : Fragment() {
             // when the book gets moved to the library, the detail view needs to be cleared
             if (requireContext().isSideBySideMode() && moveNeeded)
                 setBook(null)
+            setHasOptionsMenu(true)
         }
 
         binding.chWishlist.setOnClickListener {
@@ -122,6 +121,7 @@ class BookDetailFragment : Fragment() {
             // when the book gets moved to the library, the detail view needs to be cleared
             if (requireContext().isSideBySideMode() && moveNeeded)
                 setBook(null)
+            setHasOptionsMenu(true)
         }
 
         if (arguments != null)
@@ -174,15 +174,14 @@ class BookDetailFragment : Fragment() {
         binding.chWishlist.isChecked = viewModel.isBookInWishlist(chosenBook)
         binding.chWishlist.isClickable = !binding.chWishlist.isChecked
 
-        // Not already present book interface
-        if (!binding.chLibrary.isChecked && !binding.chWishlist.isChecked) {
-            (binding.chLibrary.layoutParams as LayoutParams).weight = 1F
-            (binding.chWishlist.layoutParams as LayoutParams).weight = 1F
-        }
         // Already present book interface
-        else {
+        if (binding.chLibrary.isChecked || binding.chWishlist.isChecked) {
+            setHasOptionsMenu(true)
             (binding.chLibrary.layoutParams as LayoutParams).weight = if (binding.chLibrary.isChecked) 1F else 0F
             (binding.chWishlist.layoutParams as LayoutParams).weight = if (binding.chWishlist.isChecked) 1F else 0F
+        } else {
+            (binding.chLibrary.layoutParams as LayoutParams).weight = 1F
+            (binding.chWishlist.layoutParams as LayoutParams).weight = 1F
         }
     }
 

@@ -2,14 +2,12 @@ package com.unipd.booktracker.ui.settings
 
 import android.app.Application
 import android.os.Environment
-import android.widget.Toast
 import androidx.lifecycle.*
 import com.unipd.booktracker.R
 import com.unipd.booktracker.db.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
 import java.io.*
 
 /*
@@ -57,9 +55,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
                 getReadings().forEach { oos.writeObject(it) }
                 oos.close()
             } catch (e: Exception) {
-                withContext(Dispatchers.Main) {
-                    Toast.makeText(app, app.getString(R.string.file_exported_error), Toast.LENGTH_SHORT).show()
-                }
+                e.printStackTrace()
             }
         }.join()
         return exportFile?.absolutePath
@@ -84,9 +80,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
                 ois.close()
                 imported = true
             } catch (e: Exception) {
-                withContext(Dispatchers.Main) {
-                    Toast.makeText(app, app.getString(R.string.file_imported_error), Toast.LENGTH_SHORT).show()
-                }
+                e.printStackTrace()
             }
         }.join()
         return imported
