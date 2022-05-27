@@ -13,7 +13,6 @@
     <string name="search_books">Search</string>
     <string name="share_book">Share book</string>
     <string name="delete_book">Delete book</string>
-    <string name="sort_by">Sort by</string>
     <!-- Sortings -->
     <string name="sorting_column">Field</string>
     <string name="sorting_order">Sorting</string>
@@ -57,7 +56,6 @@
     <string name="file_imported_error">An error occurred while importing the file</string>
     <string name="network_error">Please check that network connection is available</string>
     <string name="books_api_error">An error occurred while connecting to Books API</string>
-    <string name="page_value_error">Please type a valid number page</string>
     <!-- Settings -->
     <string name="book_settings_category">Books</string>
     <string name="export_books_title">Export books</string>
@@ -105,7 +103,6 @@
     <string name="export_books_key" translatable="false">export_books</string>
     <string name="import_books_key" translatable="false">import_books</string>
     <string name="clear_books_key" translatable="false">clear_books</string>
-    <string name="app_language_key" translatable="false">app_language</string>
     <string name="app_theme_key" translatable="false">app_theme</string>
     <string name="dynamic_colors_key" translatable="false">dynamic_colors</string>
     <!-- Transition names -->

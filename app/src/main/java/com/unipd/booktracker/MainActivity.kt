@@ -14,7 +14,6 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.unipd.booktracker.databinding.ActivityMainBinding
 import com.unipd.booktracker.util.isLandscape
-import com.unipd.booktracker.util.isSideBySideMode
 
 class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController

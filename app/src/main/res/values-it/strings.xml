@@ -11,7 +11,6 @@
     <string name="search_books">Ricerca</string>
     <string name="share_book">Condividi libro</string>
     <string name="delete_book">Elimina libro</string>
-    <string name="sort_by">Ordina per</string>
     <!-- Sortings -->
     <string name="sorting_column">Campo</string>
     <string name="sorting_order">Ordinamento</string>
@@ -53,7 +52,6 @@
     <string name="file_imported_error">Errore nell\'importazione del file</string>
     <string name="network_error">Per favore controlla che la connessione di rete sia disponibile</string>
     <string name="books_api_error">Si è verificato un errore durante la connessione a Books API</string>
-    <string name="page_value_error">Per favore inserire un numero di pagine valido</string>
     <!-- Settings -->
     <string name="book_settings_category">Libri</string>
     <string name="export_books_title">Esporta libri</string>

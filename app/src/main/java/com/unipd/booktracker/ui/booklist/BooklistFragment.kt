@@ -44,8 +44,8 @@ abstract class BooklistFragment : Fragment() {
     protected lateinit var viewModel: BooklistViewModel
     protected lateinit var bookAdapter: BookAdapter
     protected lateinit var prefs: SharedPreferences
-    protected var _binding: ViewBinding? = null
-    protected val binding get() = _binding!!
+    protected var binding_: ViewBinding? = null
+    protected val binding get() = binding_!!
     protected var query = ""
 
     private lateinit var searchItem: MenuItem
@@ -209,11 +209,11 @@ abstract class BooklistFragment : Fragment() {
             false
         }
 
-        when (prefs.getString(getString(R.string.sorting_column_key), OrderColumn.title.name)) {
-            OrderColumn.title.name -> menu.findItem(R.id.action_by_title).isChecked = true
-            OrderColumn.author.name -> menu.findItem(R.id.action_by_author).isChecked = true
-            OrderColumn.year.name -> menu.findItem(R.id.action_by_year).isChecked = true
-            OrderColumn.progress.name -> menu.findItem(R.id.action_by_progress).isChecked = true
+        when (prefs.getString(getString(R.string.sorting_column_key), OrderColumn.Title.name)) {
+            OrderColumn.Title.name -> menu.findItem(R.id.action_by_title).isChecked = true
+            OrderColumn.Author.name -> menu.findItem(R.id.action_by_author).isChecked = true
+            OrderColumn.Year.name -> menu.findItem(R.id.action_by_year).isChecked = true
+            OrderColumn.Progress.name -> menu.findItem(R.id.action_by_progress).isChecked = true
         }
 
         when (prefs.getBoolean(getString(R.string.sorting_asc_key), true)) {
@@ -224,13 +224,13 @@ abstract class BooklistFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         item.isChecked = true
-        var orderColumn = prefs.getString(getString(R.string.sorting_column_key), OrderColumn.title.name)
+        var orderColumn = prefs.getString(getString(R.string.sorting_column_key), OrderColumn.Title.name)
         var asc = prefs.getBoolean(getString(R.string.sorting_asc_key), true)
         when (item.itemId) {
-            R.id.action_by_title -> orderColumn = OrderColumn.title.name
-            R.id.action_by_author -> orderColumn = OrderColumn.author.name
-            R.id.action_by_year -> orderColumn = OrderColumn.year.name
-            R.id.action_by_progress -> orderColumn = OrderColumn.progress.name
+            R.id.action_by_title -> orderColumn = OrderColumn.Title.name
+            R.id.action_by_author -> orderColumn = OrderColumn.Author.name
+            R.id.action_by_year -> orderColumn = OrderColumn.Year.name
+            R.id.action_by_progress -> orderColumn = OrderColumn.Progress.name
             R.id.action_asc -> asc = true
             R.id.action_desc -> asc = false
             else -> super.onOptionsItemSelected(item)
@@ -253,6 +253,6 @@ abstract class BooklistFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
+        binding_ = null
     }
 }

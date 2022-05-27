@@ -1,5 +1,5 @@
 package com.unipd.booktracker.db
 
 enum class OrderColumn {
-    title, author, year, progress
+    Title, Author, Year, Progress
 }
