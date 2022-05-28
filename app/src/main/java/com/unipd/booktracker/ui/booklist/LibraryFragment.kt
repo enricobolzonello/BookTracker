@@ -68,7 +68,7 @@ class LibraryFragment : BooklistFragment() {
             prefs.getBoolean(getString(R.string.not_read_books_key), true),
             prefs.getBoolean(getString(R.string.reading_books_key), true),
             prefs.getBoolean(getString(R.string.read_books_key), true),
-            prefs.getString(getString(R.string.sorting_column_key), OrderColumn.title.name)!!,
+            prefs.getString(getString(R.string.sorting_column_key), OrderColumn.Title.name)!!,
             prefs.getBoolean(getString(R.string.sorting_asc_key), true)
         )
         bookAdapter.setBooks(books)

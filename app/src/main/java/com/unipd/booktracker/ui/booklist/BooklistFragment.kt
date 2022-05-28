@@ -44,8 +44,8 @@ abstract class BooklistFragment : Fragment() {
     protected lateinit var viewModel: BooklistViewModel
     protected lateinit var bookAdapter: BookAdapter
     protected lateinit var prefs: SharedPreferences
-    protected var binding_: ViewBinding? = null
-    protected val binding get() = binding_!!
+    protected var _binding: ViewBinding? = null
+    protected val binding get() = _binding!!
     protected var query = ""
 
     private lateinit var searchItem: MenuItem
@@ -253,6 +253,6 @@ abstract class BooklistFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        binding_ = null
+        _binding = null
     }
 }

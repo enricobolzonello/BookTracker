@@ -1,6 +1,10 @@
 <resources>
     <style name="Theme.BookTracker" parent="Theme.Material3.DynamicColors.Light">
-        <item name="actionBarStyle">@style/Theme.BookTracker.ActionBar</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/splash_anim</item>
+        <item name="android:windowSplashScreenAnimationDuration">1500</item>
+        <item name="android:windowSplashScreenBackground">@color/material_dynamic_primary90</item>
+        <item name="actionBarTheme">@style/Theme.BookTracker.ActionBarTheme</item>
+        <item name="actionBarStyle">@style/Theme.BookTracker.ActionBarStyle</item>
         <item name="colorPrimary">@color/md_theme_light_primary</item>
         <item name="colorOnPrimary">@color/md_theme_light_onPrimary</item>
         <item name="colorPrimaryContainer">@color/md_theme_light_primaryContainer</item>
@@ -28,13 +32,4 @@
         <item name="colorSurfaceInverse">@color/md_theme_light_inverseSurface</item>
         <item name="colorPrimaryInverse">@color/md_theme_light_primaryInverse</item>
     </style>
-
-    <style name="Theme.BookTracker.ActionBar" parent="Widget.Material3.Light.ActionBar.Solid">
-        <item name="titleTextStyle">@style/Theme.BookTracker.ActionBar.Title</item>
-    </style>
-    <style name="Theme.BookTracker.ActionBar.Title" parent="TextAppearance.Material3.ActionBar.Title">
-        <item name="fontFamily">@font/lobster_two_bold</item>
-        <item name="android:textSize">25sp</item>
-    </style>
-
 </resources>

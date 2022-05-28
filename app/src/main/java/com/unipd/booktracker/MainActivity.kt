@@ -1,5 +1,6 @@
 package com.unipd.booktracker
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
@@ -9,10 +10,12 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.unipd.booktracker.databinding.ActivityMainBinding
+import com.unipd.booktracker.util.getAttrId
 import com.unipd.booktracker.util.isLandscape
 
 class MainActivity : AppCompatActivity() {

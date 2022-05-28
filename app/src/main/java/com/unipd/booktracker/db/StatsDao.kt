@@ -8,17 +8,17 @@ interface StatsDao {
     @Query("SELECT SUM(readPages) FROM books")
     fun countReadPages(): Int
 
-    @Query("SELECT SUM(pageDifference) FROM readings WHERE date =:day AND pageDifference > 0")
+    @Query("SELECT SUM(pageDifference) FROM readings WHERE date = :day AND pageDifference > 0")
     fun countReadPages(day: String): Int
 
-    @Query("SELECT AVG(pageDifference) FROM readings WHERE date <:day AND pageDifference > 0 GROUP BY strftime('%Y-%m-%d', date)")
+    @Query("SELECT AVG(pageDifference) FROM readings WHERE date < :day AND pageDifference > 0 GROUP BY strftime('%Y-%m-%d', date)")
     fun avgReadPagesByDay(day: String): Int
 
     @Query("SELECT COUNT(*) FROM books WHERE readPages = pages")
     fun countReadBooks(): Int
 
     @Query(
-        "SELECT COUNT(*) FROM books WHERE readPages = pages AND:year = " +
+        "SELECT COUNT(*) FROM books WHERE readPages = pages AND :year = " +
                 "(SELECT strftime('%Y', date) FROM readings WHERE books.id = bookId ORDER BY date DESC LIMIT 1)"
     )
     fun countReadBooks(year: String): Int

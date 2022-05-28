@@ -36,19 +36,19 @@ class WishlistFragment : BooklistFragment() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
 
-        val orderColumn = prefs.getString(getString(R.string.sorting_column_key), OrderColumn.title.name)
+        val orderColumn = prefs.getString(getString(R.string.sorting_column_key), OrderColumn.Title.name)
         // In wishlist page progress sorting it's not available,
         // if it has been selected from library it's changed to title sorting
-        if (orderColumn == OrderColumn.progress.name)
+        if (orderColumn == OrderColumn.Progress.name)
             menu.findItem(R.id.action_by_title).isChecked = true
     }
 
     override fun updateFilters() {
-        var orderColumn = prefs.getString(getString(R.string.sorting_column_key), OrderColumn.title.name)!!
+        var orderColumn = prefs.getString(getString(R.string.sorting_column_key), OrderColumn.Title.name)!!
         // In wishlist page progress sorting it's not available,
         // if it has been selected from library it's changed to title sorting
-        if (orderColumn == OrderColumn.progress.name)
-            orderColumn = OrderColumn.title.name
+        if (orderColumn == OrderColumn.Progress.name)
+            orderColumn = OrderColumn.Title.name
         val books = viewModel.getFilteredWishlist(
             query,
             orderColumn,

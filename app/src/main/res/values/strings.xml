@@ -13,7 +13,7 @@
     <string name="search_books">Search</string>
     <string name="share_book">Share book</string>
     <string name="delete_book">Delete book</string>
-    <!-- Sortings -->
+    <!-- Sorting -->
     <string name="sorting_column">Field</string>
     <string name="sorting_order">Sorting</string>
     <string name="read_progress">Read progress</string>

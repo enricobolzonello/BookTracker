@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.BookTracker.ActionBarTheme" parent="ThemeOverlay.AppCompat.ActionBar">
+        <item name="colorControlNormal">?attr/colorOnPrimary</item>
+        <item name="android:editTextColor">?attr/colorOnPrimary</item>
+        <item name="android:textColorHint">?attr/colorOnPrimary</item>
+    </style>
+    <style name="Theme.BookTracker.ActionBarStyle" parent="Widget.Material3.Light.ActionBar.Solid">
+        <item name="background">?attr/colorPrimary</item>
+        <item name="titleTextStyle">@style/Theme.BookTracker.ActionBar.Title</item>
+    </style>
+    <style name="Theme.BookTracker.ActionBar.Title" parent="TextAppearance.Material3.ActionBar.Title">
+        <item name="fontFamily">@font/lobster_two_bold</item>
+        <item name="android:textSize">25sp</item>
+        <item name="android:textColor">?attr/colorControlNormal</item>
+    </style>
+</resources>
