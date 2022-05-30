@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.booklist.LibraryFragment">
+    tools:context=".ui.booklist.BookListFragment">
 
     <TextView
         android:id="@+id/tv_empty_list_placeholder"
@@ -27,6 +27,7 @@
 
             <LinearLayout
                 android:id="@+id/ch_group"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -71,7 +72,7 @@
             </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rw_library"
+                android:id="@+id/rw_book_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"

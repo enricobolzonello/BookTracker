@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.booklist.LibraryFragment"
+    tools:context=".ui.booklist.BookListFragment"
     android:orientation="horizontal">
 
     <FrameLayout
@@ -83,7 +83,7 @@
                         android:textAlignment="center" />
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rw_library"
+                        android:id="@+id/rw_book_list"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"

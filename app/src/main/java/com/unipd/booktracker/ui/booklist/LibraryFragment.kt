@@ -2,17 +2,12 @@ package com.unipd.booktracker.ui.booklist
 
 import android.os.Bundle
 import android.view.*
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
-import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.unipd.booktracker.R
-import com.unipd.booktracker.databinding.FragmentLibraryBinding
 import com.unipd.booktracker.db.OrderColumn
 import com.unipd.booktracker.util.isSideBySideMode
 
-class LibraryFragment : BooklistFragment() {
-    override lateinit var rw: RecyclerView
-    override lateinit var fab: ExtendedFloatingActionButton
+class LibraryFragment : BookListFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,22 +18,11 @@ class LibraryFragment : BooklistFragment() {
             viewModel.getObservableLibrary().observe(this) { updateFilters() }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentLibraryBinding.inflate(inflater, container, false)
-        rw = (binding as FragmentLibraryBinding).rwLibrary
-        fab = (binding as FragmentLibraryBinding).fabAddBook
-        return binding.root
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-        (binding as FragmentLibraryBinding).apply {
+        binding.apply {
+            chGroup.visibility = View.VISIBLE
             chNotRead.isChecked = prefs.getBoolean(getString(R.string.not_read_books_key), true)
             chNotRead.setOnClickListener {
                 prefs.edit().putBoolean(getString(R.string.not_read_books_key), (it as Chip).isChecked).apply()
@@ -73,7 +57,7 @@ class LibraryFragment : BooklistFragment() {
         )
         bookAdapter.setBooks(books)
 
-        (binding as FragmentLibraryBinding).tvEmptyListPlaceholder.visibility =
+        binding.tvEmptyListPlaceholder.visibility =
             if (books.isEmpty())
                 View.VISIBLE
             else

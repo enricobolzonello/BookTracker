@@ -9,7 +9,7 @@
         android:id="@+id/navigation_library"
         android:name="com.unipd.booktracker.ui.booklist.LibraryFragment"
         android:label="@string/app_name"
-        tools:layout="@layout/fragment_library">
+        tools:layout="@layout/fragment_book_list">
         <action
             android:id="@+id/action_navigation_library_to_navigation_book_detail"
             app:destination="@id/navigation_book_detail"/>
@@ -18,7 +18,7 @@
         android:id="@+id/navigation_wishlist"
         android:name="com.unipd.booktracker.ui.booklist.WishlistFragment"
         android:label="@string/app_name"
-        tools:layout="@layout/fragment_wishlist">
+        tools:layout="@layout/fragment_book_list">
         <action
             android:id="@+id/action_navigation_wishlist_to_navigation_book_detail"
             app:destination="@id/navigation_book_detail" />

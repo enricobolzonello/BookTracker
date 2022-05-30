@@ -20,14 +20,13 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewbinding.ViewBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.MaterialElevationScale
 import com.unipd.booktracker.BookAdapter
 import com.unipd.booktracker.MainActivity
 import com.unipd.booktracker.R
+import com.unipd.booktracker.databinding.FragmentBookListBinding
 import com.unipd.booktracker.db.OrderColumn
 import com.unipd.booktracker.ui.addbook.AddBookDialogFragment
 import com.unipd.booktracker.ui.bookdetail.BookDetailFragment
@@ -35,26 +34,23 @@ import com.unipd.booktracker.ui.bookdetail.BookDetailFragment
 /*
     This Fragment is an abstract base class that implements the shared behavior of LibraryFragment and WishlistFragment
  */
-abstract class BooklistFragment : Fragment() {
-    abstract var rw: RecyclerView
-    abstract var fab: ExtendedFloatingActionButton
-    abstract override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View
-    abstract fun updateFilters()
+abstract class BookListFragment : Fragment() {
+    private lateinit var searchItem: MenuItem
+    private var _binding: FragmentBookListBinding? = null
+    private var detailFragment: BookDetailFragment? = null
 
-    protected lateinit var viewModel: BooklistViewModel
+    protected lateinit var viewModel: BookListViewModel
     protected lateinit var bookAdapter: BookAdapter
     protected lateinit var prefs: SharedPreferences
-    protected var _binding: ViewBinding? = null
     protected val binding get() = _binding!!
     protected var query = ""
 
-    private lateinit var searchItem: MenuItem
-    private var detailFragment: BookDetailFragment? = null
+    abstract fun updateFilters()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel = ViewModelProvider(requireActivity() as MainActivity)[BooklistViewModel::class.java]
+        viewModel = ViewModelProvider(requireActivity() as MainActivity)[BookListViewModel::class.java]
         prefs = PreferenceManager.getDefaultSharedPreferences(requireContext().applicationContext)
 
         setHasOptionsMenu(true)
@@ -66,6 +62,15 @@ abstract class BooklistFragment : Fragment() {
         reenterTransition = MaterialElevationScale(true).apply {
             duration = resources.getInteger(com.google.android.material.R.integer.material_motion_duration_short_2).toLong()
         }
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentBookListBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -84,30 +89,30 @@ abstract class BooklistFragment : Fragment() {
 
         detailFragment = childFragmentManager.findFragmentById(R.id.detail_container) as BookDetailFragment?
         bookAdapter = BookAdapter(this, detailFragment)
-        rw.adapter = bookAdapter
+        binding.rwBookList.adapter = bookAdapter
         updateFilters()
 
         // Set appropriate padding to recycler view's bottom, otherwise fab will cover the last item
-        fab.measure(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT)
-        rw.setPadding(0, 0, 0, fab.measuredHeight + fab.marginBottom)
-        rw.clipToPadding = false
+        binding.fabAddBook.measure(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT)
+        binding.rwBookList.setPadding(0, 0, 0, binding.fabAddBook.measuredHeight + binding.fabAddBook.marginBottom)
+        binding.rwBookList.clipToPadding = false
 
         // Extend and reduce FAB on scroll
-        rw.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        binding.rwBookList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 if (!recyclerView.canScrollVertically(-1))
-                    fab.extend()
+                    binding.fabAddBook.extend()
                 else
-                    fab.shrink()
+                    binding.fabAddBook.shrink()
                 super.onScrollStateChanged(recyclerView, newState)
             }
         })
 
-        fab.setOnClickListener {
+        binding.fabAddBook.setOnClickListener {
             // If network is not available show a retry Snackbar
             if (!(requireActivity() as MainActivity).isNetworkAvailable())
                 Snackbar.make(requireView(), getString(R.string.network_error), Snackbar.LENGTH_LONG)
-                    .setAction(getString(R.string.retry)) { fab.callOnClick() }
+                    .setAction(getString(R.string.retry)) { binding.fabAddBook.callOnClick() }
                     .show()
             else {
                 val dialog = AddBookDialogFragment()
@@ -178,7 +183,7 @@ abstract class BooklistFragment : Fragment() {
                 super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
             }
         })
-        swipeTouchHelper.attachToRecyclerView(rw)
+        swipeTouchHelper.attachToRecyclerView(binding.rwBookList)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

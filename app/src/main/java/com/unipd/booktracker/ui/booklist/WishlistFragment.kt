@@ -2,16 +2,11 @@ package com.unipd.booktracker.ui.booklist
 
 import android.os.Bundle
 import android.view.*
-import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.unipd.booktracker.R
-import com.unipd.booktracker.databinding.FragmentWishlistBinding
 import com.unipd.booktracker.db.OrderColumn
 import com.unipd.booktracker.util.isSideBySideMode
 
-class WishlistFragment : BooklistFragment() {
-    override lateinit var rw: RecyclerView
-    override lateinit var fab: ExtendedFloatingActionButton
+class WishlistFragment : BookListFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,17 +15,6 @@ class WishlistFragment : BooklistFragment() {
         // need to be displayed immediately in the wishlist view
         if (requireContext().isSideBySideMode())
             viewModel.getObservableWishlist().observe(this) { updateFilters() }
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentWishlistBinding.inflate(inflater, container, false)
-        rw = (binding as FragmentWishlistBinding).rwWishlist
-        fab = (binding as FragmentWishlistBinding).fabAddBook
-        return binding.root
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -56,7 +40,7 @@ class WishlistFragment : BooklistFragment() {
         )
         bookAdapter.setBooks(books)
 
-        (binding as FragmentWishlistBinding).tvEmptyListPlaceholder.visibility =
+        binding.tvEmptyListPlaceholder.visibility =
             if (books.isEmpty())
                 View.VISIBLE
             else

@@ -11,7 +11,7 @@ import kotlinx.coroutines.runBlocking
    This ViewModel intermediates between BooklistFragment and Room Database
    Database action need to be performed in the IO thread instead of the Main one
 */
-class BooklistViewModel(application: Application) : AndroidViewModel(application) {
+class BookListViewModel(application: Application) : AndroidViewModel(application) {
     private val bookDatabase: BookRoomDatabase = BookRoomDatabase.getDatabase(application.applicationContext)
     private val bookDao: BookDao = bookDatabase.bookDao()
 
