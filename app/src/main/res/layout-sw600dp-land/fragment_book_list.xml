@@ -12,18 +12,28 @@
         android:layout_width="0dp"
         android:layout_height="match_parent">
 
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_empty_list_placeholder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="@dimen/content_margin"
+            android:text="@string/empty_list_placeholder"
+            android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+            android:textAlignment="center" />
+
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <LinearLayout
-                android:id="@+id/list_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <LinearLayout
                     android:id="@+id/ch_group"
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
@@ -67,29 +77,13 @@
 
                 </LinearLayout>
 
-                <FrameLayout
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rw_book_list"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1">
-
-                    <TextView
-                        android:id="@+id/tv_empty_list_placeholder"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginHorizontal="@dimen/content_margin"
-                        android:text="@string/empty_list_placeholder"
-                        android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
-                        android:textAlignment="center" />
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rw_book_list"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                        tools:listitem="@layout/book_item" />
-
-                </FrameLayout>
+                    android:layout_height="match_parent"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/book_item"
+                    android:transitionGroup="true" />
 
             </LinearLayout>
 

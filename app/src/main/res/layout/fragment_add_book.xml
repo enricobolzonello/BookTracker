@@ -55,7 +55,7 @@
             android:layout_gravity="center"
             android:indeterminate="true" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tv_empty_list_placeholder"
             android:visibility="gone"
             android:layout_width="wrap_content"

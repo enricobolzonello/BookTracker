@@ -55,8 +55,8 @@ class BookDetailFragment : Fragment() {
             )
         }
 
-        // If the fragment is being displayed full window, top and bottom bar need to be updated
-        if (!requireContext().isSideBySideMode()) {
+        // If the detail fragment has been opened by navigating, top and bottom bar need to be updated
+        if (arguments != null) {
             (requireActivity() as AppCompatActivity).supportActionBar?.apply {
                 setDisplayHomeAsUpEnabled(true)
                 title = getString(R.string.book_detail)

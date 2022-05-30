@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".ui.booklist.BookListFragment">
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tv_empty_list_placeholder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

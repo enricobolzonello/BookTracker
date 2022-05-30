@@ -8,7 +8,7 @@
     tools:context=".ui.bookdetail.BookDetailFragment"
     android:transitionName="@string/book_detail_transition">
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tv_book_detail_placeholder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
