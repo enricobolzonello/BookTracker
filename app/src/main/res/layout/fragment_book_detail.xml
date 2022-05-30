@@ -222,7 +222,8 @@
                             android:layout_height="wrap_content"
                             android:layout_marginHorizontal="@dimen/content_margin"
                             android:inputType="number"
-                            android:textAppearance="@style/TextAppearance.Material3.TitleMedium"/>
+                            android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                            android:textAlignment="center"/>
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/btn_add_page"

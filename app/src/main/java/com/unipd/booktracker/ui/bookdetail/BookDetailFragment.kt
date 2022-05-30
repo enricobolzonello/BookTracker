@@ -25,6 +25,7 @@ import com.unipd.booktracker.db.Book
 import com.unipd.booktracker.util.getAttrId
 import com.unipd.booktracker.util.isSideBySideMode
 import com.unipd.booktracker.util.toBitMap
+import java.lang.StringBuilder
 
 class BookDetailFragment : Fragment() {
     private lateinit var viewModel: BookDetailViewModel
@@ -34,7 +35,7 @@ class BookDetailFragment : Fragment() {
     private val args: BookDetailFragmentArgs by navArgs()
     private var _chosenBook: Book? = null
     private val chosenBook get() = _chosenBook!!
-    private var readPages = -1
+    private var readPages = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -163,9 +164,8 @@ class BookDetailFragment : Fragment() {
         if (chosenBook.readPages == null)
             binding.llReadPages.visibility = View.GONE
         else {
-            setupReadPagesModifiers()
             readPages = chosenBook.readPages!!
-            updateReadPages(readPages)
+            setupReadPagesModifiers()
         }
 
         binding.chLibrary.isChecked = viewModel.isBookInLibrary(chosenBook)
@@ -185,53 +185,58 @@ class BookDetailFragment : Fragment() {
         }
     }
 
+    private fun updateReadPages(newValue: Int) {
+        if (newValue == readPages)
+            return
+        // Update database entry
+        viewModel.addReadPages(chosenBook, newValue - readPages)
+        readPages = newValue
+        // Update interface
+        binding.slReadPages.value = readPages.toFloat()
+        binding.btnAddPage.visibility = if (readPages < chosenBook.pages) View.VISIBLE else View.INVISIBLE
+        binding.btnRemovePage.visibility = if (readPages > 0) View.VISIBLE else View.INVISIBLE
+    }
+
     private fun setupReadPagesModifiers() {
+        binding.etReadPages.setText(readPages.toString())
         // The edit text only accepts valid page values
         binding.etReadPages.filters = arrayOf<InputFilter>(MinMaxFilter(0, chosenBook.pages))
+        binding.etReadPages.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable) {}
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                android.util.Log.i("my","here1")
+                //binding.etReadPages.setSelection(s.length)
+                if (s.isNotBlank())
+                    updateReadPages(s.toString().toInt())
+            }
+        })
+
+        binding.btnAddPage.visibility = if (readPages < chosenBook.pages) View.VISIBLE else View.INVISIBLE
+        binding.btnAddPage.setOnClickListener { updateReadPages(readPages + 1) }
+
+        binding.btnRemovePage.visibility = if (readPages > 0) View.VISIBLE else View.INVISIBLE
+        binding.btnRemovePage.setOnClickListener { updateReadPages(readPages - 1) }
 
         binding.tvFirstPage.text = (0).toString()
         binding.tvLastPage.text = chosenBook.pages.toString()
+
         binding.slReadPages.valueTo = chosenBook.pages.toFloat()
-
-        binding.etReadPages.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable) {
-                if (s.isBlank())
-                    return
-                val newValue = s.toString().toInt()
-                if (newValue != readPages)
-                    updateReadPages(newValue)
-            }
-
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
-        })
-
-        binding.btnAddPage.setOnClickListener { updateReadPages(readPages + 1) }
-        binding.btnRemovePage.setOnClickListener { updateReadPages(readPages - 1) }
-
-        // Slider move only changes the edit text value, the readPages value is changed only when sliding has ended
+        binding.slReadPages.value = readPages.toFloat()
+        // Every change of the Slider value updates the EditText
         binding.slReadPages.addOnChangeListener { _, value, _ ->
-            binding.etReadPages.setText(value.toInt().toString())
+            value.toInt().toString().let {
+                binding.etReadPages.setText(it)
+                binding.etReadPages.setSelection(it.length)
+            }
         }
-
+        // Only when the slider move has ended the value is updated
         binding.slReadPages.addOnSliderTouchListener(object : Slider.OnSliderTouchListener {
             override fun onStartTrackingTouch(slider: Slider) {}
-
             override fun onStopTrackingTouch(slider: Slider) {
                 updateReadPages(slider.value.toInt())
             }
         })
-    }
-
-    private fun updateReadPages(newValue: Int) {
-        if (newValue != readPages) {
-            viewModel.addReadPages(chosenBook, newValue - readPages)
-            readPages = newValue
-        }
-        binding.etReadPages.setText(readPages.toString())
-        binding.slReadPages.value = readPages.toFloat()
-        binding.btnAddPage.visibility = if (readPages < chosenBook.pages) View.VISIBLE else View.INVISIBLE
-        binding.btnRemovePage.visibility = if (readPages > 0) View.VISIBLE else View.INVISIBLE
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -276,10 +281,7 @@ class BookDetailFragment : Fragment() {
         _chosenBook = null
     }
 
-    inner class MinMaxFilter(
-        private val minValue: Int,
-        private val maxValue: Int
-    ) : InputFilter {
+    inner class MinMaxFilter(private val min: Int, private val max: Int) : InputFilter {
         override fun filter(
             source: CharSequence,
             start: Int,
@@ -288,10 +290,10 @@ class BookDetailFragment : Fragment() {
             dStart: Int,
             dEnd: Int
         ): CharSequence? {
-
             try {
-                val input = Integer.parseInt(dest.toString() + source.toString())
-                if (input in minValue..maxValue)
+                val input = StringBuilder().append(dest).insert(dStart, source).toString()
+                val value = Integer.parseInt(input)
+                if (value in min..max)
                     return null
             } catch (e: NumberFormatException) {
                 e.printStackTrace()
