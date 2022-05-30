@@ -5,7 +5,7 @@ import androidx.preference.PreferenceManager
 import com.google.android.material.color.DynamicColors
 import com.unipd.booktracker.util.setModeNight
 
-class BookTrackerApp: Application() {
+class BookTrackerApp : Application() {
     override fun onCreate() {
         super.onCreate()
         val prefs = PreferenceManager.getDefaultSharedPreferences(this)

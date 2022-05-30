@@ -46,4 +46,22 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory
+        android:title="@string/app_info_category">
+
+        <Preference
+            android:key="@string/app_version_key"
+            android:title="@string/app_version_title"
+            android:selectable="false"
+            app:useSimpleSummaryProvider="true"
+            app:icon="@drawable/ic_version" />
+
+        <Preference
+            android:title="@string/app_developers_title"
+            android:selectable="false"
+            android:summary="@string/app_developers_summary"
+            app:icon="@drawable/ic_developers" />
+
+    </PreferenceCategory>
+
 </PreferenceScreen>

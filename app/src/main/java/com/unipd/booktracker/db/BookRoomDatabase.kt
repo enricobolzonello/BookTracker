@@ -12,13 +12,13 @@ abstract class BookRoomDatabase : RoomDatabase() {
     abstract fun readingDao(): ReadingDao
     abstract fun statsDao(): StatsDao
 
-    // Singleton prevents multiple instances of database opening at the same time.
+    // Singleton prevents multiple instances of database opening at the same time
     companion object {
         @Volatile
         private var INSTANCE: BookRoomDatabase? = null
 
         fun getDatabase(context: Context): BookRoomDatabase {
-            // if the INSTANCE is not null, then return it, if it is, then create the database
+            // The instance is returned if it's not null, otherwise it's created
             return INSTANCE ?: synchronized(this) {
                 val instance =
                     Room.databaseBuilder(context.applicationContext, BookRoomDatabase::class.java, "book_database")
@@ -33,7 +33,7 @@ abstract class BookRoomDatabase : RoomDatabase() {
             override fun onCreate(db: SupportSQLiteDatabase) {
                 super.onCreate(db)
 
-                // When a new reading record gets inserted, update the readPages column
+                // When a new reading record is inserted, update the readPages column
                 db.execSQL(
                     "CREATE TRIGGER read_pages_insert " +
                             "AFTER INSERT ON readings " +
@@ -45,7 +45,7 @@ abstract class BookRoomDatabase : RoomDatabase() {
                             "END"
                 )
 
-                // When a new reading record gets updated, update the readPages column
+                // When a new reading record is updated, update the readPages column
                 db.execSQL(
                     "CREATE TRIGGER read_pages_update " +
                             "AFTER UPDATE ON readings " +

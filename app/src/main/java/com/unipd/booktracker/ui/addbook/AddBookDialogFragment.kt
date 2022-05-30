@@ -10,7 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.unipd.booktracker.BookAdapter
+import com.unipd.booktracker.ui.BookAdapter
 import com.unipd.booktracker.MainActivity
 import com.unipd.booktracker.R
 import com.unipd.booktracker.databinding.FragmentAddBookBinding
@@ -85,7 +85,8 @@ class AddBookDialogFragment : BottomSheetDialogFragment() {
                         } else {
                             binding.tvEmptyListPlaceholder.visibility = View.VISIBLE
                             if (books == null)
-                                Toast.makeText(requireContext(), getString(R.string.books_api_error), Toast.LENGTH_SHORT).show()
+                                Toast.makeText(requireContext(), getString(R.string.books_api_error), Toast.LENGTH_SHORT)
+                                    .show()
                         }
                     }
                 }

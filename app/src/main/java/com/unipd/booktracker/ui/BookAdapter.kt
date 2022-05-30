@@ -1,4 +1,4 @@
-package com.unipd.booktracker
+package com.unipd.booktracker.ui
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.unipd.booktracker.R
 import com.unipd.booktracker.db.Book
 import com.unipd.booktracker.databinding.BookItemBinding
 import com.unipd.booktracker.ui.bookdetail.BookDetailFragment

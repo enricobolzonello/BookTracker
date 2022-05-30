@@ -46,10 +46,15 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         var exportFile: File? = null
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                exportFile = File(
-                    Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
-                    app.getString(R.string.app_name) + ".dat"
-                )
+                var count = 1
+                while (count == 1 || exportFile!!.exists()) {
+                    exportFile = File(
+                        Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
+                        "${app.getString(R.string.app_name)}Export ($count).dat"
+                    )
+                    count += 1
+                }
+
                 val oos = ObjectOutputStream(FileOutputStream(exportFile))
                 getBooks().forEach { oos.writeObject(it) }
                 getReadings().forEach { oos.writeObject(it) }

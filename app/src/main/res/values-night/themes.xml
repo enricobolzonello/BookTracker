@@ -1,7 +1,7 @@
 <resources>
     <style name="Theme.BookTracker" parent="Theme.Material3.DynamicColors.Dark">
         <item name="android:windowSplashScreenAnimatedIcon">@drawable/splash_anim</item>
-        <item name="android:windowSplashScreenAnimationDuration">1500</item>
+        <item name="android:windowSplashScreenAnimationDuration">1000</item>
         <item name="android:windowSplashScreenBackground">@color/material_dynamic_primary10</item>
         <item name="actionBarTheme">@style/Theme.BookTracker.ActionBarTheme</item>
         <item name="actionBarStyle">@style/Theme.BookTracker.ActionBarStyle</item>

@@ -205,7 +205,7 @@ class BookDetailFragment : Fragment() {
             override fun afterTextChanged(s: Editable) {}
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                android.util.Log.i("my","here1")
+                android.util.Log.i("my", "here1")
                 //binding.etReadPages.setSelection(s.length)
                 if (s.isNotBlank())
                     updateReadPages(s.toString().toInt())

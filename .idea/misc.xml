@@ -30,9 +30,12 @@
         <entry key="..\:/Users/Daniele/CodeProjects/AndroidStudioProjects/BookTracker/app/src/main/res/drawable/bt_logo.xml" value="0.1315" />
         <entry key="..\:/Users/Daniele/CodeProjects/AndroidStudioProjects/BookTracker/app/src/main/res/drawable/circular_button.xml" value="0.1" />
         <entry key="..\:/Users/Daniele/CodeProjects/AndroidStudioProjects/BookTracker/app/src/main/res/drawable/ic_add.xml" value="0.1" />
+        <entry key="..\:/Users/Daniele/CodeProjects/AndroidStudioProjects/BookTracker/app/src/main/res/drawable/ic_app_theme.xml" value="0.1375" />
         <entry key="..\:/Users/Daniele/CodeProjects/AndroidStudioProjects/BookTracker/app/src/main/res/drawable/ic_baseline_library_books_24.xml" value="0.1305" />
+        <entry key="..\:/Users/Daniele/CodeProjects/AndroidStudioProjects/BookTracker/app/src/main/res/drawable/ic_clear.xml" value="0.1375" />
         <entry key="..\:/Users/Daniele/CodeProjects/AndroidStudioProjects/BookTracker/app/src/main/res/drawable/ic_delete.xml" value="0.1" />
         <entry key="..\:/Users/Daniele/CodeProjects/AndroidStudioProjects/BookTracker/app/src/main/res/drawable/ic_delete_fill.xml" value="0.1" />
+        <entry key="..\:/Users/Daniele/CodeProjects/AndroidStudioProjects/BookTracker/app/src/main/res/drawable/ic_developers.xml" value="0.1375" />
         <entry key="..\:/Users/Daniele/CodeProjects/AndroidStudioProjects/BookTracker/app/src/main/res/drawable/ic_dynamic_colors.xml" value="0.1" />
         <entry key="..\:/Users/Daniele/CodeProjects/AndroidStudioProjects/BookTracker/app/src/main/res/drawable/ic_import.xml" value="0.1" />
         <entry key="..\:/Users/Daniele/CodeProjects/AndroidStudioProjects/BookTracker/app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.1" />
@@ -46,6 +49,8 @@
         <entry key="..\:/Users/Daniele/CodeProjects/AndroidStudioProjects/BookTracker/app/src/main/res/drawable/ic_settings.xml" value="0.107" />
         <entry key="..\:/Users/Daniele/CodeProjects/AndroidStudioProjects/BookTracker/app/src/main/res/drawable/ic_share.xml" value="0.1105" />
         <entry key="..\:/Users/Daniele/CodeProjects/AndroidStudioProjects/BookTracker/app/src/main/res/drawable/ic_sort.xml" value="0.107" />
+        <entry key="..\:/Users/Daniele/CodeProjects/AndroidStudioProjects/BookTracker/app/src/main/res/drawable/ic_stats.xml" value="0.1375" />
+        <entry key="..\:/Users/Daniele/CodeProjects/AndroidStudioProjects/BookTracker/app/src/main/res/drawable/ic_version.xml" value="0.1375" />
         <entry key="..\:/Users/Daniele/CodeProjects/AndroidStudioProjects/BookTracker/app/src/main/res/drawable/splash_anim.xml" value="0.1" />
         <entry key="..\:/Users/Daniele/CodeProjects/AndroidStudioProjects/BookTracker/app/src/main/res/layout-land/activity_main.xml" value="0.12432432432432433" />
         <entry key="..\:/Users/Daniele/CodeProjects/AndroidStudioProjects/BookTracker/app/src/main/res/layout-large/activity_main.xml" value="0.1" />

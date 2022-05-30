@@ -13,6 +13,7 @@ import androidx.preference.DropDownPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.unipd.booktracker.BuildConfig
 import com.unipd.booktracker.R
 import com.unipd.booktracker.SettingsActivity
 import com.unipd.booktracker.util.setModeNight
@@ -49,12 +50,13 @@ class SettingsFragment : PreferenceFragmentCompat() {
             }
         }
 
-        findPreference<DropDownPreference>(getString(R.string.app_theme_key))?.apply {
-            setOnPreferenceChangeListener { _, newValue ->
-                requireContext().setModeNight(newValue as String)
-                true
-            }
+        findPreference<DropDownPreference>(getString(R.string.app_theme_key))?.setOnPreferenceChangeListener { _, newValue ->
+            requireContext().setModeNight(newValue as String)
+            true
         }
+
+        val versionName = requireContext().packageManager.getPackageInfo(requireContext().packageName, 0).versionName
+        findPreference<Preference>(getString(R.string.app_version_key))?.summary = versionName
     }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {

@@ -81,6 +81,10 @@
     </string-array>
     <string name="dynamic_colors_title">Dynamic colors</string>
     <string name="dynamic_colors_summary">The choice will be applied the next time the application is restarted</string>
+    <string name="app_info_category">App info</string>
+    <string name="app_version_title">Version</string>
+    <string name="app_developers_title">Developers</string>
+    <string name="app_developers_summary" translatable="false">Bolzonello Enrico\nMoschetta Daniele\nZanini Fabio</string>
     <!-- Dialog -->
     <string name="yes">Yes</string>
     <string name="no">No</string>
@@ -105,6 +109,7 @@
     <string name="clear_books_key" translatable="false">clear_books</string>
     <string name="app_theme_key" translatable="false">app_theme</string>
     <string name="dynamic_colors_key" translatable="false">dynamic_colors</string>
+    <string name="app_version_key" translatable="false">app_version</string>
     <!-- Transition names -->
     <string name="book_item_transition" translatable="false">book_item_transition_%s</string>
     <string name="book_detail_transition" translatable="false">book_detail_transition</string>

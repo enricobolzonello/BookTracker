@@ -29,15 +29,15 @@
             <set>
                 <objectAnimator
                     android:propertyName="trimPathEnd"
-                    android:duration="1000"
+                    android:duration="750"
                     android:valueFrom="0"
                     android:valueTo="1"
                     android:valueType="floatType"
-                    android:interpolator="@android:anim/accelerate_interpolator"/>
+                    android:interpolator="@android:anim/linear_interpolator"/>
                 <objectAnimator
                     android:propertyName="fillAlpha"
-                    android:startOffset="800"
-                    android:duration="1500"
+                    android:startOffset="500"
+                    android:duration="1000"
                     android:valueFrom="0"
                     android:valueTo="1"
                     android:valueType="floatType"

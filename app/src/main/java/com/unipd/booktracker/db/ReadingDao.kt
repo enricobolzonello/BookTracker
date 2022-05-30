@@ -17,7 +17,7 @@ interface ReadingDao {
 
     @Transaction
     fun upsert(reading: Reading) {
-        // If a reading record already exists, then update the pageDifference column
+        // If a reading record for the same (book,date) pair already exists, then update the pageDifference column
         if (insert(reading) == -1L)
             updatePages(reading.bookId, reading.date, reading.pageDifference)
     }

@@ -69,6 +69,9 @@
     </string-array>
     <string name="dynamic_colors_title">Colori dinamici</string>
     <string name="dynamic_colors_summary">La scelta verrà applicata al prossimo riavvio dell\'applicazione</string>
+    <string name="app_info_category">Informazioni sull\'app</string>
+    <string name="app_version_title">Versione</string>
+    <string name="app_developers_title">Sviluppatori</string>
     <!-- Dialog -->
     <string name="yes">Sì</string>
     <string name="no">No</string>

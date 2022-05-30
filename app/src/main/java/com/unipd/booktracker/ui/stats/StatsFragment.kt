@@ -153,13 +153,18 @@ class StatsFragment : Fragment() {
     }
 
     // This method applies multiple given modifiers to a Text-Value string
-    private fun getSpannedValueString(stringId: Int, value: String, start: Boolean, vararg modifiers: Any): SpannableStringBuilder {
+    private fun getSpannedValueString(
+        stringId: Int,
+        value: String,
+        start: Boolean,
+        vararg modifiers: Any
+    ): SpannableStringBuilder {
         val spannable = SpannableStringBuilder(getString(stringId, value))
         val range =
             if (start)
-                0 .. value.length
+                0..value.length
             else
-                spannable.length - value.length .. spannable.length
+                spannable.length - value.length..spannable.length
         modifiers.forEach {
             spannable[range] = it
         }

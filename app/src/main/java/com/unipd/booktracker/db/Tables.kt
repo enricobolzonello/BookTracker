@@ -6,7 +6,13 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import java.io.Serializable
 
-@Entity(tableName = "books", primaryKeys = ["id"])
+/*
+    A Book record stores the information about a book, including the number of read pages
+ */
+@Entity(
+    tableName = "books",
+    primaryKeys = ["id"]
+)
 class Book(
     @ColumnInfo(name = "id") val id: String,
     @ColumnInfo(name = "title") val title: String,
@@ -18,6 +24,8 @@ class Book(
     @Nullable @ColumnInfo(name = "description") val description: String?,
     @Nullable @ColumnInfo(name = "year") val year: Int?,
     @Nullable @ColumnInfo(name = "language") val language: String?,
+    // Book thumbnails are directly stored in the db as ByteArray
+    // This choice is justified by the small size and small amount of the images that the application needs to store
     @Nullable @ColumnInfo(name = "thumbnail", typeAffinity = ColumnInfo.BLOB) val thumbnail: ByteArray?,
     @Nullable @ColumnInfo(name = "readPages") val readPages: Int? = null
 ) : Serializable {
@@ -28,6 +36,9 @@ class Book(
     }
 }
 
+/*
+    A Reading record stores the amount of pages of a certain book read in a specific day
+ */
 @Entity(
     tableName = "readings",
     primaryKeys = ["bookId", "date"],
