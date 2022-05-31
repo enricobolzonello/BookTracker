@@ -97,7 +97,7 @@ class BookDetailFragment : Fragment() {
             binding.llReadPages.visibility = View.VISIBLE
             // If the fragment is displayed side by side with wishlist,
             // when the book gets moved to the library, the detail view needs to be cleared
-            if (requireContext().isSideBySideMode() && moveNeeded)
+            if (arguments == null && moveNeeded)
                 setBook(null)
             setHasOptionsMenu(true)
         }
@@ -120,7 +120,7 @@ class BookDetailFragment : Fragment() {
             binding.llReadPages.visibility = View.GONE
             // If the fragment is displayed side by side with library,
             // when the book gets moved to the library, the detail view needs to be cleared
-            if (requireContext().isSideBySideMode() && moveNeeded)
+            if (arguments == null && moveNeeded)
                 setBook(null)
             setHasOptionsMenu(true)
         }
