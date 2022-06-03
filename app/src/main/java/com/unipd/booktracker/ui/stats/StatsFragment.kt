@@ -72,7 +72,7 @@ class StatsFragment : Fragment() {
         val avgReadPagesByDay = viewModel.avgReadPagesByDay()
         val pagesPercentageIncrement =
             when {
-                avgReadPagesByDay != 0 -> (viewModel.countReadPagesToday() - avgReadPagesByDay) / avgReadPagesByDay * 100
+                avgReadPagesByDay != 0 -> ((viewModel.countReadPagesToday() - avgReadPagesByDay) / avgReadPagesByDay.toDouble() * 100).toInt()
                 viewModel.countReadPagesToday() != 0 -> 100
                 else -> 0
             }
@@ -95,7 +95,7 @@ class StatsFragment : Fragment() {
         val avgReadBooksByYear = viewModel.avgReadBooksByYear()
         val bookPercentageIncrement =
             when {
-                avgReadBooksByYear != 0 -> (viewModel.countReadBooksThisYear() - avgReadBooksByYear) / avgReadBooksByYear * 100
+                avgReadBooksByYear != 0 -> ((viewModel.countReadBooksThisYear() - avgReadBooksByYear) / avgReadBooksByYear.toDouble() * 100).toInt()
                 viewModel.countReadBooksThisYear() != 0 -> 100
                 else -> 0
             }

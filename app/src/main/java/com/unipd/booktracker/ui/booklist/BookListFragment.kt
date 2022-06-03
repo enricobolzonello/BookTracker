@@ -180,7 +180,8 @@ abstract class BookListFragment : Fragment() {
                 icDelete!!.setBounds(icMarginLeft, icMarginTop, icMarginRight, icMarginBottom)
                 icDelete!!.draw(c)
 
-                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+                // The dX parameter is divided by 4 to reduce the max swipe width
+                super.onChildDraw(c, recyclerView, viewHolder, dX / 4, dY, actionState, isCurrentlyActive)
             }
         })
         swipeTouchHelper.attachToRecyclerView(binding.rwBookList)
