@@ -27,10 +27,13 @@ class MainActivity : AppCompatActivity() {
 
         navController = (binding.navHostFragment.getFragment() as NavHostFragment).navController
 
-        if (isLandscape())
-            binding.railNav?.let { NavigationUI.setupWithNavController(it, navController) }
-        else
-            binding.bottomNav?.let { NavigationUI.setupWithNavController(it, navController) }
+        val navView =
+            if (isLandscape())
+                binding.railNav
+            else
+                binding.bottomNav
+        if (navView != null)
+            NavigationUI.setupWithNavController(navView, navController)
     }
 
     override fun onSupportNavigateUp(): Boolean {
