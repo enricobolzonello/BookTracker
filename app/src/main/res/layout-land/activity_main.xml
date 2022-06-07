@@ -9,19 +9,20 @@
 
     <com.google.android.material.navigationrail.NavigationRailView
         android:id="@+id/rail_nav"
+        style="@style/Widget.Material3.AppBarLayout"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        app:menuGravity="center"
         app:menu="@menu/nav_menu"
-        style="@style/Widget.Material3.AppBarLayout"/>
+        app:menuGravity="center" />
 
+    <!-- defaultNavHost is set to false, this way navHost is not handling back button and custom behaviour can be implemented -->
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/nav_host_fragment"
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        app:defaultNavHost="true"
-        app:navGraph="@navigation/nav_graph"
-        android:layout_weight="1"/>
+        android:layout_weight="1"
+        app:defaultNavHost="false"
+        app:navGraph="@navigation/nav_graph" />
 
 </LinearLayout>

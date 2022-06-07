@@ -1,6 +1,5 @@
 package com.unipd.booktracker
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
@@ -10,12 +9,10 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.unipd.booktracker.databinding.ActivityMainBinding
-import com.unipd.booktracker.util.getAttrId
 import com.unipd.booktracker.util.isLandscape
 
 class MainActivity : AppCompatActivity() {
@@ -36,6 +33,10 @@ class MainActivity : AppCompatActivity() {
             binding.bottomNav?.let { NavigationUI.setupWithNavController(it, navController) }
     }
 
+    override fun onSupportNavigateUp(): Boolean {
+        return navController.navigateUp() || super.onSupportNavigateUp()
+    }
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.action_menu, menu)
         return super.onCreateOptionsMenu(menu)
@@ -52,11 +53,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onSupportNavigateUp(): Boolean {
-        onBackPressed()
-        return true
-    }
-
     fun setNavVisibility(navViewVisibility: Int) {
         if (navViewVisibility == View.VISIBLE || navViewVisibility == View.GONE) {
             binding.railNav?.visibility = navViewVisibility
@@ -68,8 +64,8 @@ class MainActivity : AppCompatActivity() {
         val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val activeNetwork = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
         return activeNetwork != null && (
-                    activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
-                    activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)
+                activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
+                        activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)
                 )
     }
 }

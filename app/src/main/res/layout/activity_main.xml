@@ -7,14 +7,15 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
+    <!-- defaultNavHost is set to false, this way navHost is not handling back button and custom behaviour can be implemented -->
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/nav_host_fragment"
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:defaultNavHost="true"
-        app:navGraph="@navigation/nav_graph"
-        android:layout_weight="1"/>
+        android:layout_weight="1"
+        app:defaultNavHost="false"
+        app:navGraph="@navigation/nav_graph" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_nav"

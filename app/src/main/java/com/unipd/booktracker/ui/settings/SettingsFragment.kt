@@ -13,7 +13,6 @@ import androidx.preference.DropDownPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.unipd.booktracker.BuildConfig
 import com.unipd.booktracker.R
 import com.unipd.booktracker.SettingsActivity
 import com.unipd.booktracker.util.setModeNight

@@ -10,7 +10,7 @@ import android.text.TextWatcher
 import android.view.*
 import android.widget.LinearLayout.LayoutParams
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
+import androidx.activity.addCallback
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
@@ -56,11 +56,16 @@ class BookDetailFragment : Fragment() {
 
         // If the detail fragment has been opened by navigating, top and bottom bar need to be updated
         if (arguments != null) {
-            (requireActivity() as AppCompatActivity).supportActionBar?.apply {
-                setDisplayHomeAsUpEnabled(true)
-                title = getString(R.string.book_detail)
+            (requireActivity() as MainActivity).apply {
+                supportActionBar?.setDisplayHomeAsUpEnabled(true)
+                supportActionBar?.title = getString(R.string.book_detail)
+                setNavVisibility(View.GONE)
+                // On back button press navigate up in the nav graph instead of normal behaviour
+                // The callback is associated with the fragment lifecycle so that it's removed when it gets destroyed
+                onBackPressedDispatcher.addCallback(this@BookDetailFragment) {
+                    onSupportNavigateUp()
+                }
             }
-            (requireActivity() as MainActivity).setNavVisibility(View.GONE)
         }
     }
 
