@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="@string/empty_detail_placeholder"
-        android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+        android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
         android:textAlignment="center"
         android:layout_marginHorizontal="@dimen/content_margin"/>
 

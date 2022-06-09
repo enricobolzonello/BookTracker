@@ -19,7 +19,7 @@
             android:layout_gravity="center"
             android:layout_marginHorizontal="@dimen/content_margin"
             android:text="@string/empty_list_placeholder"
-            android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+            android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
             android:textAlignment="center" />
 
         <ScrollView
