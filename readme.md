@@ -3,8 +3,6 @@
 - Bolzonello Enrico
 - Moschetta Daniele
 - Zanini Fabio
-## Report
-[BookTracker_MaterialDesign3_Report.pdf](BookTracker_MaterialDesign3_Report.pdf)
 ## Emulatori utilizzati per il testing
 - Pixel 2 API 32 (telefono)
 - Pixel C API 32 (tablet)
