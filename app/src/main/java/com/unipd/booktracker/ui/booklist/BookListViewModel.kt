@@ -8,7 +8,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
 /*
-   This ViewModel intermediates between BooklistFragment and Room Database
+   This ViewModel intermediates between BookListFragment and Room Database
    Database action need to be performed in the IO thread instead of the Main one
 */
 class BookListViewModel(application: Application) : AndroidViewModel(application) {

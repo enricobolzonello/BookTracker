@@ -15,9 +15,6 @@ import java.io.*
    Database and Storage action need to be performed in the IO thread instead of the Main one
 */
 class SettingsViewModel(application: Application) : AndroidViewModel(application) {
-    // The application context is only used to get resources and show toasts
-    private val app = getApplication<Application>()
-
     private val bookDatabase: BookRoomDatabase = BookRoomDatabase.getDatabase(application.applicationContext)
     private val bookDao: BookDao = bookDatabase.bookDao()
     private val readingDao: ReadingDao = bookDatabase.readingDao()
@@ -50,7 +47,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
                 while (count == 1 || exportFile!!.exists()) {
                     exportFile = File(
                         Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
-                        "${app.getString(R.string.app_name)}Export ($count).dat"
+                        "${getApplication<Application>().getString(R.string.app_name)}Export ($count).dat"
                     )
                     count += 1
                 }

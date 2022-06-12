@@ -18,11 +18,12 @@ import java.net.URL
    Network requests need to performed in the IO thread instead of the Main one
 */
 class AddBookViewModel(application: Application) : AndroidViewModel(application) {
-    // The application context is only used to get resources and show toasts
-    private val app = getApplication<Application>()
 
     private fun getBooksApiKey(): String? {
-        val appInfo = app.packageManager.getApplicationInfo(app.packageName, PackageManager.GET_META_DATA)
+        val appInfo = getApplication<Application>().packageManager.getApplicationInfo(
+            getApplication<Application>().packageName,
+            PackageManager.GET_META_DATA
+        )
         return appInfo.metaData.getString("google.books.key")
     }
 

@@ -156,9 +156,9 @@ class BookDetailFragment : Fragment() {
 
         binding.tvBookTitle.text = chosenBook.title
         binding.tvBookAuthor.text = chosenBook.mainAuthor
-        binding.tvBookYear.text = chosenBook.year.toString()
         binding.tvBookPages.text = chosenBook.pages.toString()
 
+        binding.tvBookYear.text = if (chosenBook.year != null) chosenBook.year.toString() else "-"
         binding.tvBookLanguage.text = if (!chosenBook.language.isNullOrEmpty()) chosenBook.language else "-"
         binding.tvBookCategory.text = if (!chosenBook.mainCategory.isNullOrEmpty()) chosenBook.mainCategory else "-"
         binding.tvBookDescription.text = if (!chosenBook.description.isNullOrEmpty()) chosenBook.description else "-"

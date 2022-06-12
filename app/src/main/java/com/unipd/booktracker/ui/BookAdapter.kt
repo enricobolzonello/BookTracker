@@ -70,7 +70,7 @@ class BookAdapter(
         holder.bind(books[position])
     }
 
-    // NotifyDataSetChanged needed to update the whole list of books
+    // NotifyDataSetChanged needed in order to update the whole list of books
     @SuppressLint("NotifyDataSetChanged")
     fun setBooks(newBooks: List<Book>) {
         books = newBooks

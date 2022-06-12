@@ -29,7 +29,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         viewModel = ViewModelProvider(requireActivity() as SettingsActivity)[SettingsViewModel::class.java]
 
-        // Catching the selected file when reentering app after the import Intent.ACTION_GET_CONTENT
+        // Catching the selected file when reentering app after the import action Intent.ACTION_GET_CONTENT
         resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 val path = (result.data as Intent).data?.path

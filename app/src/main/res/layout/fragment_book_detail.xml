@@ -88,6 +88,7 @@
                         android:layout_gravity="center_horizontal"
                         android:text="@string/title"
                         android:textAlignment="center"
+                        android:textIsSelectable="true"
                         android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"/>
 
                     <com.google.android.material.textview.MaterialTextView
@@ -97,6 +98,7 @@
                         android:layout_gravity="center_horizontal"
                         android:text="@string/author"
                         android:textAlignment="center"
+                        android:textIsSelectable="true"
                         android:textAppearance="@style/TextAppearance.Material3.TitleMedium"/>
 
                 </LinearLayout>
@@ -124,6 +126,7 @@
                                 android:id="@+id/tv_book_year"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:textIsSelectable="true"
                                 android:textAppearance="@style/TextAppearance.Material3.TitleMedium" />
 
                             <com.google.android.material.textview.MaterialTextView
@@ -151,6 +154,7 @@
                                 android:id="@+id/tv_book_language"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:textIsSelectable="true"
                                 android:textAppearance="@style/TextAppearance.Material3.TitleMedium" />
 
                             <com.google.android.material.textview.MaterialTextView
@@ -178,6 +182,7 @@
                                 android:id="@+id/tv_book_pages"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:textIsSelectable="true"
                                 android:textAppearance="@style/TextAppearance.Material3.TitleMedium" />
 
                             <com.google.android.material.textview.MaterialTextView
@@ -295,6 +300,7 @@
                         android:id="@+id/tv_book_category"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textIsSelectable="true"
                         android:textAppearance="@style/TextAppearance.Material3.BodyMedium" />
 
                 </LinearLayout>
@@ -323,6 +329,7 @@
                         android:id="@+id/tv_book_description"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textIsSelectable="true"
                         android:textAppearance="@style/TextAppearance.Material3.BodyMedium" />
 
                 </LinearLayout>
@@ -353,6 +360,7 @@
                         android:id="@+id/tv_book_publisher"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textIsSelectable="true"
                         android:textAppearance="@style/TextAppearance.Material3.BodyMedium" />
 
                 </LinearLayout>
@@ -383,6 +391,7 @@
                         android:id="@+id/tv_book_isbn"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textIsSelectable="true"
                         android:textAppearance="@style/TextAppearance.Material3.BodyMedium" />
                 </LinearLayout>
 
