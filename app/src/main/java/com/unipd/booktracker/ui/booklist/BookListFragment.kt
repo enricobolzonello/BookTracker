@@ -35,9 +35,9 @@ import com.unipd.booktracker.ui.bookdetail.BookDetailFragment
     This Fragment is an abstract base class that implements the shared behavior of LibraryFragment and WishlistFragment
  */
 abstract class BookListFragment : Fragment() {
-    private lateinit var searchItem: MenuItem
     private var _binding: FragmentBookListBinding? = null
     private var detailFragment: BookDetailFragment? = null
+    private var searchItem: MenuItem? = null
 
     protected lateinit var viewModel: BookListViewModel
     protected lateinit var bookAdapter: BookAdapter
@@ -194,7 +194,7 @@ abstract class BookListFragment : Fragment() {
         menu.setGroupVisible(R.id.default_action_group, true)
 
         searchItem = menu.findItem(R.id.action_search)
-        val searchView = searchItem.actionView as SearchView
+        val searchView = searchItem!!.actionView as SearchView
         searchView.queryHint = getString(R.string.search_hint)
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(submittedText: String): Boolean {
@@ -249,7 +249,8 @@ abstract class BookListFragment : Fragment() {
 
     override fun onPause() {
         super.onPause()
-        searchItem.collapseActionView()
+        // Preventing the search view to stay open when navigating to another fragment while searching
+        searchItem?.collapseActionView()
     }
 
     override fun onResume() {
