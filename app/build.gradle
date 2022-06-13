@@ -16,6 +16,14 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        /*
+            Google Books API key
+            This key should normally not be included in the project source code, in this case an exception has been
+            made to make it possible for the developers to share the project and use the key in each project's copy.
+            The key has been put in the build.gradle to make sure that it's not included in generated APKs.
+        */
+        buildConfigField 'String', 'GOOGLE_BOOKS_KEY', '"AIzaSyAXQ5xBUTifutFOr7ucRNUicUqmO_kTv_g"'
     }
 
     buildTypes {

@@ -1,11 +1,11 @@
 package com.unipd.booktracker.ui.addbook
 
 import android.app.Application
-import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import androidx.core.text.HtmlCompat
 import androidx.lifecycle.*
+import com.unipd.booktracker.BuildConfig
 import com.unipd.booktracker.db.*
 import com.unipd.booktracker.util.toByteArray
 import kotlinx.coroutines.Dispatchers
@@ -19,17 +19,9 @@ import java.net.URL
 */
 class AddBookViewModel(application: Application) : AndroidViewModel(application) {
 
-    private fun getBooksApiKey(): String? {
-        val appInfo = getApplication<Application>().packageManager.getApplicationInfo(
-            getApplication<Application>().packageName,
-            PackageManager.GET_META_DATA
-        )
-        return appInfo.metaData?.getString("google.books.key")
-    }
-
     suspend fun getBooksFromQuery(query: String): List<Book>? {
-        val key = getBooksApiKey()
-        if (key.isNullOrBlank())
+        val key = BuildConfig.GOOGLE_BOOKS_KEY
+        if (key.isBlank())
             return null
 
         val url = "https://www.googleapis.com/books/v1/volumes?key=$key&q=$query"
