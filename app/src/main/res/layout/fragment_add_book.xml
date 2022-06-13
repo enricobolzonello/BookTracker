@@ -62,7 +62,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/empty_list_placeholder"
-            android:textAppearance="@style/TextAppearance.Material3.TitleMedium" />
+            android:textAppearance="@style/TextAppearance.Material3.BodyLarge" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rw_add_book"

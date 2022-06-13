@@ -8,4 +8,4 @@
 - Pixel C API 32 (tablet)
 ## Note
 - A differenza dei dispositivi fisici, negli emulatori le funzionalità di Material Design 3 sono disponibili dalla versione Android 12L (API 32)
-- Dalla versione Android 12 (API 31), lo splash screen dell'applicazione viene mostrato solo quando l'applicazione viene lanciata manualmente dal launcher
+- Nella versione Android 12 (API 31), lo splash screen dell'applicazione viene mostrato solo quando l'applicazione viene lanciata manualmente dal launcher
