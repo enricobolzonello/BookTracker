@@ -24,7 +24,7 @@ class AddBookViewModel(application: Application) : AndroidViewModel(application)
             getApplication<Application>().packageName,
             PackageManager.GET_META_DATA
         )
-        return appInfo.metaData.getString("google.books.key")
+        return appInfo.metaData?.getString("google.books.key")
     }
 
     suspend fun getBooksFromQuery(query: String): List<Book>? {

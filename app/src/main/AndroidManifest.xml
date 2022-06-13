@@ -23,6 +23,11 @@
             android:exported="false"
             android:theme="@style/Theme.BookTracker"
             android:parentActivityName=".MainActivity"/>
+        <!--
+            Google Books API key
+            This key should normally not be included in the project source code, in this case an exception has been
+            made to make it possible for the developers to share the project and use the key in each project's copy
+        -->
         <meta-data
             android:name="google.books.key"
             android:value="AIzaSyAXQ5xBUTifutFOr7ucRNUicUqmO_kTv_g" />
