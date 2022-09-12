@@ -2,10 +2,10 @@
 App Android per tracciare i libri letti, il progresso dei libri in lettura e quelli da leggere in futuro. Realizzata per il corso Programmazione di Sistemi Embedded 2021/22 in Kotlin e sfruttando l'API Google Books.
 
 <p float="center">
-  <img src="https://github.com/enricobolzonello/BookTracker/blob/master/images/mainactivity1.png" width="250" />
-  <img src="https://github.com/enricobolzonello/BookTracker/blob/master/images/bookdetail.png" width="250" /> 
-  <img src="https://github.com/enricobolzonello/BookTracker/blob/master/images/add_small.png" width="250" />
-  <img src="https://github.com/enricobolzonello/BookTracker/blob/master/images/settings.png" width="250" />
+  <img src="https://github.com/enricobolzonello/BookTracker/blob/master/images/mainactivity1.png" width="225" />
+  <img src="https://github.com/enricobolzonello/BookTracker/blob/master/images/bookdetail.png" width="225" /> 
+  <img src="https://github.com/enricobolzonello/BookTracker/blob/master/images/add_small.png" width="225" />
+  <img src="https://github.com/enricobolzonello/BookTracker/blob/master/images/settings.png" width="225" />
 </p>
 
 ## Componenti del gruppo
