@@ -5,7 +5,6 @@ App Android per tracciare i libri letti, il progresso dei libri in lettura e que
   <img src="https://github.com/enricobolzonello/BookTracker/blob/master/images/mainactivity1.png" width="225" />
   <img src="https://github.com/enricobolzonello/BookTracker/blob/master/images/bookdetail.png" width="225" /> 
   <img src="https://github.com/enricobolzonello/BookTracker/blob/master/images/add_small.png" width="225" />
-  <img src="https://github.com/enricobolzonello/BookTracker/blob/master/images/settings.png" width="225" />
 </p>
 
 ## Componenti del gruppo
