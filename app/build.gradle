@@ -23,7 +23,10 @@ android {
             made to make it possible for the developers to share the project and use the key in each project's copy.
             The key has been put in the build.gradle to make sure that it's not included in generated APKs.
         */
-        buildConfigField 'String', 'GOOGLE_BOOKS_KEY', '"AIzaSyAXQ5xBUTifutFOr7ucRNUicUqmO_kTv_g"'
+        Properties properties = new Properties()
+        properties.load(project.rootProject.file("local.properties").newDataInputStream())
+
+        buildConfigField 'String', 'GOOGLE_BOOKS_KEY', "\"${properties.getProperty('GOOGLE_BOOKS_KEY')}\""
     }
 
     buildTypes {
